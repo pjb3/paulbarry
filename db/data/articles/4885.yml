@@ -1,0 +1,17 @@
+---
+id: 4885
+slug: merb-intro-video
+created_at: 2008-04-17 12:04:45.000000000 Z
+published_at: 2008-04-17 12:09:17.000000000 Z
+title: merb.intro Video
+body: "Here's the video from [last night's Merb presentation][merb]:\r\n\r\n<object
+  type=\"application/x-shockwave-flash\" data=\"http://blip.tv/scripts/flash/showplayer.swf?enablejs=true&file=http%3A%2F%2Fpaulbarry%2Eblip%2Etv%2Frss%2Fflash%2F%3Freferrer%3Dpaulbarry%2Eblip%2Etv&showplayerpath=http%3A%2F%2Fblip%2Etv%2Fscripts%2Fflash%2Fshowplayer%2Eswf\"
+  width=\"640\" height=\"408\" allowfullscreen=\"true\" id=\"showplayer\"><param name=\"movie\"
+  value=\"http://blip.tv/scripts/flash/showplayer.swf?enablejs=true&file=http%3A%2F%2Fpaulbarry%2Eblip%2Etv%2Frss%2Fflash%2F%3Freferrer%3Dpaulbarry%2Eblip%2Etv&showplayerpath=http%3A%2F%2Fblip%2Etv%2Fscripts%2Fflash%2Fshowplayer%2Eswf\"
+  /><param name=\"quality\" value=\"best\" /><embed src=\"http://blip.tv/scripts/flash/showplayer.swf?enablejs=true&file=http%3A%2F%2Fpaulbarry%2Eblip%2Etv%2Frss%2Fflash%2F%3Freferrer%3Dpaulbarry%2Eblip%2Etv&showplayerpath=http%3A%2F%2Fblip%2Etv%2Fscripts%2Fflash%2Fshowplayer%2Eswf\"
+  quality=\"best\" width=\"640\" height=\"408\" name=\"showplayer\" type=\"application/x-shockwave-flash\"></embed></object>\r\n\r\nThanks
+  to [Evan][evan] for recording it!\r\n\r\n[merb]: http://paulbarry.com/articles/2008/04/17/merb-intro\r\n[evan]:
+  http://evan.tiggerpalace.com/"
+format: Markdown
+guid: 13f8ec80-552c-4c93-85bd-4d3626dee7dc
+comments_count: 0

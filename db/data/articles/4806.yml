@@ -1,0 +1,131 @@
+---
+id: 4806
+slug: guice-hello-world
+created_at: 2007-03-12 14:45:45.000000000 Z
+published_at: 2007-03-12 14:54:25.000000000 Z
+title: Guice Hello World
+body: "A new project called Guice (pronounced Juice, but starts with a G instead of
+  J because it's Googlerrific) has been [created][guice].  Guice aims to be a better
+  Dependency Injection (DI) framework for Java.  The de facto DI framework for Java
+  is currently [Spring][spring].  Spring provides a lot of things besides DI, but
+  I think DI is it's main selling point.  I often use Spring in projects only for
+  it's DI.  I use [Stripes][stripes] as my Web MVC framework and [Hibernate][hibernate]
+  as my ORM framework, so I don't need Spring's MVC layer or JDBC Template.  I do
+  use Spring's declarative transaction management and hibernate configuration features,
+  but that's only because once you start using Spring for DI, it's easy to use those
+  features as well, but they could be easily replaced.\r\n\r\nThe main disadvantage
+  of Spring, in my opinion, is the amount of XML files that you have to create to
+  configuration you application.  The thing I dislike most about the XML configuration
+  is that it is not type safe, and just like Bob Lee [says][lee]:\r\n\r\n> I'm using
+  a strongly typed language; why would I want to throw all of this perfectly good
+  type information away? If I wanted that, I'd use Ruby.\r\n\r\nI don't think he meant
+  that statement as a knock against Ruby, he's just saying that if you are programming
+  in Java, then you want to use type safety as much as possible.  Annotations and
+  Generics, features added to Java in Java 5, can allow you to do that, and Guice
+  aims to provide dependency injection via Annotations rather than XML.\r\n\r\nSo
+  I decided to take a look at Guice, and although the [documentation][guice-doc] is
+  pretty good, it doesn't have a working \"Hello  World\" type example to get you
+  going, so I figured I would provide one here.  I encourage you to play along at
+  home.\r\n\r\nFirst, download Guice, setup a new project in [your favorite IDE][idea],
+  and add guice-1.0.jar to your classpath.  What we're going to do is create a basic
+  domain model object, Foo, and a DAO-like Manager for Foo, and then create a controller
+  that depends on the FooManager, and has that dependency set using Guice.  So here
+  we go.  Create the Foo class:\r\n\r\n    public class Foo {\r\n\r\n        private
+  Long id;\r\n        private String name;\r\n\r\n        //Generate and getters/setters
+  in your IDE\r\n        \r\n    }\r\n\r\nThen create the interface for the FooManager:\r\n\r\n
+  \   public interface FooManager {\r\n\r\n        public Foo get(Long id);\r\n        public
+  void save(Foo foo);\r\n\r\n    }    \r\n\r\nThen create an implementation of the
+  FooManager.  In real life, you might implement this with an ORM framework like Hibernate,
+  but this simple little thing serves the purpose for this example:\r\n\r\n    public
+  class FooManagerImpl implements FooManager {\r\n\r\n        private static Long
+  fooSequence = 1l;\r\n        private static final Map<Long, Foo> foos = new HashMap<Long,
+  Foo>();\r\n\r\n        public Foo get(Long id) {\r\n            return foos.get(id);\r\n
+  \       }\r\n\r\n        public void save(Foo foo) {\r\n            if(foo == null)
+  return;\r\n            if(foo.getId() == null) {\r\n                foo.setId(fooSequence);\r\n
+  \               fooSequence++;\r\n            }\r\n            foos.put(foo.getId(),
+  foo);\r\n        }\r\n    }\r\n\r\nAnd for the last part of our app, we'll create
+  a controller that calls our manager.  This controller is sort of like what a controller
+  in a web app might be like:\r\n\r\n    public class FooController {\r\n\r\n        private
+  FooManager fooManager;\r\n\r\n        //----- Controller Actions -------------------------------------------------\r\n
+  \       public Foo create(String name) {\r\n            Foo foo = new Foo();\r\n
+  \           foo.setName(name);\r\n            fooManager.save(foo);\r\n            return
+  foo;\r\n        }\r\n\r\n        public Foo retrieve(Long id) {\r\n            return
+  fooManager.get(id);\r\n        }\r\n\r\n        //----- Getters/Setters ----------------------------------------------------\r\n
+  \       public FooManager getFooManager() {\r\n            return fooManager;\r\n
+  \       }\r\n\r\n        @Inject\r\n        public void setFooManager(FooManager
+  fooManager) {\r\n            this.fooManager = fooManager;\r\n        }\r\n\r\n
+  \   }\r\n    \r\nYou can see that with the annotation Inject on the fooManager setter,
+  we are asking Guice to inject a fooManager instance into our controller.  Continuing
+  with the web app like architecture of our app, we'll create a dispatcher.  In a
+  real app, this would be the [FrontController][fowler] responsible for directing
+  the request to be handled by the appropriate controller action, but for our simple
+  app, we'll just hard code 2 controller action methods to be called:\r\n\r\n    public
+  class FooDispatcher {\r\n\r\n        public static void main(String[] args) {\r\n\r\n
+  \           FooController controller = new FooController();\r\n            Injector
+  injector = Guice.createInjector(new FooModule());\r\n            injector.injectMembers(controller);\r\n\r\n
+  \           //Our action is now injected with a FooManager, so let's use it\r\n
+  \           Foo foo = controller.create(\"Bar\");\r\n            Foo bar = controller.retrieve(foo.getId());\r\n
+  \           System.out.println(\"bar.name => \"+bar.getName());\r\n\r\n        }\r\n\r\n
+  \   }\r\n\r\nAs you can see here, we've now got some Guice specific code.  First
+  we create an injector using the FooModule.  The FooModule is a class we create that
+  serves as the configuration for Guice, we'll get to that in a minute.  The creation
+  of this injector is something that you would do once, probably upon application
+  startup.  Then, we ask the injector to inject our controller instance with its dependencies.
+  \ The simple Inject annotation we added on the setFooManager method of our controller
+  is all the info the injector needs to set up our controller.  Next you see we call
+  2 action methods, one to create a new Foo instance, and then another to retrieve
+  it.  \r\n    \r\nSo let's look at the FooModule, which is where we do our Guice
+  configuration:    \r\n    \r\n    public class FooModule extends AbstractModule
+  {\r\n\r\n        protected void configure() {\r\n            bind(FooManager.class)\r\n
+  \               .to(FooManagerImpl.class)\r\n                .in(Scopes.SINGLETON);\r\n
+  \       }\r\n\r\n    }\r\n    \r\nWhat this says is that when something needs a
+  FooManager injected into it, use a singleton instance of FooManagerImpl to fulfill
+  that dependency.  We can actually use annotations to further simplify this configuration.
+  \ First, we add the ImplementedBy annotation to the FooManager interface:\r\n\r\n
+  \   @ImplementedBy(FooManagerImpl.class)\r\n    public interface FooManager {\r\n\r\n
+  \       public Foo get(Long id);\r\n        public void save(Foo foo);\r\n\r\n    }\r\n\r\nThis
+  basically says to Guice that we want FooManagerImpl to be the default implementation
+  class for FooManager.  Also, we can specify that by default we want FooManagerImpl
+  to be a singleton:\r\n\r\n    @Singleton\r\n    public class FooManagerImpl implements
+  FooManager {\r\n\r\n        private static Long fooSequence = 1l;\r\n        private
+  static final Map<Long, Foo> foos = new HashMap<Long, Foo>();\r\n\r\n        public
+  Foo get(Long id) {\r\n            return foos.get(id);\r\n        }\r\n\r\n        public
+  void save(Foo foo) {\r\n            if(foo == null) return;\r\n            if(foo.getId()
+  == null) {\r\n                foo.setId(fooSequence);\r\n                fooSequence++;\r\n
+  \           }\r\n            foos.put(foo.getId(), foo);\r\n        }\r\n    }\r\n\r\nNow,
+  we can modify our module to look like this:\r\n\r\n    public class FooModule extends
+  AbstractModule {\r\n\r\n        protected void configure() {\r\n            bind(FooManager.class);\r\n
+  \       }\r\n\r\n    }\r\n\r\nAn now when we re-run our FooDispatcher, every thing
+  still works.  In real life, there would be some core mechanism in the web app framework
+  to handle creating the injector and injecting dependencies into the controller instances,
+  and I'm sure it would be fairly trivial to implement that into Stripes.\r\n    \r\nAlthough
+  [some people don't think Guice is going to replace Spring][almaer], I think for
+  projects where Spring is being used mostly for DI, we will see Guice or something
+  like it start to replace Spring.  I also predict that in response to this, Spring
+  will be forced into incorporating an [annotation-based configuration mechanism][spring-ann]
+  into its core codebase in order to remain popular in the oncoming wave of Annotation
+  based \"zero\" configuration frameworks like Stripes, Struts 2 and Hibernate.\r\n
+  \   \r\n**UPDATE: Monday, March 12, 5:18pm**\r\n\r\nThanks to a [tip from Bob][lee2],
+  I've discovered that once you have every thing configured by annotations, as we
+  do at the end of this example, you can completely remove the FooModule, which gives
+  you the code like this in the dispatcher:\r\n\r\n    public class FooDispatcher
+  {\r\n\r\n        public static void main(String[] args) {\r\n\r\n            FooController
+  controller = new FooController();\r\n            Injector injector = Guice.createInjector();\r\n
+  \           injector.injectMembers(controller);\r\n\r\n            //Our action
+  is now injected with a FooManager, so let's use it\r\n            Foo foo = controller.create(\"Bar\");\r\n
+  \           Foo bar = controller.retrieve(foo.getId());\r\n            System.out.println(\"bar.name
+  => \"+bar.getName());\r\n\r\n        }\r\n\r\n    }\r\n\r\nThe point is that for
+  any class that you can configure with annotations, you don't need to explicitly
+  define them in a module, or anywhere.  So take an app with 50 different manager
+  classes, all you would have to do is create a manager interface, annotate it as
+  a singleton, and then create the default implementation.  Compare that with a minimum
+  of 50 bean entries in a Spring context configuration XML file, and you can see how
+  Guice can really start to simplify your configuration.\r\n\r\n[spring]: http://www.springframework.org\r\n[guice]:
+  http://code.google.com/p/google-guice\r\n[stripes]: http://mc4j.org/confluence/display/stripes/Home\r\n[hibernate]:
+  http://www.hibernate.org\r\n[almaer]: http://www.almaer.com/blog/archives/001415.html\r\n[lee]:
+  http://crazybob.org/2006/01/i-dont-get-spring.html\r\n[guice-doc]: http://docs.google.com/Doc?id=dd2fhx4z_5df5hw8\r\n[idea]:
+  http://www.jetbrains.com/idea/\r\n[spring-ann]: https://spring-annotation.dev.java.net/\r\n[fowler]:
+  http://www.martinfowler.com/eaaCatalog/frontController.html\r\n[lee2]: http://groups.google.com/group/google-guice/browse_thread/thread/d35a9190f1eeac57/b67a436a7dcba528#msg_1dbfdb91829fdb73"
+format: Markdown
+guid: 6c3b6f74-ec93-487d-8cdc-56598d40a31e
+comments_count: 14

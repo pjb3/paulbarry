@@ -1,0 +1,33 @@
+---
+id: 4892
+slug: 5-rails-tips
+created_at: 2008-04-19 16:37:31.000000000 Z
+published_at: 2008-04-19 16:39:17.000000000 Z
+title: 5 Rails Tips
+body: "Ryan Bates, the author of [Railscasts][railscasts], just reached his 100th
+  episode.  Railscasts is a fantastic free resource for learning about Ruby on Rails.
+  \ Congratulations, Ryan! \r\n\r\nTo celebrate his 100th episode, he's running a
+  [contest][railscasts-contest] with some great prizes.  The contest is to submit
+  your own 5 Rails tips, much like Ryan did in [Episode 100 of Railscasts][rc-100].
+  \ This blog post is my entry into that contest.  I have posted 5 articles today
+  which include tips on various aspects of Rails.  They are:\r\n\r\n1.  [Sending Liquid-based
+  Email with Rails][tip1]\r\n\r\n    Find out how to let the administrative users
+  of your application update email templates.\r\n\r\n2.  [Importing Data with Rails][tip2]\r\n\r\n
+  \   Learn how to use Rails and object-oriented techniques to import data into your
+  Rails app.\r\n\r\n3.  [Serving Images Stored in the Database with Rails][tip3]\r\n\r\n
+  \   See how to take advantage of Rails' page caching to serve images that are stored
+  in your database.\r\n\r\n4.  [Using ActiveRecord Composed Of][tip4]\r\n\r\n    Make
+  use of the `composed_of` feature in ActiveRecord to treat multiple fields within
+  a model as one object.\r\n\r\n5.  [Using Lowpro To Create Autotab using Unobtrusive
+  JavaScript and Rails][tip5]\r\n\r\n    Provide your users with an easy shortcut
+  for entering in multi-field data types like phone numbers without filling up your
+  views with lots of JavaScript code.\r\n\r\nIf you find these tips helpful, be sure
+  to let Ryan know! :)\r\n\r\n[railscasts]: http://railscasts.com\r\n[railscasts-contest]:
+  http://railscasts.com/contest\r\n[rc-100]: http://railscasts.com/episodes/100\r\n[tip1]:
+  http://paulbarry.com/articles/2008/04/19/sending-liquid-based-email-with-rails\r\n[tip2]:
+  http://paulbarry.com/articles/2008/04/19/importing-data-with-rails\r\n[tip3]: http://paulbarry.com/articles/2008/04/19/serving-images-stored-in-the-database-with-rails\r\n[tip4]:
+  http://paulbarry.com/articles/2008/04/19/using-activerecord-composed-of\r\n[tip5]:
+  http://paulbarry.com/articles/2008/04/19/using-lowpro-to-create-autotab-using-unobtrusive-javascript-and-rails"
+format: Markdown
+guid: 1f3208c0-471a-4548-b49b-fb3ffacc2ecc
+comments_count: 0

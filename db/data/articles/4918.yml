@@ -1,0 +1,21 @@
+---
+id: 4918
+slug: programming-youre-doing-it-wrong
+created_at: 2008-11-25 10:43:42.000000000 Z
+published_at: 
+title: 'Programming: You''re Doing It Wrong'
+body: "In giving the [rational for Clojure][clj-rationale], Rich Hickey makes some
+  pretty bold claims against Object-Oriented programming, and this one specifically
+  caught my attention:\r\n\r\n> Object Orientation is overrated ... Mutable stateful
+  objects are the new spaghetti code, hard to understand, test, reason about\r\n\r\nThis
+  claim has always been the most interesting thing about Clojure to me.  When I first
+  started learning C++ and Java about 12 years ago, something I was taught was that
+  Object-Oriented programming is the key to designing re-usable, maintainable software.
+  \ One of the things I love about Ruby is that it is a much purer Object-Oriented
+  language than Java.  Unlike Java, everything, including Numbers, Arrays, and Classes,
+  is an object.\r\n\r\nBut when I came across Clojure, this jumped out me.  Here is
+  a language where one of the guiding design principles is that it would be not Object-Oriented.
+  \ \r\n\r\n[clj-rationale]: http://clojure.org/rationale\r\n[koan]: http://vanderburg.org/Blog/Software/Development/koan.blog"
+format: Markdown
+guid: 5d3ed014-f7dc-4e60-aafa-55e49228e20d
+comments_count: 0

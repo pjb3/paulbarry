@@ -1,0 +1,13 @@
+---
+id: 128
+article_id: 122
+created_at: 2006-09-21 08:33:33.000000000 Z
+url: http://mysite.verizon.net/bcorfman
+email: bcorfman@verizon.net
+author: Brandon Corfman
+ip: 128.63.24.9
+body: "I'd start with \"Learning Python\" or \"Dive Into Python\" for easing yourself
+  into the language. \n\nAs the others have pointed out, the Django snippet assumes
+  knowledge of tuples, multi-line strings and long integer syntax. It would be like
+  meeting Ruby for t"
+guid: adcb247f-9ae4-4ec9-b074-cc77dcc3fd18

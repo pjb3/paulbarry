@@ -1,0 +1,17 @@
+---
+id: 5142
+article_id: 4901
+created_at: 2008-05-23 21:09:03.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.16.8.236
+body: |-
+  @Ryan
+
+  Good point, for some reason I was thinking that passing no args would mean that args would be nil, but it is an empty array.  I think this is the right implementation:
+
+  args.inject(0){|s,e| s+e.to_i}
+
+  Which allows sum(nil, "1", 2) to return 3, which of course I was easily able to add a test for.  Yay for TDD!
+guid: f187c186-85a2-4f4c-81d6-78f12dcc983c

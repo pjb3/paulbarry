@@ -1,0 +1,15 @@
+---
+id: 5258
+article_id: 4888
+created_at: 2009-01-04 14:22:50.000000000 Z
+url: 
+email: 
+author: 142.177.189.200
+ip: 142.177.189.200
+body: |-
+  Paul,
+
+  Can you suggest a way to insert record ids using the method outlined here. The insert works wonderfully for all columns except primary key column.
+
+  Thanks!
+guid: 73013751-d902-40c2-9fd4-c1bcfb544054

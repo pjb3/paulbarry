@@ -1,0 +1,67 @@
+---
+id: 4897
+slug: whats-to-like-in-ruby-1-9
+created_at: 2008-04-29 09:46:01.000000000 Z
+published_at: 2008-04-29 09:52:04.000000000 Z
+title: What's to Like in Ruby 1.9
+body: "A few days ago, Charles Nutter asserted that [\"people are not flocking to
+  Ruby 1.9 in droves\"][nutter].  I would consider myself one of those people.  When
+  I thought about Ruby 1.9, I just assumed they were tweaking the syntax a little
+  but mostly working on a VM that would make Ruby faster.  Mainly though, Ruby 1.9
+  is an unstable, development release, so it's really just for playing around with
+  it.  The intent is for 1.9 to drive development for Ruby 2.0, and have people flock
+  to Ruby 2.0 once that is ready for prime time.\r\n\r\nAnother factor is that up
+  until today, I didn't really know much about what is planning on being added to
+  Ruby 1.9.  There is [a complete list of changes in Ruby 1.9][eigenclass], but it
+  wasn't until I came across [a slideshow by Bruce Williams that covers some of the
+  changes in Ruby 1.9][williams] that I took the time to download, install and try
+  out a few new features.  So I thought I would put together a blog entry of 5 of
+  my favorite changes:\r\n\r\n1.  New Literal Syntax for Hashes\r\n\r\n    `{:foo
+  => 1, :bar => \"two\"}` now becomes `{foo: 1, bar: \"two\"}`.  This is probably
+  minor, but I really like it.  It's a little bit cleaner, although I'm sure [Obie][obie]
+  will be sad to see the [hash rocket][hashrocket] go.  Actually, I'm sure the hash
+  rocket will still be supported, it will just become no longer idiomatic.\r\n    \r\n2.
+  \ New Proc literal\r\n\r\n    But fear not Obie, we lose one operator, the hash
+  rocket, but gain another, the proc rocket.  You can now define a proc like this:\r\n\r\n
+  \       double = ->(x) { x * 2 }\r\n        puts double.(5) # => 10\r\n    \r\n
+  \   That can lead to some pretty crazy things, like this:\r\n    \r\n        p =
+  ->(n, name=\"it\", &block) {\r\n            n.times{|i| block.call }\r\n            puts
+  \"I did #{it} #{n} times\"\r\n        }\r\n\r\n        p.(3) do |i| \r\n          puts
+  \"#{i} is #{i.even? ? 'not ': ''}odd\"\r\n        end\r\n\r\n        p.(3, \"foo\")
+  do |i| \r\n          puts \"#{i} is #{i.even? ? 'not ': ''}odd\"\r\n        end\r\n\r\n\r\n
+  \   The difference being that you can now have default values for arguments to a
+  Proc and also you can pass a Block to a Proc.  I could see this being used in metaprogramming.
+  \ You could probably do a lot of things with this instead of things that get done
+  using class_eval now.  \r\n    \r\n        #Ruby 1.8\r\n        class Foo\r\n        end\r\n
+  \       Foo.class_eval <<-CODE\r\n          def bar(x,y=2)\r\n            puts \"x
+  => \\#{x}, y => \\#{y}\"\r\n          end\r\n        CODE      \r\n    \r\n        #Ruby
+  1.9\r\n        class Foo\r\n        end\r\n        Foo.send(:define_method, :bar,
+  ->(x, y=2) { \r\n          puts \"x => #{x}, y => #{y}\" \r\n        })\r\n    \r\n
+  \   Not sure yet if that would be better, I guess we'll see.\r\n\r\n3.  Hashes preserve
+  insert order\r\n\r\n    Say goodbye to using 2D arrays just because you want things
+  to be in a certain order.  This is very convenient, but I was always under the impression
+  that this is the way it was for performance reasons.  I'd like to hear more about
+  this.  Is this one of those things where 80% of the time you don't care about that
+  level of performance because your hash is relatively small and the convenience of
+  preserving sort order is a better benefit?  Is there some kind of `FastHash` class
+  that can be used for cases where you don't care about ordering and better performance
+  is needed?  Or is the performance of the insertion-order Hash good enough for all
+  cases?\r\n\r\n4.  New Regular Expression Engine\r\n\r\n    The Oniguruma regular
+  expression engine is used in Ruby 1.9.  This engine supports many advanced regular
+  expression features.  I once looked into directly porting the Perl Markdown code
+  into Ruby but quickly found out that wasn't possible given the limitations of the
+  Ruby 1.8 regular expression engine, so it's nice to see Ruby will have a regular
+  expression engine that is on par with that of any other language.\r\n\r\n5.  Object#tap
+  and Symbol#to_proc\r\n\r\n    I lumped these together into one because they are
+  both kind of the same thing.  These are two language level features that have become
+  idiomatic Ruby because they have been added in Rails.  The downside has been that
+  if you are not in Rails, you either don't have these, or you have to define them
+  to use them.  Now that is a problem no more and they are just going to be part of
+  Ruby.  `Symbol#to_proc` you should recognize and `Object#tap` is the same thing
+  as `returning`.\r\n\r\n[eigenclass]: http://eigenclass.org/hiki.rb?Changes+in+Ruby+1.9\r\n[nutter]:
+  http://headius.blogspot.com/2008/04/promise-and-peril-for-alternative-ruby.html\r\n[williams]:
+  http://codefluency.com/articles/2008/04/13/migrating-to-ruby-1-9/\r\n[obie]: http://obiefernandez.com/\r\n[hashrocket]:
+  http://www.hashrocket.com/"
+format: Markdown
+guid: e5217bec-0197-4165-9741-0d63197e4dda
+comments_count: 3

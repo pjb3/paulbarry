@@ -1,0 +1,95 @@
+---
+id: 4866
+slug: acts-as-conference-day-2
+created_at: 2008-02-14 21:24:43.000000000 Z
+published_at: 2008-02-14 23:14:00.000000000 Z
+title: Acts As Conference - Day 2
+body: "<a href=\"http://picasaweb.google.com/pauljbarry3/ActsAsConference/photo#5167011846187977442\"><img
+  src=\"http://lh3.google.com/pauljbarry3/R7Tp5epFCuI/AAAAAAAAERo/Ufo3RmULunI/s800/dragimage.jpg\"
+  width=\"600\"/></a>\r\n\r\nThe sun has set on Acts as Conference 2008.  In case
+  you missed it, here are [my notes from Day 1][day1].  I just have a few quick notes
+  from Day 2.  \r\n\r\nThe morning started off with someone (Taylor?) from Engine
+  Yard with a hosting support Q&A session.  One thing he said is you shouldn't be
+  using [ferret][ferret], it is not production ready and they get a lot of support
+  issues related to ferret.  He suggests using [sphinx][sphinx] and [ultrasphinx][ultrasphinx]
+  instead.  I can comment on that, I haven't used either myself.\r\n\r\nNext was [Charles
+  Nutter][nutter] talking about JRuby.  He said that JRuby 1.0 is 2x slower that Ruby
+  1.8, but the upcoming JRuby 1.1 is 2x faster than Ruby 1.8, and the trunk is 2-5x
+  faster than Ruby 1.8 and often faster than Ruby 1.9.  He said that they (the JRuby
+  team) have reached a point where they are going to stop worrying about performance
+  issues because they consider it to be fast enough.\r\n\r\nAfter that was [Anthony
+  Eden][eden] who gave a talk about the internals of ActiveRecord.  One thing that
+  came up in the discussion was the Ruby `send` method in Ruby 1.9.  They have changed
+  it so that [if you try to use `send` to call a private method to an object, that
+  raises a `NoMethodError`][r19send].  You can use `send!` if you really want to call
+  private method.  Obviously the Rails core team doesn't agree with this change, and
+  since Ruby is a dynamic language with open classes, you can override things like
+  that, which [they have done in ActiveSupport][rorsend] already.\r\n \r\nNext was
+  [Bryan Liles' talk on Behavior Driven Development (BDD)][liles].  It was a narrative
+  covering Bryan's journey to BDD.  His \"air keyboard\" livecast style was a big
+  hit.  The synopsis of his talk was that testing is hard, you only get good at it
+  through experience, BDD is really the same thing as Test Driven Development (TDD)
+  and RSpec is good but not the be all, end all of testing.  \r\n \r\n\r\nNext up
+  was [Dave Naffis][naffis] and [Josh Owens][owens].  I have to say they weren't the
+  most engaging speakers, but the certain did have some really good content.  One
+  of the thing that stuck out for me was [Juggernaut][juggernaut].  Juggernaut is
+  a rails plugin that uses flash to allow you to push data from the server to the
+  client.  It sounds like a great tool for certain applications like a chat room or
+  a screen that shows real-time, updating data.\r\n\r\nAfter that was [Charles Brian
+  Quinn][cbq], or CBQ for short.  He is a great speaker, confident, clear, and engaging.
+  \ His talk was on teaching Rails, which was really good.  He does Rails training
+  professionally and I bet he does a great job.  One thing I remember from his talk
+  was to avoid using foo and bar in examples, instead use real examples that your
+  audience will understand.  I agree with him on this for most cases, but in some
+  situations I think foo and bar can actually useful to represent \"you can use anything
+  here\".  For example, as you know, ActiveRecord has a class method `set_table_name`,
+  which allows you to specify something other than the table name that gets used by
+  convention, which is the pluralized version of the class name.  In that case, I
+  think it's perfectly ok to say:\r\n\r\n    class Person < ActiveRecord::Base\r\n
+  \       set_table_name :foo\r\n    end\r\n\r\nLast up was [Obie Fernandez][obie]
+  with the keynote speech.  I thought it was a great talk with some really good ideas.
+  \ First let's get what I consider to be the only blunder of the talk.  He showed
+  the images from [Jeff Patton's \"Iterating and incrementing are separate idea\"][patton]:\r\n\r\n###
+  Incrementing ###\r\n![Incrementing](http://www.agileproductdesign.com/blog/images/incrementing.jpg
+  \"Incrementing\")\r\n\r\n### Iterating ###\r\n![Iterating](http://www.agileproductdesign.com/blog/images/iterating.jpg
+  \"Iterating\")\r\n\r\nI'll give Patton's explanation, because I don't have exactly
+  what Obie said:\r\n\r\n> By incremental development I mean to incrementally add
+  software a time. Each increment adds more software - sorta like adding bricks to
+  a wall. After lots of increments, you've got a big wall.\r\n\r\n> By iterative development
+  I mean that we build something, then evaluate whether it'll work for us, then we
+  make changes to it. We build **expecting to change it**. We never expected it to
+  be right. If it was, it's a happy accident. Because we don't expect it to be right,
+  we often build the least we have to to then validate whether it was the right thing
+  to build.\r\n\r\nThat's the gist of it.  I suggest reading the full article on it,
+  it is very good.  I certainly can't criticize Obie for referencing this great article
+  along with it's fantastic images, but the problem was that [Luke Francl][francl]
+  already referenced the same thing the previous day in his speech.  Maybe it was
+  because Luke was sitting right next to me, but it seemed like everyone in the room
+  kind of snickered when Obie brought up that slide.  It was really bad because he
+  obviously didn't attend Luke's talk and had no idea that everyone had already seen
+  that, so he made no comment to that effect.\r\n\r\nThat really rubbed me the wrong
+  way.  This was a conference where there were no concurrent sessions, so you could
+  attend every talk, so there was no excuse for not attending.  Maybe Obie had a reason
+  that he couldn't attend the first day of the conference, but I feel like if you
+  are  speaking at the event, you should make an effort to attend the other talks.\r\n\r\nAnyway,
+  that aside, I loved Obie's talk.  There were two ideas that stuck out in my mind.
+  \ First was \"Practice makes permanent\", which means if you practice doing the
+  wrong things, like writing code without tests, you are just ingraining bad habits.
+  \ Second was the idea that no one cares what tools you use to build your application,
+  but we as developers have a tendency to obsess about our tools.  I think he was
+  trying to say we should spend less time arguing about Rails vs. Django vs. Merb
+  and more time working on building great applications.  I really hope the video of
+  his talk gets put online at some point because I'd like to watch it again.  He covered
+  a lot of good ideas about application development that I'd like to go over again.
+  \ If you have a chance to see him speak, or any of the speakers from this conference
+  for that matter, do yourself a favor and go check it out.\r\n\r\n[day1]: http://paulbarry.com/articles/2008/02/08/acts-as-conference-day-1\r\n[ferret]:
+  http://ferret.davebalmain.com\r\n[sphinx]: http://www.sphinxsearch.com\r\n[ultrasphinx]:
+  http://blog.evanweaver.com/files/doc/fauna/ultrasphinx\r\n[nutter]: http://headius.blogspot.com/\r\n[eden]:
+  http://www.anthonyeden.com/\r\n[r19send]: http://eigenclass.org/hiki.rb?Changes+in+Ruby+1.9#l24\r\n[rorsend]:
+  http://dev.rubyonrails.org/changeset/7658\r\n[liles]: http://smartic.us/2008/2/13/imposing-my-testing-will-on-one-small-group-at-a-time\r\n[naffis]:
+  http://www.naffis.com\r\n[owens]: http://www.workingwithrails.com/person/7975-josh-owens\r\n[juggernaut]:
+  http://juggernaut.rubyforge.org/\r\n[cbq]: http://www.seebq.com/\r\n[obie]: http://obiefernandez.com/\r\n[patton]:
+  http://www.agileproductdesign.com/blog/dont_know_what_i_want.html\r\n[francl]: http://luke.francl.org/\r\n"
+format: Markdown
+guid: a86690d7-988c-4623-84bd-820926a19293
+comments_count: 0

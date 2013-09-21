@@ -1,0 +1,49 @@
+---
+id: 6
+slug: ruby-is-just-for-generating-web-pages
+created_at: 2006-03-10 20:40:00.000000000 Z
+published_at: 2006-03-10 20:40:00.000000000 Z
+title: Ruby is just for generating web pages
+body: "In a recent Java talk, <a href=\"http://java.sys-con.com/read/193146_trackback.htm\">James
+  Gosling said:</a> \"PHP and Ruby are perfectly fine systems,\" he continued, \"but
+  they are scripting languages and get their power through specialization: they just
+  generate web pages.\"\r\n\r\nI find this to be an interesting statement on many
+  levels.  First of all, it is yet another example of the fact that Ruby and Rails
+  simply scares the crap of Java developers, for some unexplicable reason.  <a href=\"http://paulgraham.com/say.html\">As
+  Paul Graham points out</a>, whenever you say something that seems to attract a lot
+  of negative criticism, you might be on to a revolutionary idea.  There are <a href=\"http://www.theserverside.com/news/thread.tss?thread_id=39066\">many
+  examples</a> where even the mere suggestion that Ruby on Rails might be a more productive
+  framework than Java/J2EE sparks a heated debate.\r\n\r\nSecondly, James Gosling
+  tries to trivialize web-based applications.  Do you know how many Java/J2EE applications
+  there are that \"just generate web pages\"?  If Gosling is implying that Ruby generates
+  web pages better than Java, I guess that means we can all stop using Tomcat/Resin/Jetty,
+  Struts/Spring/WebWork and Hibernate, because Ruby, as a scripting language, is taking
+  care of that \"specialization\".\r\n\r\nAnd lastly, I think the use of the word
+  scripting is very cafeully placed.  Although I do admit that I'm not convinced Ruby
+  can scale yet (but that is simply due to the fact that I haven't had an opportunity
+  to research that claim myself, I have no opinion one way or the other yet), Gosling
+  seems to be implying that scripted languages are somehow inferior by nature.  But
+  isn't Java really an interpreted language too?  The JVM interprets the bytecode
+  at runtime and executes it.  Why is this inherently better than running a Ruby interpreter?\r\n\r\nI
+  would say that on the spectrum of Ruby Vs. Java, with James Gosling and all other
+  Ruby haters on one end and Bruce Tate and all the other \"Java is dead, long live
+  Ruby\"-ist on the other end, I am somewhere in the middle.  I'm going to continue
+  to research Ruby and Rails and see if there are situations where it makes more sense
+  to use one or the other.  One thing I can say is that learning Ruby on Rails has
+  made me a better Java programmer.  There are techniques used in Ruby and Rails that
+  can be applied to Java and J2EE, which can make you more productive.\r\n\r\nI found
+  the same thing can happen with music.  I took Guitar lessons in college, learner
+  to play some scales and chords, read music, etc.  I messed around on the Guitar
+  occasions for a few years afterwards, not really getting any better.  Then I started
+  taking Piano lessons.  I found after a while that when I picked up the Guitar again,
+  I was a better Guitar player.  Since Piano and Guitar are both instruments that
+  play music, learning music from the aspect of another instrument made be a better
+  musician, therefore a better guitar player.\r\n\r\nThe same can be said for Ruby
+  and Rails.  Java/J2EE and Ruby on Rails are both programming languages and frameworks
+  for building web applications.  Programming, specifically web application programming,
+  is about processing HTTP requests, querying databases, parsing XML, etc.  Learning
+  another programming language and framework will only make you a better programmer,
+  and therefore a better Java programmer."
+format: Markdown
+guid: 9604ce49-6f66-4eac-b395-9cf9742fdb95
+comments_count: 0

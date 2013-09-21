@@ -1,0 +1,13 @@
+---
+id: 5071
+article_id: 4836
+created_at: 2007-10-16 23:38:00.000000000 Z
+url: subelsky.com
+email: mike@subelsky.com
+author: Mike
+ip: 71.166.100.52
+body: |-
+  Paul, you probably already know this, but the annotate_models plugin is an alternate way of getting this information displayed as a comment in your models.
+
+  http://svn.pragprog.com/Public/plugins/annotate_models/
+guid: deb5efc1-e60f-4ddf-8d22-65944835c6d4

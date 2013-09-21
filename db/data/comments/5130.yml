@@ -1,0 +1,13 @@
+---
+id: 5130
+article_id: 4838
+created_at: 2008-04-30 13:13:10.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.16.4.230
+body: |-
+  @Joel,
+
+  You are probably right, integers might make more sense.  I was just doing strings because that is what they will be when they come in as request parameters.  It would be easy enough to, right after the unless, just do group_ids = groups_ids.map(&:to_i), which would allow for either strings or integers.
+guid: 6bec2e95-6482-4829-9874-d9f62bf6c444

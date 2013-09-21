@@ -1,0 +1,112 @@
+---
+id: 4878
+slug: the-edge-of-innovation
+created_at: 2008-04-11 09:13:59.000000000 Z
+published_at: 2008-04-11 09:24:26.000000000 Z
+title: The Edge of Innovation
+body: "If you are a programmer that deals with web applications and you keep up with
+  the latest trends, then there is no doubt you will at least have heard of Ruby on
+  Rails.  You might be at the level where you have read about Ruby on Rails and played
+  with it a bit, but you really haven't immersed yourself the Ruby/Rails way.  Maybe
+  you know how to build web applications with Java, .Net or PHP, and you think \"[Rails
+  is nice, but there's nothing Rails can do that you can't do in X][sivers]\".  \r\n\r\nIf
+  you are in this camp, it may be because [you aren't willing to adapt your ways to
+  Rails][sivers].  To really understand the benefits of Rails, you have to not only
+  learn Rails, but learn the best practices followed by good Rails programmers, like
+  [Skinny Controller, Fat Model][buck], REST and Behavior Driven Development.  You
+  don't see the true benefit of Ruby until you start to fully embrace concepts like
+  these.  The only way to learn concepts like these is to read blogs, listen to podcasts,
+  talk to other Ruby programmers at work, user groups and conferences and most importantly,
+  you have to actually write code that reflects what you have learned.  You must put
+  aside your preconceived notions about what is right and what is wrong and surrender
+  to the flow.  You must unlearn what you have learned.\r\n\r\nSo if you haven't experienced
+  this transformation first hand yet, and someone asks you \"What is the biggest advantage
+  to Ruby on Rails\", I would be willing to bet your answer would be productivity.
+  \ This is the way I think many people involved with technology, who don't fully
+  grasp the Rails Way, perceive Rails.  They believe, with some cynicism, that because
+  of the dynamic nature of Rails, you can develop applications faster.  They'll also
+  probably say the downside is that [Rails can't scale][rails-cant-scale].\r\n\r\nBut
+  anyway, I'm hear to say that productivity is the most over-rated benefit of Rails.
+  \ The real advantage to Rails is that it is written in Ruby, which is a very powerful
+  language that will change the way you think about programming.  It's funny, I've
+  thought to myself a number of times about how interesting it is that Ruby fundamentally
+  changes the way you think about programming and that \"Thinking in Ruby\" would
+  probably be a great book.  But ironically, [Bruce Eckel][eckel-blog], the author
+  of the \"Thinking in...\" line of programming books, seems to be [happy with Python
+  and not willing to give Ruby a chance][eckel].  Who knows, that article is a few
+  years old now, so maybe he's changed his attitude towards Ruby since then.  [I know
+  mine has][stripes-rails].   \r\n\r\nIt's hard to quantify the advantage that \"Thinking
+  in Ruby\" brings.  The simplest way I can state it is that you will look at problems
+  differently and come up with better solutions, solutions you may not have thought
+  of if you were programming in other languages.  The way I support this claim is
+  by looking at some of the web application development innovations that have come
+  out of the Ruby community.\r\n\r\nThe first is Rails itself.  Rails has been copied,
+  ported, attempted to be ported or talked about being ported to almost every other
+  mainstream language you could think of, including [Groovy][rails-groovy], [PHP][rails-php],
+  [JavaScript][rails-js], [Perl][rails-perl], [Java][rails-java] and [.Net][rails-net].
+  \ This phenomenon is unique to Rails, I can't think of any other web application
+  framework that can say that.  If not the whole framework itself, parts of it such
+  as convention over configuration, migrations and embracing REST have influenced
+  the way web application development is done in almost every language.\r\n\r\nAnother
+  example is [HAML][haml].  HAML is a truly new and different take of the problem
+  of generating HTML from a combination of dynamic code and HTML.  It is a new idea
+  and it has been ported to [PHP][haml-php], [Python][haml-py], and [.Net][haml-net].
+  \ Whenever you have a framework or library that is being ported to other languages,
+  it shows that the framework being ported contains new and good ideas about programming.
+  \ In other words, it is a contribution to the paradigm of web development and a
+  clear sign that the original language that the framework was implemented is at the
+  edge of innovation.\r\n\r\nAnother example is Behavior Driven Development.  This
+  example is even more interesting because the idea originally started in Java with
+  the [JBehave][jbehave] framework.  Even though the idea for behavior driven development
+  started with Java, the idea didn't really take off until it was implemented in [RSpec][rspec].
+  \ They are fairly similar in terms of syntax.  Here's an example from the JBehave
+  website:\r\n\r\n    public class CheeseBehaviour extends UsingJMock {\r\n        public
+  void shouldRequireTheUseOfMocks() {\r\n            // given\r\n            Mock
+  cheese = new Mock(Cheese.class);\r\n            Sheep sheep = new Sheep((Cheese)cheese.proxy());\r\n\r\n
+  \           //expect\r\n            cheese.expects(once()).method(\"squelch\").withAnyArguments();\r\n\r\n
+  \           // when\r\n            sheep.eatCheese();\r\n\r\n            // then\r\n
+  \           verify();\r\n        }\r\n    }\r\n\r\nand here it is converted to RSpec:\r\n\r\n
+  \   describe Sheep do\r\n      before do\r\n        @cheese = mock(Cheese)\r\n        @sheep
+  = mock(Sheep, :cheese => @cheese)\r\n      end\r\n      it \"should squelch when
+  it eats cheese\" do\r\n        @cheese.should_receive(:squelch)\r\n        @sheep.eat_cheese\r\n
+  \     end\r\n    end\r\n\r\nFor whatever reason, JBehave really never took hold
+  in the Java community, but RSpec has in the Ruby community.  RSpec has been ported
+  to [.Net][rspec-net], [PHP][rspec-php] and [Groovy][rspec-groovy].  All of those
+  projects describe their code as a port of RSpec, not JBehave.  Again it is Ruby
+  influencing the wider web application development community.\r\n\r\nPost World War
+  II, the center of the art world was New York City and it was there that the modern
+  art movemement was born.  New York was where innovation in the art world was happening.
+  \ In that time period if you wanted to be a serious artist, you had to go to New
+  York to experience the movement first hand.  Today, I believe the Ruby community
+  is leading the way in innovative techniques for web application development.  There
+  is certainly innovation happening in other languages like Python, Smalltalk and
+  Erlang as well, but I don't think any one other language/community is doing as much
+  as Ruby.  As far as I can tell, languages like Java, .Net and PHP are doing nothing
+  to innovate web application development.  They are simply lagging behind, playing
+  catch up and trying to figure out how implement new features pioneered in the Ruby
+  community and others as closely as possible, given the limitations of the language.
+  \ So if you are a web developer, I suggest you ask yourself this question.  Are
+  the languages and frameworks you are working with leading others to come up with
+  new ideas?  Are the languages and frameworks that you are working helping you come
+  up with new ideas?  If not, embrace Ruby and someday you will discover an elegant
+  solution to a problem, one that you may not have without Ruby.\r\n\r\n>[A language
+  that doesn't affect the way you think about programming is not worth knowing.][perlis]
+  -- Alan Perlis\r\n\r\n[sivers]: http://www.oreillynet.com/ruby/blog/2007/09/7_reasons_i_switched_back_to_p_1.html\r\n[buck]:
+  http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model\r\n[rails-cant-scale]:
+  http://javaenvy.com/\r\n[eckel-blog]: http://www.artima.com/weblogs/index.jsp?blogger=beckel\r\n[eckel]:
+  http://onthethought.blogspot.com/2005/01/thinking-in-ruby-not.html\r\n[stripes-rails]:
+  http://paulbarry.com/articles/2006/07/11/stripes-is-the-new-rails\r\n[rails-groovy]:
+  http://grails.codehaus.org\r\n[rails-php]: http://www.cakephp.org/\r\n[rails-js]:
+  http://steve-yegge.blogspot.com/2007/06/rhino-on-rails.html\r\n[rails-perl]: http://www.bbc.co.uk/blogs/radiolabs/2007/11/perl_on_rails.shtml\r\n[rails-java]:
+  http://opensails.org/\r\n[rails-net]: http://subsonicproject.com/\r\n[migraitons-php]:
+  http://bakery.cakephp.org/articles/view/cake-db-migrations-v2-1\r\n[migrations-py]:
+  http://www.aswmc.com/dbmigration/\r\n[migrations-net]: http://flux88.com/DatabaseMigrationsForNET.aspx\r\n[haml]:
+  http://haml.hamptoncatlin.com/\r\n[haml-php]: http://sourceforge.net/projects/phphaml/\r\n[haml-py]:
+  http://lucumr.pocoo.org/cogitations/2008/02/15/ghrml-haml-for-genshi\r\n[haml-net]:
+  http://andrewpeters.net/2007/12/19/introducing-nhaml-an-aspnet-mvc-view-engine/\r\n[jbehave]:
+  http://jbehave.org/\r\n[rspec]: http://rspec.info\r\n[rspec-net]: http://nspec.tigris.org/\r\n[rspec-php]:
+  http://dev.phpspec.org/manual/en/\r\n[rspec-groovy]: http://codeforfun.wordpress.com/2007/04/09/gspec-for-java-bdd/\r\n[perlis]:
+  http://en.wikipedia.org/wiki/Sapir%E2%80%93Whorf_and_programming_languages\r\n"
+format: Markdown
+guid: 336f800d-9fc8-45c1-8fb1-d5b2296d2b68
+comments_count: 0

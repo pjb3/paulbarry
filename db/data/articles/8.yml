@@ -1,0 +1,19 @@
+---
+id: 8
+slug: xhtml-validation-filter
+created_at: 2006-03-06 19:52:00.000000000 Z
+published_at: 2006-03-06 19:52:00.000000000 Z
+title: XHTML Validation Filter
+body: "I just discovered <a href=\"http://tuckey.org/validation/\">this little nugget</a>
+  that validates your XHTML for your.  As their manual says, this is a great idea
+  to have it in place for development, so you can be sure that your pages are valid
+  XHTML.  With resin, this was real easy to setup in a way where it doesn't enter
+  your codebase at all.  Simply copy the validation.jar and the commons-lang.jar to
+  your resin lib directory and then add this to your resin.conf:\r\n\r\n<pre>&lt;web-app
+  id=\"/\" document-directory=\"c:path\towar\"&gt;\r\n    &lt;filter&gt;\r\n      &lt;filter-name&gt;ValidationFilter&lt;/filter-name&gt;\r\n
+  \     &lt;filter-class&gt;org.tuckey.web.filters.validation.ValidationFilter&lt;/filter-class&gt;\r\n
+  \   &lt;/filter&gt;\r\n    &lt;filter-mapping&gt;\r\n        &lt;filter-name&gt;ValidationFilter&lt;/filter-name&gt;\r\n
+  \       &lt;url-pattern&gt;*.do&lt;/url-pattern&gt;\r\n    &lt;/filter-mapping&gt;\r\n&lt;/web-app&gt;</pre>"
+format: Markdown
+guid: e50b2c95-8383-45f1-b58e-4ec04247fb8f
+comments_count: 0

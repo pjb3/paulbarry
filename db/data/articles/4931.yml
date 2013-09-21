@@ -1,0 +1,94 @@
+---
+id: 4931
+slug: keyword-arguments-and-the-case-for-literal-syntax-for-hashes
+created_at: 2009-03-08 03:18:21.000000000 Z
+published_at: 2009-03-08 04:22:40.000000000 Z
+title: Keyword Arguments and the Case for Literal Syntax for Hashes
+body: "I've studied various programming languages and one feature I've grown to love
+  is keyword arguments.  Here's [Paul Graham's take on keyword arguments][lwba]:\r\n\r\n>
+  Rtml even depended heavily on keyword parameters, which up to that time I had always
+  considered one of the more dubious features of\r\nCommon Lisp.  Because of the way
+  Web-based software gets released, you have to design the software so that it's easy
+  to change.  And\r\nRtml itself had to be easy to change, just like any other part
+  of the software.  Most of the operators in Rtml were designed to take\r\nkeyword
+  parameters, and what a help that turned out to be.  If I wanted to add another dimension
+  to the behavior of one of the\r\noperators, I could just add a new keyword parameter,
+  and everyone's existing templates would continue to work.  A few of the Rtml\r\noperators
+  didn't take keyword parameters, because I didn't think I'd ever need to change them,
+  and almost every one I ended up\r\nkicking myself about later.  If I could go back
+  and start over from scratch, one of the things I'd change would be that I'd make
+  every\r\nRtml operator take keyword parameters.\r\n\r\nIn order to have keyword
+  arguments in your language, what you only really need is Hash as a first class data
+  type with a literal syntax.  This is a feature that all modern programming languages
+  should have.  One reason why is it makes the feature of keyword arguments trivial
+  to implement and use.  If your language has literal syntax for Hashes, you don't
+  really need much as in the terms of syntax of the language to have support for keyword
+  arguments. [Python][python] has a little extra [built-in support for keyword arguments][py-kwargs].
+  \ In [Ruby][ruby], [hashes are used as keyword arguments to methods pretty easily][ruby-kwargs].
+  \ To clarify, when I say Hash, I'm talking about the data structure that is referred
+  to as a [Dictionary][py-dict] in Python, [NSDictionary][objc-dict] in [Objective-C][objc],
+  a [Hash][ruby-hash] in Ruby, or a [Map][java-map] in [Java][java].  [Objective-C][objc]
+  does not have a literal syntax for Hashes, neither does Java, and I'll show why
+  not having a literal syntax for Hashes leads to not having keyword arguments.  \r\n\r\nObjective-C
+  does not have keyword arguments, but what it does have is named arguments.  I'm
+  not sure if keyword arguments and named arguments are the official correct terms,
+  but I like those terms and I'm going to define specifically what I mean by each.
+  \ Named arguments in Objective-C mean that each and every argument to a method call
+  must have a name. In a language like Java which doesn't have named arguments, you
+  could see something like this:\r\n    \r\n    Date iWeeksFromNow = now.add(0, 0,
+  (i*7), 0, 0, 0);\r\n\r\nIt's hard to tell what this method does, because you have
+  to know what the position of each argument means.  In Objective-C, it might look
+  like this:\r\n\r\n    NSCalendarDate *iWeeksFromNow = [now dateByAddingYears:0 \r\n
+  \                                                   months:0\r\n                                                      days:(i*7)\r\n
+  \                                                    hours:0\r\n                                                   minutes:0\r\n
+  \                                                  seconds:0];\r\n\r\nThis call
+  is self-documenting, because you can now easily determine what each parameter means.
+  \ Although this is an improvement, it still has some flaws.  First, I still must
+  know the correct order of the arguments.  For example, this won't work:\r\n\r\n
+  \   NSCalendarDate *iWeeksFromNow = [now dateByAddingSeconds:0 \r\n                                                     minutes:0\r\n
+  \                                                      hours:0\r\n                                                        days:(i*7)\r\n
+  \                                                     months:0\r\n                                                       years:0];\r\n\r\nMore
+  egregiously, you can't omit the arguments for which you would like to supply no
+  value or have the default value used.  This is why we see all these parameters with
+  a value of 0 being passed in.  You could fix this API in Objective-C by defining
+  separate method to add each unit, so something like this would work:\r\n\r\n    NSCalendarDate
+  *iWeeksFromNow = [now dateByAddingDays:(i*7)];\r\n\r\nBut what if you want to specify
+  values for two of the arguments?  You end up with a huge explosion of methods in
+  the API.  This also leads to another big problem, which is what if you want add
+  another value that could be passed in?  For example, let's say we wanted to by able
+  to pass in weeks, which is exactly what we are trying to do in this example.  We
+  could modify the API and call the code like this:\r\n\r\n    NSCalendarDate *iWeeksFromNow
+  = [now dateByAddingYears:0 \r\n                                                    months:0\r\n
+  \                                                     days:0\r\n                                                     weeks:i\r\n
+  \                                                    hours:0\r\n                                                   minutes:0\r\n
+  \                                                  seconds:0];\r\n\r\nBut that means
+  we have to go change all the code that doesn't have weeks in the method call to
+  include it.  Depending on how much code you have calling the API, this could be
+  a nightmare.  In this case, where we are talking about a core method of Cocoa, so
+  I would suspect that Apple is unlikely to ever change this method for that reason.
+  \ This is why APIs developed in a language without keyword arguments sometimes stagnate
+  over time, for fear of breaking backward compatibility.  If this were a keyword
+  argument method, support for accepting weeks as an argument could easily be added
+  without breaking any existing code.\r\n\r\nKeyword arguments, as typically implemented
+  in Ruby or Python, are optional and unordered.  A method like this one in a Ruby
+  API might look like this:\r\n\r\n    iWeeksFromNowNextYear = now.add(:weeks => i,
+  :years => 1)\r\n\r\nThis is a very clean way to design an API.  It can easily be
+  extended in the future when more arguments need to be added.  I don't need to pass
+  in values for parameters I don't care about.  It is clean and easy to use as the
+  caller of the API.  Techincally, this exact kind of thing is possible in Java and
+  Objective-C.  The NSCalendateDate could have a method called add that takes an NSDictionary,
+  which might make calling code look like this:\r\n\r\n    NSCalendarDate *iWeeksFromNowNextYear
+  = [now dateByAdding: \r\n      [NSDictionary dictionaryWithObjectsAndKeys:\r\n        [[NSNumber
+  alloc] initWithInt:i], @\"weeks\",\r\n        [[NSNumber alloc] initWithInt:1],
+  @\"years\",\r\n        nil]];\r\n\r\nBut as you can see, there is too much syntactical
+  noise for this kind of thing to every become idiomatic, which goes back to my original
+  point, which is that having a literal syntax for Hashes is a huge win for the syntax
+  of a language.\r\n\r\n[python]: http://python.org\r\n[objc]: http://developer.apple.com/documentation/Cocoa/Conceptual/ObjectiveC/Introduction/chapter_1_section_1.html\r\n[ruby]:
+  http://www.ruby-lang.org/en/\r\n[java]: http://java.sun.com/\r\n[py-kwargs]: http://docs.python.org/tutorial/controlflow.html#keyword-arguments\r\n[ruby-kwargs]:
+  http://www.lukeredpath.co.uk/blog/using-ruby-hashes-as-keyword-arguments-with-easy-defaults.html\r\n[py-dict]:
+  http://docs.python.org/library/stdtypes.html#typesmapping\r\n[objc-dict]: http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/Reference/Reference.html\r\n[java-map]:
+  http://java.sun.com/javase/6/docs/api/java/util/Map.html\r\n[ruby-hash]: http://www.ruby-doc.org/core/classes/Hash.html\r\n[lwba]:
+  http://lib.store.yahoo.net/lib/paulgraham/bbnexcerpts.txt\r\n"
+format: Markdown
+guid: 0ab5a414-fff4-4985-a0b3-3657da98de76
+comments_count: 1

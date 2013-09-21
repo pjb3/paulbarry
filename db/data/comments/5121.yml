@@ -1,0 +1,13 @@
+---
+id: 5121
+article_id: 4838
+created_at: 2008-04-28 16:33:43.000000000 Z
+url: 
+email: 
+author: sw0rdfish
+ip: 68.179.14.113
+body: |
+  My view for the checkboxes BTW...
+
+   <%= check_box_tag "user[role_ids][]", role.id, @user.roles.include?(role), :class => 'checkbox' %>
+guid: 8812d718-1345-46e5-b3d5-0d63a532dbe1

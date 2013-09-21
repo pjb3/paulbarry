@@ -1,0 +1,11 @@
+---
+id: 5100
+article_id: 4844
+created_at: 2008-02-25 12:23:35.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.16.21.170
+body: '@Nucc: If you are doing a RESTful design, so your controller is Users and the
+  model is User, so there is no name collision.  '
+guid: fc424124-b575-41f4-8bc4-dc4d756c7156

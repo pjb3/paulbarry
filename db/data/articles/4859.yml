@@ -1,0 +1,92 @@
+---
+id: 4859
+slug: stupid-ruby-tricks
+created_at: 2008-02-05 09:44:47.000000000 Z
+published_at: 2008-02-06 10:28:34.000000000 Z
+title: Stupid Ruby Tricks
+body: "There are idioms that you see used in Rails code from time to time, this article
+  attempts to demystify a couple of them.  The first is the `Symbol.to_proc` trick
+  that most people are aware of.  Say you have a collection of Article objects and
+  you want to get the title of each one.  You normally would do this:\r\n                        \r\n
+  \   articles.collect{|a| a.name }\r\n                        \r\nThe `Symbol.to_proc`
+  shortcut allows you to do this:\r\n                        \r\n    articles.collect(&:name)\r\n
+  \                       \r\nSome might argue that it's not worth obfuscating the
+  code for the savings of a few characters, but this is used pretty frequently in
+  Rails code, so if you are doing Rails programming, you need to know about it.  My
+  guess is that once you understand it, you'll start using it too.  It makes more
+  sense once you understand how it works.  It's [been explained][fields] [before][thomas],
+  but here's my take.  \r\n\r\nIt helps to understand Ruby's Procs, Blocks and Methods.
+  \ The first thing to understand is that Ruby has a special syntax for passing an
+  anonymous function, which is called a Proc, to a method.  There is a method called
+  `block_given?` which you can use to test if a block was passed to the method.  Let's
+  see that in action:\r\n\r\n    def foo\r\n      puts block_given? ? \"You gave me
+  a block\" : \"No block\"\r\n    end\r\n\r\n    foo           # => [], No block\r\n
+  \   foo { \"bar\" } # => [], You gave me a block\r\n    foo do\r\n      \"bar\"\r\n
+  \   end           # => [], You gave me a block\r\n\r\nIn the code above, we define
+  a method called `foo` which simply prints out whether or not we got a block.  As
+  you can see in the first call to `foo`, there are no args and no block.  In the
+  second call, we still have no args, but we have a block, defined using the curly
+  braces.  The third call is the same as the second except that we are using the do-end
+  syntax to define the block.\r\n\r\nNext you will want to call the block that gets
+  passed in, which is done using `yield`:\r\n\r\n    def foo\r\n      puts yield if
+  block_given?\r\n    end\r\n\r\n    foo           # => prints nothing\r\n    foo
+  { \"bar\" } # => prints bar\r\n    foo do\r\n      \"bar\"\r\n    end           #
+  => prints bar\r\n\r\nOk, great, but what is the block?  What if I want to know what
+  class it is?  How do you reference it?  This is where the ampersand parameter comes
+  into play.  If you prefix the last parameter in the method definition with an ampersand,
+  Ruby converts the block to a Proc object:\r\n\r\n    def foo(&bar)\r\n      puts
+  bar.inspect\r\n      puts bar.call\r\n    end\r\n\r\n    foo { \"bar\" }\r\n\r\nThis
+  will print something like:\r\n\r\n    #<Proc:0x0008b3e4@/Users/pbarry/Desktop/foo.rb:6>\r\n
+  \   bar\r\n    \r\nNow you can also use the ampersand trick when calling a method.
+  \ When you prefix an object in a method call with an ampersand, Ruby will call `#to_proc`
+  on that object before passing it to the method:\r\n\r\n    class Bar\r\n      def
+  to_proc\r\n        Proc.new { \"bar\" }\r\n      end\r\n    end\r\n    def foo\r\n
+  \     puts yield\r\n    end\r\n\r\n    bar = Bar.new\r\n    foo(&bar)\r\n\r\nThis
+  contrived example shows us defining a class `Bar` which has a `#to_proc` method.
+  \ When you call `to_proc` on any instance of `Bar`, it will return a `Proc` that
+  returns the String \"bar\".  Then we create an instance of `Bar`, and put the ampersand
+  in front of it in the method call to `foo`.  Notice that in the `foo` method, this
+  still behaves as a block, not an argument to the call of the method `foo`.  So this
+  is a concise way of passing a block to a method.\r\n\r\nBlocks can take arguments
+  just like methods.  Here's a modified version of the previous example that illustrates
+  that:\r\n\r\n    class Bar\r\n      def to_proc\r\n        Proc.new { |s| s.reverse
+  }\r\n      end\r\n    end\r\n    def foo(string)\r\n      puts yield(string)\r\n
+  \   end\r\n\r\n    bar = Bar.new\r\n    foo(\"rab\", &bar)\r\n\r\nNow our `Proc`
+  that `Bar` returns expects an argument and it will return the value returned by
+  calling `reverse` on that object.  The `foo` method takes one argument and passes
+  that argument to the block that it receives.  Here we are passing the string \"rab\",
+  which gets printed as \"bar\" once the Proc reverses it.\r\n\r\nThe iterators like
+  `collect`, as shown at the beginning of this article, work by iterating over each
+  element of a collection and then passing that element to the block that gets passed
+  to the iterator, in this case the `collect` method.  So to make this shortcut work,
+  all that needs to be done is to define a `#to_proc` method on Symbol that calls
+  the method on its argument that matches the value of the symbol.  So here it is:\r\n\r\n
+  \   class Symbol\r\n      def to_proc\r\n        Proc.new { |obj| obj.send self
+  }\r\n      end\r\n    end\r\n    class Bar\r\n      def bang\r\n        \"Bang!\"\r\n
+  \     end\r\n    end\r\n    def foo(bar)\r\n      puts yield(bar)\r\n    end\r\n\r\n
+  \   bar = Bar.new\r\n    foo(bar, &:bang) # => Bang!\r\n\r\n    puts [\"abc\", \"def\",
+  \"xyz\"].collect(&:reverse).inspect # => [\"cba\", \"fed\", \"zyx\"]\r\n\r\nAs you
+  would imagine, a slightly more complicated version of this is defined in ActiveSupport
+  in Rails, take a look at `activesupport/core_ext/symbol.rb` if you are curious.\r\n\r\nAnother
+  trick that uses blocks to make the syntax a little more concise is the `returning`
+  method that is also defined in ActiveSupport, this time in `activesupport/core_ext/object/misc.rb`.
+  \ Again, I'm not the [first person to explain this][err].  Sometimes you have code
+  like this:\r\n\r\n    def create_stuff\r\n      stuff = []\r\n      stuff << \"foo\"\r\n
+  \     stuff << \"bar\"\r\n      stuff\r\n    end\r\n\r\nFirst you are creating an
+  Array, then adding a few things to it, and then ultimately you to return the Array.
+  \ `returning` provides an alternative method of doing this:\r\n\r\n    def create_stuff\r\n
+  \     returning [] do |stuff|\r\n        stuff << \"foo\"\r\n        stuff << \"bar\"\r\n
+  \     end\r\n    end\r\n\r\nThe magic that makes this work is that `returning` is
+  a method that takes and object and a block.  It calls the block, passing the object
+  as an argument to the block, and then it returns the object.  The implementation
+  is simple:\r\n\r\n    def returning(value)\r\n      yield(value)\r\n      value\r\n
+  \   end\r\n\r\nNeither of these shortcuts are going to save you a ton of lines of
+  code, but it's good to know what they are when you encounter them and understanding
+  how they work gives you a better understanding of Ruby.  There are other ways to
+  use Procs and blocks to help you write cleaner, more DRY code, so it's good to study
+  examples of their usage to get a better idea of how to use them.\r\n                        \r\n[fields]:
+  http://blog.jayfields.com/2007/01/ruby-invoking-method-with.html\r\n[thomas]: http://pragdave.pragprog.com/pragdave/2005/11/symbolto_proc.html\r\n[err]:
+  http://errtheblog.com/posts/27-quickly-returning\r\n"
+format: Markdown
+guid: c26af1fa-1e34-447e-a148-a0f4186857e0
+comments_count: 0

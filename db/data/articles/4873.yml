@@ -1,0 +1,27 @@
+---
+id: 4873
+slug: why-do-we-give-apple-a-pass
+created_at: 2008-03-23 10:44:36.000000000 Z
+published_at: 2008-03-23 10:47:01.000000000 Z
+title: Why do we give Apple a pass?
+body: "I've been adding a few music podcasts to my iPod this morning, and I ran across
+  a [website that appears to be producing a pretty good podcast][nugscast], but as
+  far as I call tell they don't list their podcast in the iTunes directory.  That
+  seems odd, you would think they would want people to subscribe to their podcast
+  via iTunes, but they do have an RSS feed.  So I thought, ok, well maybe there's
+  a way to subscribe to an RSS feed via iTunes, but there doesn't appear to be.  It
+  makes sense too, because Apple wants you to go through the iTunes store to subscribe
+  to a podcast, so they can get you to buy music in the process.  In order to maintain
+  their monopoly, they'll never add that feature.  \r\n\r\nSo I'm trying out [YamiPod][yamipod]
+  which appears to have that feature.  But it got me to thinking, just as the first
+  poster points out in [a recent Slashdot article calling out Apple for unfairly bundling
+  Safari with iTunes][slashdot], why do we let Apple get away with all sorts of monopolistic
+  things that we would absolutely kill Microsoft for?  I think the obvious answer
+  is that, in general, we like Apple and the software they make, but I think we've
+  got to call them out on things like this. \r\n\r\n**Update:** Whoops, my bad :).
+  \ If you go to Advanced > Subscribe to Podcast in iTunes, you can subscribe to any
+  random URL that is a valid feed.\r\n\r\n[yamipod]: http://www.yamipod.com\r\n[nugscast]:
+  http://nugs.net/nugscast\r\n[slashdot]: http://slashdot.org/articles/08/03/22/1536250.shtml"
+format: Markdown
+guid: 4593f62c-9456-4d06-8e73-f205ae65a0c6
+comments_count: 1

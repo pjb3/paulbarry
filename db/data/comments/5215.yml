@@ -1,0 +1,18 @@
+---
+id: 5215
+article_id: 4838
+created_at: 2008-10-13 10:36:46.000000000 Z
+url: http://clair/ro/rc
+email: 
+author: cs
+ip: 86.125.145.92
+body: |-
+  Ahoy,
+
+  I have a solution for has_many associations  with a single select box and a list of checkboxes to store the associations.
+
+  It uses client-side javascript, no AJAX, and the code is simpler than Ryan Bates'complex forms.
+
+
+  Take a look at: http://clair.ro/rc/2008/10/13/has_many-with-select-box-and-checkboxes/
+guid: 0514a1ed-6c17-43f3-92b1-a80f4cf0f79a

@@ -1,0 +1,22 @@
+---
+id: 5237
+article_id: 4922
+created_at: 2008-12-20 04:18:43.000000000 Z
+url: http://www.codemonkeyism.com
+email: stephan.schmidt@gmail.com
+author: Stephan Schmidz
+ip: 87.162.74.158
+body: |-
+  "I've also heard the argument made that statically-typed languages allow you to write less tests, but I have also not found this to be the case."
+
+  I'm very interested in this topic. Do you have some numbers for your claim?
+
+  There are some numbers around from David Pollak concerning Ruby and Scala:
+
+  "We discovered that anything shy of 95% code coverage with Rails means that type-os turn into runtime failures."
+
+  Peace
+  Stephan
+
+  Programming is hard - http://www.codemonkeyism.com
+guid: 29362e31-b0f1-4d7b-97c7-bfa398e075ca

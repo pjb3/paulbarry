@@ -1,0 +1,24 @@
+---
+id: 5190
+article_id: 4915
+created_at: 2008-09-07 10:58:57.000000000 Z
+url: http://blog.smartlogicsolutions.com
+email: jtrupiano@gmail.com
+author: John Trupiano
+ip: 71.199.123.148
+body: "Hey Paul, your article really resonated with me.  As previous commenters have
+  mentioned, RESTful routes are great when you need a standard resource-based API
+  (which we commonly do as we do a lot of Rails CMS's with Flex front-ends, and this
+  works wonderfully).  However, I find myself often needing to leave the confines
+  of RESTful controllers whenever I need to do something.....well, interesting.\n\nTo
+  illustrate (with a very basic example), let's look at reporting interfaces.  A basic
+  report takes some user inputs and returns an output.  We're really talking about
+  two actions.  I suppose you could squeeze this into the 'new' and 'create' actions,
+  but really, this is bastardizing the tenets of REST.  Furthermore, I have no need
+  whatsoever for edit/update/destroy/index/show.  I suppose this is handled by a combination
+  of RESTful and default routes.  \n\nBut I really was happy to see someone else put
+  this out there, as it has bothered me a bit as well.  I guess I just feel that there's
+  a lot of hoopla around the idea of \"everything should be RESTful\" that seems to
+  be a little misguided.  Then again, maybe I'm just misinterpreting the community
+  consensus....\n\n"
+guid: 588eb73a-e465-4974-8f8c-e9f3cdcf05ef

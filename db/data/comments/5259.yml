@@ -1,0 +1,17 @@
+---
+id: 5259
+article_id: 4888
+created_at: 2009-01-04 19:05:51.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 76.100.98.185
+body: |-
+  If you need to set the values for id to a specific value, you can't set it using a hash, you have to do record.id = whatever.  Try something like this in process row:
+
+      user = User.new
+      row_map.each do |k,v|
+          user.send("#{k}=", v)
+      end
+      user.save!
+guid: cd2bd288-a55f-460d-bfa2-4390a8a9474c

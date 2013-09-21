@@ -1,0 +1,171 @@
+---
+id: 4848
+slug: practical-common-ruby
+created_at: 2007-11-25 11:55:53.000000000 Z
+published_at: 2007-11-25 12:04:21.000000000 Z
+title: Practical Common Ruby
+body: "As part of my latest effort to [learn Lisp][lisp], I'm going through [Practical
+  Common Lisp][pcl].  After reading chapter 3, I thought it would be a cool idea to
+  translate that chapter into a language I'm familiar with, Ruby.  I'm assuming it
+  will help point out some of the powerful aspects of Lisp, showing how accomplishing
+  the same thing in Ruby is more difficult.  So pull up [Chapter 3][chap3] and follow
+  along at home.\r\n\r\nIn order to follow along, what I'm doing is using irb, Ruby's
+  version of the Lisp REPL, and saving the code into a script.  So create a file called
+  `chap3.rb` or whatever, and then fire up irb in that same directory:\r\n\r\n    paulbarry@paulbarry:
+  ~/projects/practical_common_ruby $ irb\r\n    irb(main):001:0> load 'chap3.rb'\r\n
+  \   => true\r\n\r\nNow your script is loaded and you can call whatever methods you
+  have defined.  Also, you can run `load 'chap3.rb'` again and it will reload the
+  script.\r\n\r\nSo right of the bat, one different we run into is the lack of a property
+  list in Ruby.  So in Lisp you have this:\r\n\r\n    CL-USER> (getf (list :a 1 :b
+  :c 3) :a)\r\n    1\r\n    \r\nIt has properties of both a [Ruby Array][array] and
+  a [Ruby Hash][hash].  It's just a list of items, but it's like a Hash in that you
+  can lookup a value by it's key, using the `getf` function as shown above.  So in
+  Ruby, we could use a Hash:\r\n\r\n    irb(main):001:0> {:a => 1, :b => 2, :c =>
+  3}[:a]\r\n    => 1\r\n\r\nWhich works for the lookup part, but doesn't preserve
+  insertion order.  If we need insertion order, we could use an Array of Arrays and
+  write our own getf function:\r\n\r\n    def getf(plist, key)\r\n      plist.each
+  do |k, v|\r\n        return v if key == k\r\n      end\r\n      nil\r\n    end\r\n\r\n
+  \   irb(main):007:0> getf([[:a, 1], [:b, 2], [:c, 3]], :a)\r\n    => 1\r\n    irb(main):008:0>
+  getf([[:a, 1], [:b, 2], [:c, 3]], :d)\r\n    => nil\r\n    irb(main):009:0> getf([[:a,
+  1], [:b, 2], [:c, 3]], :b)\r\n    => 2\r\n\r\nIn this case, I don't think insertion
+  order is necessary, so we'll just use an Array of Hashes, as it's a little more
+  a part of Ruby.\r\n\r\nNow that that's out of the way, we'll set up the global database
+  and the function to make cds:\r\n\r\n    $db = []\r\n\r\n    def make_cd(title,
+  artist, rating, ripped)\r\n      {:title => title, :artist => artist, :rating =>
+  rating, :ripped => ripped}\r\n    end\r\n\r\n    def add_record(cd)\r\n      $db
+  << cd\r\n    end\r\n\r\nAs you can see, this is just a straight port of the code,
+  which I'll try to stick to throughout.  Next up is the `dump-db` function.  Now
+  one little trick that Lisp's format function has is to be able iterate through a
+  list within the format string.  This I can say Ruby doesn't have, and it's probably
+  due to the fact that lists are so much a part of Lisp.  Here's a more simple example
+  of how it works:\r\n\r\n    CL-USER> (format t \"~{~a~%~}\" '(1 2 3))\r\n    1\r\n
+  \   2 \r\n    3\r\n\r\nEach element of the format string is preceded by a `~` character.
+  \ So it starts with `~{`, which indicates we're working with an element that is
+  a list.  The `~}` at end just closes the list of things we are doing to each item.
+  \ The `~a` element just effectively prints the argument and the `~%` prints a new
+  line character. \r\n\r\nAs the author points out, this isn't all that different
+  from the ruby `%` format operator, except for the functionality to iterate over
+  a list.  So we'll have to do that ourselves in the Ruby version, but luckily it's
+  not that much work.  Here's our first take at it:\r\n\r\n    def dump_db\r\n      $db.each
+  do |cd|\r\n        cd.each do |k,v|\r\n          puts \"%-10s%s\" % [\"#{k.to_s.upcase}:\",
+  v]\r\n        end\r\n      end\r\n    end\r\n\r\nHere's what that results in:\r\n\r\n
+  \   paulbarry@paulbarry: ~/projects/practical_common_ruby $ irb\r\n    irb(main):001:0>
+  load 'chap3.rb'\r\n    => true\r\n    irb(main):002:0> add_record(make_cd('Largo','Brad
+  Mehldau',9,true))\r\n    => [{:artist=>\"Brad Mehldau\", :rating=>9, :ripped=>true,
+  :title=>\"Largo\"}]\r\n    irb(main):003:0> add_record(make_cd('Junta','Phish',9,true))\r\n
+  \   => [{:artist=>\"Brad Mehldau\", :rating=>9, :ripped=>true, :title=>\"Largo\"},
+  \r\n        {:artist=>\"Phish\", :rating=>9, :ripped=>true, :title=>\"Junta\"}]\r\n
+  \   irb(main):004:0> dump_db\r\n    ARTIST:   Brad Mehldau\r\n    RATING:   9\r\n
+  \   RIPPED:   true\r\n    TITLE:    Largo\r\n\r\n    ARTIST:   Phish\r\n    RATING:
+  \  9\r\n    RIPPED:   true\r\n    TITLE:    Junta\r\n\r\nThis works except for one
+  issue, the items print out an arbitrary order, since Ruby's Hash doesn't preserve
+  insertion order :(.  So we can specify the order in the function if that's something
+  we care about:\r\n\r\n    def dump_db\r\n      $db.each do |cd|\r\n        %w{title
+  artist rating ripped}.each do |f|\r\n          puts \"%-10s%s\" % [\"#{f.upcase}:\",
+  cd[f.to_sym]]\r\n        end\r\n        print \"\\n\"\r\n      end\r\n    end\r\n\r\nBut
+  for the rest of the example I'm going to stick with the random ordered version.
+  \ The reason I like that it that it prints out everything in the record, even if
+  we add new fields.  \r\n\r\nSo I'm getting tired of re-adding the data, so I'm going
+  to jump down to saving and loading the data.\r\n\r\n    def save_db(filename)\r\n
+  \     open(filename, 'w') do |file|\r\n        file.puts $db.inspect\r\n      end\r\n
+  \   end\r\n\r\n    def load_db(filename)\r\n      $db = eval(open(filename){|f|
+  f.read})\r\n    end\r\n\r\nHere it is in action:\r\n\r\n    paulbarry@paulbarry:
+  ~/projects/practical_common_ruby $ irb\r\n    irb(main):001:0> load 'chap3.rb'\r\n
+  \   => true\r\n    irb(main):002:0> add_record(make_cd('Largo','Brad Mehldau',9,true))\r\n
+  \   => [{:artist=>\"Brad Mehldau\", :rating=>9, :ripped=>true, :title=>\"Largo\"}]\r\n
+  \   irb(main):003:0> add_record(make_cd('Junta','Phish',9,true))\r\n    => [{:artist=>\"Brad
+  Mehldau\", :rating=>9, :ripped=>true, :title=>\"Largo\"}, \r\n        {:artist=>\"Phish\",
+  :rating=>9, :ripped=>true, :title=>\"Junta\"}]\r\n    irb(main):004:0> save_db \"my-cds.db\"\r\n
+  \   => nil\r\n    irb(main):005:0> quit\r\n    paulbarry@paulbarry: ~/projects/practical_common_ruby
+  $ irb\r\n    irb(main):001:0> load 'chap3.rb'\r\n    => true\r\n    irb(main):002:0>
+  load_db \"my-cds.db\"\r\n    => [{:artist=>\"Brad Mehldau\", :rating=>9, :ripped=>true,
+  :title=>\"Largo\"}, \r\n        {:artist=>\"Phish\", :rating=>9, :ripped=>true,
+  :title=>\"Junta\"}]\r\n    irb(main):003:0> dump_db\r\n    ARTIST:   Brad Mehldau\r\n
+  \   RATING:   9\r\n    RIPPED:   true\r\n    TITLE:    Largo\r\n\r\n    ARTIST:
+  \  Phish\r\n    RATING:   9\r\n    RIPPED:   true\r\n    TITLE:    Junta\r\n\r\nSo
+  now we jump back up to \"Improving the User Interaction\".  This basically translates
+  directly into Ruby, except that we have to create our own `y_or_n_p`, which is trivial:\r\n\r\n
+  \   def prompt_read(prompt)\r\n      print \"#{prompt}: \"\r\n      gets.chomp\r\n
+  \   end\r\n\r\n    def y_or_n_p(prompt)\r\n      case prompt_read(prompt+\" [y/n]\").upcase\r\n
+  \     when 'Y': true\r\n      when 'N': false\r\n      else y_or_n_p(prompt)\r\n
+  \     end\r\n    end\r\n\r\n    def prompt_for_cd\r\n      make_cd(\r\n        prompt_read(\"Title\"),\r\n
+  \       prompt_read(\"Artist\"),\r\n        prompt_read(\"Rating\").to_i,\r\n        y_or_n_p(\"Ripped\")\r\n
+  \     )\r\n    end\r\n\r\n    def add_cds\r\n      loop do \r\n        add_record
+  prompt_for_cd\r\n        break unless y_or_n_p(\"Another?\")\r\n      end\r\n    end\r\n\r\nAnd
+  here it is in action:\r\n\r\n    irb(main):021:0> add_cds\r\n    Title: Wormwood\r\n
+  \   Artist: moe.\r\n    Rating: 10\r\n    Ripped [y/n]: y\r\n    Another? [y/n]:
+  y\r\n    Title: Animals\r\n    Artist: Pink Floyd\r\n    Rating: 8\r\n    Ripped
+  [y/n]: n\r\n    Another? [y/n]: n\r\n    => nil\r\n    irb(main):022:0> dump_db\r\n
+  \   ARTIST:   Brad Mehldau\r\n    RATING:   9\r\n    RIPPED:   true\r\n    TITLE:
+  \   Largo\r\n\r\n    ARTIST:   Phish\r\n    RATING:   9\r\n    RIPPED:   true\r\n
+  \   TITLE:    Junta\r\n\r\n    ARTIST:   moe.\r\n    RATING:   10\r\n    RIPPED:
+  \  true\r\n    TITLE:    Wormwood\r\n\r\n    ARTIST:   Pink Floyd\r\n    RATING:
+  \  8\r\n    RIPPED:   false\r\n    TITLE:    Animals\r\n\r\nSo on to querying the
+  database.  We'll use  Ruby's `find_all` iterator rather than Lisp's `remove-if-not`
+  function.  I'll go through each function as the chapter does.  First up, selecting
+  an artist:\r\n\r\n    def select_by_artist(artist)\r\n      $db.find_all{|cd| cd[:artist]
+  == artist}\r\n    end\r\n\r\nSo then we refactor that to pass the selector function
+  (Proc, in Ruby terminology) into the method, and we have a method to create the
+  selector:\r\n\r\n    def select(selector)\r\n      $db.find_all{|cd| selector.call(cd)
+  }\r\n    end\r\n\r\n    def artist_selector(artist)\r\n      lambda{|cd| cd[:artist]
+  == artist}\r\n    end\r\n\r\nWe call this in Ruby like this:\r\n\r\n  irb(main):034:0>
+  select artist_selector(\"Phish\")\r\n  \r\nSo next we build the \"where\" selector,
+  and we'll use Ruby's Hash to stand in for keyword parameters, which are very similar:\r\n\r\n
+  \   def where(p={})\r\n      lambda do |cd|\r\n        (p.has_key?(:title) ? cd[:title]
+  == p[:title] : true) &&\r\n        (p.has_key?(:artist) ? cd[:artist] == p[:artist]
+  : true) &&\r\n        (p.has_key?(:rating) ? cd[:rating] == p[:rating] : true) &&\r\n
+  \       (p.has_key?(:ripped) ? cd[:ripped] == p[:ripped] : true)\r\n      end\r\n
+  \   end\r\n\r\nWe can call it like this to verify that it works:\r\n\r\n    irb(main):066:0>
+  select where(:artist => \"moe.\", :rating => 10)\r\n    => [{:artist=>\"moe.\",
+  :rating=>10, :ripped=>true, :title=>\"Wormwood\"}]\r\n    irb(main):067:0> select
+  where(:artist => \"moe.\", :rating => 9)\r\n    => []  \r\n\r\nBy the way, jumping
+  ahead a bit, there's no need to explicitly list each field in the where function.
+  \ We can simplify that down like this:\r\n\r\n    def where(p={})\r\n      lambda
+  do |cd|\r\n        r = true\r\n        p.each do |k,v|\r\n          unless cd[k]
+  == v\r\n            r = false\r\n            break\r\n          end\r\n        end\r\n
+  \       r\r\n      end\r\n    end\r\n\r\nSo now if you add fields to the cd record,
+  you don't have to touch any of these methods.  Onto the update method.  This time
+  we'll have Ruby's `each` iterator stand in for Lisp's `mapcar`.  Also, for the sake
+  of simplicity, we'll modify the actual record in the database, instead of making
+  a copy of the database and updating the global variable to point to the new database.\r\n\r\n
+  \   def update(selector, values={})\r\n      $db.each do |row|\r\n        if selector.call(row)\r\n
+  \         values.each do |k,v|\r\n            row[k] = v\r\n          end\r\n        end\r\n
+  \     end\r\n    end\r\n\r\nAgain, I feel this is considerably more readable than
+  the Lisp version, plus it doesn't require explicitly listing each field.  I suppose
+  readability is in the eye of the beholder.  I would imagine Lisp programmers find
+  the end statements in the method above as annoying as Lisp new-comers find the parenthesis
+  in Lisp code, but as you become familiar with the language and the syntax, those
+  annoyances just fade away.  \r\n\r\nHere it is in action, after adding one more
+  Phish album to the collection, which is never a bad thing:\r\n\r\n    irb(main):014:0>
+  select where(:artist => \"Phish\")\r\n    => [{:title=>\"Junta\", :artist=>\"Phish\",
+  :rating=>9, :ripped=>true}]\r\n    irb(main):015:0> add_cds\r\n    Title: Lawnboy\r\n
+  \   Artist: Phish\r\n    Rating: 8\r\n    Ripped [y/n]: y\r\n    Another? [y/n]:
+  n\r\n    => nil\r\n    irb(main):016:0> save_db \"my-cds.db\"\r\n    => nil\r\n
+  \   irb(main):017:0> select where(:artist => \"Phish\")\r\n    => [{:title=>\"Junta\",
+  :artist=>\"Phish\", :rating=>9, :ripped=>true}, \r\n        {:title=>\"Lawnboy\",
+  :artist=>\"Phish\", :rating=>8, :ripped=>true}]\r\n    irb(main):018:0> update where(:artist
+  => \"Phish\"), :rating => 7\r\n    => [{:title=>\"Largo\", :artist=>\"Brad Mehldau\",
+  :rating=>9, :ripped=>true}, \r\n        {:title=>\"Junta\", :artist=>\"Phish\",
+  :rating=>7, :ripped=>true}, \r\n        {:title=>\"Wormwood\", :artist=>\"moe.\",
+  :rating=>10, :ripped=>true}, \r\n        {:title=>\"Animals\", :artist=>\"Pink Floyd\",
+  :rating=>8, :ripped=>false}, \r\n        {:title=>\"Lawnboy\", :artist=>\"Phish\",
+  :rating=>7, :ripped=>true}]\r\n    irb(main):019:0> select where(:rating => 7)\r\n
+  \   => [{:title=>\"Junta\", :artist=>\"Phish\", :rating=>7, :ripped=>true}, \r\n
+  \       {:title=>\"Lawnboy\", :artist=>\"Phish\", :rating=>7, :ripped=>true}]\r\n\r\nAnd
+  for sake of completedness, here's the delete:\r\n\r\n    def delete(selector)\r\n
+  \     $db.delete_if{|cd| selector.call(cd) }\r\n    end\r\n    \r\nAnd that gives
+  us the whole thing weighing in at 88 lines.  It's longer than the Lisp version in
+  terms of number of lines simply because the end statements sit on their own line.
+  \ We also don't have the duplication that is removed in the final section of this
+  chapter, so that's not necessary.\r\n\r\nBut the essence of the final section is
+  macros, which seems to be one of the most unique and powerful features of Lisp.
+  \ In this particular chapter, we've managed to write code that is just as powerful
+  and maintainable, and possibly more readable, without macros.  But as I get deeper
+  into Lisp, I'm sure I'll find examples where that's not the case.  One observation
+  I have from this so far is that I've never used Ruby's clearly Lisp-inspired lambda
+  feature in my day-to-day Rails work, but maybe I should be.\r\n\r\n[lisp]: http://paulbarry.com/articles/2007/11/23/lisp-my-personal-nbl\r\n[pcl]:
+  http://www.gigamonkeys.com/book\r\n[chap3]: http://www.gigamonkeys.com/book/practical-a-simple-database.html\r\n[array]:
+  http://www.ruby-doc.org/core/classes/Array.html\r\n[hash]: http://www.ruby-doc.org/core/classes/Hash.html"
+format: Markdown
+guid: de4c9ce3-53a9-4834-b8e0-d017fe2deb97
+comments_count: 0

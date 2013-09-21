@@ -1,0 +1,16 @@
+---
+id: 4868
+slug: dont-ever-give-out-your-email-username-password
+created_at: 2008-03-08 12:41:40.000000000 Z
+published_at: 2008-03-08 12:42:18.000000000 Z
+title: Don't ever give out your email username/password
+body: "Here's [a tale of what can happen when you give 3rd party software of any kind
+  the username and password to your email account][atwood].  I think it's absolutely
+  ridiculous that \"real\" applications like Facebook encourage this kind of behavior.
+  \ It trains people to believe that it's ok to give out your email username and password.
+  \ Luckily Google has taken steps to make this unnecessary by [providing a secure
+  way of getting your email contacts][contacts].  Hopefully this will catch on.\r\n\r\n[contacts]:
+  http://code.google.com/apis/contacts/\r\n[atwood]: http://www.codinghorror.com/blog/archives/001072.html"
+format: Markdown
+guid: 5563bc87-450a-4c36-8220-cc3b17333f23
+comments_count: 0

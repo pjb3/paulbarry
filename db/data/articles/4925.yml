@@ -1,0 +1,21 @@
+---
+id: 4925
+slug: quick-and-dirty-git-repository
+created_at: 2008-12-29 18:20:28.000000000 Z
+published_at: 2008-12-29 18:23:28.000000000 Z
+title: Quick and Dirty Git Repository
+body: "Do you have an app you want to keep in version control, put you don't want
+  to put it on Github?  Well, you can obviously use git to keep track of your versions,
+  but do you want some way to back it up?  Do you have a server you plan to deploy
+  the app to already setup with SSH keys and everything?  Assuming you already have
+  git installed on both your machine and the remote machine, here's all you need to
+  do:\r\n\r\n1. Create The Remote Git Repo\r\n\r\n        $ ssh yourusername@yourserver.com\r\n
+  \       $ mkdir yourproject.git\r\n        $ cd yourproject.git\r\n        $ git
+  --bare init\r\n\r\n\r\n2. Create The Local Git Repo, If You Haven't Already\r\n\r\n
+  \       $ git init\r\n        $ git add .\r\n        $ git commit -a \"Initial Checkin\"\r\n
+  \   \r\n3. Add The Remote Repo\r\n\r\n        $ git remote add origin yourusername@yourserver.com:yourproject.git\r\n
+  \   \r\n4. Push To the Remote Repo\r\n\r\n        $ git push origin master\r\n    \r\nNow
+  you have a full copy of the repo locally and on the server.\r\n"
+format: Markdown
+guid: f2ede2a7-cdff-4110-a39a-e773f05d5992
+comments_count: 2

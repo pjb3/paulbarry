@@ -1,0 +1,88 @@
+---
+id: 4862
+slug: acts-as-conference-day-1
+created_at: 2008-02-08 18:00:45.000000000 Z
+published_at: 2008-02-08 19:13:56.000000000 Z
+title: Acts as Conference - Day 1
+body: "The first day of [Acts as Conference][aac] is in the books.  I'm not going
+  to give a full summary of each presentation, just a couple of highlights that I
+  remember.  The first thing is that I won the [Engine Yard][ey] 3 slice configuration
+  for one year giveaway!  I'm super excited about that, but as everyone said to me
+  throughout the day \"What are you going to use it for?  Something good I hope!\".
+  \ I think I've got an idea for something good, but we'll see.\r\n\r\nFirst off,
+  [Ezra][ezra] gave a talk on [Merb][merb].  It was mostly a repeat of stuff for me,
+  although it was good to hear some of the ideas about the refactoring towards a 1.0
+  release.  \r\n\r\nNext up was [Evan Phoenix][evan].  He gave a talk about [Rubinius][rubinius],
+  which I believe, as do many others, is the [future de facto ruby interpreter][raganwald].
+  \ More than just that, it will open up a world other world of possibilities.\r\n\r\nAlthough
+  I love the idea of Rubinius, the most interesting parts of Evan's talk weren't about
+  Rubinius specifically.  First, he talked about how sometimes when you are banging
+  your head against the desk trying to come up with the best solution for some complex
+  problem, the best thing to do can be put on your iPod and take a walk:\r\n\r\n>
+  The unconscious mind is a better problem solver than the conscious mind\r\n\r\nThat's
+  a good quote.  The other point I took away from his talk is his philosophy about
+  how to build a vibrant community for an open source project.  For Rubinius, his
+  idea has been that any person that commits even the smallest patch gets commit rights.
+  \ The idea is that you want to \"hook developers in with a small patch\".  Once
+  you get them in doing small things, they will feel like it is fun and they are invested
+  in the project and they will go on to contribute more substantial features.  \r\n\r\nEvan
+  and Ezra's talks got me motivated to get involved.  During lunch I [discovered and
+  reported a small Merb bug][bug] and then [submitted a patch for it][patch], which
+  was accepted and merged in.  [Michael Ivey's \"So you want to contribute to Merb\"
+  article][ivey] was very helpful in figuring out how to get involved.\r\n\r\nAfter
+  that was [Neil Ford's][neil] presentation on Advanced DSLs in Ruby.  One neat technique
+  I picked up from this is how to use `instance_eval` to remove repetitive calls to
+  an object.  Say you have this:\r\n\r\n    class Foo\r\n      attr_accessor :foos\r\n
+  \     def add(s)\r\n        @foos ||= []\r\n        @foos << s\r\n      end\r\n
+  \   end\r\n\r\n    foo = Foo.new\r\n    foo.add \"bar\"\r\n    foo.add \"bang\"\r\n
+  \   foo.add \"baz\"\r\n    puts foo.foos\r\n\r\nTo avoid calling foo mutliple times,
+  you can refactor that out like this:\r\n\r\n    class Foo\r\n      attr_accessor
+  :foos\r\n      def initialize(&block)\r\n        @foos = []\r\n        instance_eval
+  &block\r\n      end\r\n      def add(s)\r\n        @foos << s\r\n      end\r\n    end\r\n\r\n
+  \   foo = Foo.new do\r\n      add \"bar\"\r\n      add \"bang\"\r\n      add \"baz\"\r\n
+  \   end\r\n    puts foo.foos\r\n\r\n\r\nIt seems contrived in this example, because
+  it is, but this can definitely be useful when creating internal DSLs.  \r\n\r\nI
+  liked his definition of internal vs. external DSLs.  Internal DSLs are DSLs that
+  you write on top of a host language, like Ruby, whereas an external DSL is a DSL
+  that is parsed, meaning you take a string, parse it and then do something.  Based
+  on that definition, I don't like the terms internal and external DSLs because of
+  the implications that come along with that.  I think the terms \"Hosted\" vs. \"Parsed\"
+  DSLs would be much clearer.  Just because it's an internal DSL doesn't mean that
+  you can't expose it to end users.  The whole point of a DSL is to allow end users
+  to define things like business rules.  Neil's opinion is that external DSLs can
+  be more flexible, but are usually harder to develop and evolve, but there are tools
+  coming out to make that easier, so keep an eye out for that.  \r\n\r\nThe next talk
+  was [Luke Francl][luke].  Someone asked him a question about pair programming and
+  I think he had a good point, which was that pair programming stops developers from
+  goofing off.  The example he gave is that when you are programming by yourself,
+  you might say \"I'll take 5 seconds to check out Reddit\", which inevitable turns
+  into 5 minutes.  You're not likely to do that with someone else sitting right next
+  to you.  It's true.  I think a thing to add is that pair programming acts as real
+  time code review.  In my experience, code review never happens, so pair programming
+  is good way to get that.  It is also a good way to get developer buy in.  Sometimes
+  you might have a developer create something by themselves and then another developer
+  sees it and says to themselves \"WTF, why would he do that this way!\".  If you
+  are there when the code gets written, you wil have a discussion with the developer,
+  so you will have that understanding, or possible have a better way to do it.\r\n\r\nNext
+  up was Peter Armstrong, who talked about getting Flex/Air to work with Rails and
+  how he is working on a [framework called Ruboss, which is a simpler alternative
+  to Carnigorm][ruboss].  Personally I don't think I'll be doing any Flex-related
+  stuff in the near future, I'll probably be looking into [ExtJS to try to create
+  a rich user experience][extjs].  I don't like the idea of writing code in ActionScript
+  and then compiling it.  I'd rather either write code in JavaScript or have the option
+  of generating the JavaScript dynamically with a \"hosted\" DSL written in Ruby.\r\n\r\nLastly
+  [Dan Benjamin][benjamin] wrapped up the day with a talk about simplicity and focusing
+  on the user experience.  It was a nice talk to cap off a day of technical talks.
+  \ I'll definitely be thinking more about simplicity and the user experience on my
+  upcoming projects.\r\n\r\n[aac]: http://www.actsasconference.com/\r\n[ey]: http://www.engineyard.com/\r\n[ezra]:
+  http://brainspl.at/\r\n[evan]: http://blog.fallingsnow.net/\r\n[merb]: http://merbivore.com\r\n[rubinius]:
+  http://rubini.us/\r\n[raganwald]: http://weblog.raganwald.com/2007/12/why-rubinius-matters-to-rubys-future.html\r\n[bug]:
+  http://merb.lighthouseapp.com/projects/7435/tickets/5-typo-in-app-gen-name\r\n[patch]:
+  http://github.com/wycats/merb-more/commit/d01f600e08830a1a1e7b24a31d79cee061d37a24\r\n[ivey]:
+  http://www.gweezlebur.com/2008/2/1/so-you-want-to-contribute-to-merb-core-part-1\r\n[neil]:
+  http://memeagora.blogspot.com/\r\n[luke]: http://justlooking.recursion.org/\r\n[ruboss]:
+  http://ruboss.com/ruboss-framework/\r\n[extjs]: http://extjs.com/\r\n[benjamin]:
+  http://danbenjamin.com/"
+format: Markdown
+guid: 9bc652fe-3c99-474d-a168-e81258617678
+comments_count: 4

@@ -1,0 +1,23 @@
+---
+id: 5239
+article_id: 4922
+created_at: 2008-12-20 06:07:54.000000000 Z
+url: http://pozorvlak.livejournal.com
+email: 
+author: pozorvlak
+ip: 80.192.29.204
+body: "I've eventually come to realise that when Haskell advocates use the phrase
+  \"type\", they don't mean the \"Is it a float? Is it an int?\" stuff that you're
+  used to, they mean any property of a program that can be verified by the compiler.
+  Intermediate-to-advanced Haskell usage appears to be all about identifying such
+  properties and encoding them into the type system. An easy example would be string
+  escaping in code to generate HTML: you have a type EscapedString and a function
+  escape :: String -> EscapedString, and declare all your HTML-outputting functions
+  to only accept EscapedStrings. Thus, failure to escape a string becomes a \"type
+  error\". In more complex cases, I have no idea how they find these invariants, and
+  still less of an idea how they ensure they've found enough: I'm currently trying
+  to pin dons down on the subject in <a href=\"http://www.reddit.com/r/programming/comments/7kd1d/the_myth_makers_1_scalas_type_types/lqr\">this
+  reddit thread</a>.\n\nBut anyway, Haskell has not one but two test frameworks, HUnit
+  and QuickCheck, so at least some Haskellers see the need for testing :-). HUnit
+  is what you're used to, but QuickCheck's a bit more interesting. "
+guid: 14723d13-1197-49e6-b4c9-ac302a503af1

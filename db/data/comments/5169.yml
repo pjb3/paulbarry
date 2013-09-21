@@ -1,0 +1,14 @@
+---
+id: 5169
+article_id: 4838
+created_at: 2008-08-02 15:29:09.000000000 Z
+url: 
+email: cecilthornhill@mac.com
+author: cecil
+ip: 72.185.228.73
+body: OK - found my isue thanks to a tail of the development log. Like many people
+  I am using restful_authentication (the plugin), and by default the controller uses
+  attr_accessible for security. If you (like me) are just getting into Rails and Ruby,
+  watch out for this. You must add the group_ids to the list of accessible parameters
+  to get the update to work.
+guid: 8ca2b1c6-cbdb-4b14-b128-1f1ff9446909

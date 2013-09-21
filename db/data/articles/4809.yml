@@ -1,0 +1,106 @@
+---
+id: 4809
+slug: using-activerecord-to-load-data-into-a-database
+created_at: 2007-03-19 18:10:27.000000000 Z
+published_at: 2007-03-19 18:33:24.000000000 Z
+title: Using ActiveRecord to Load Data into a Database
+body: "Anybody who has worked with database-driven web applications, written in any
+  language, has at some point had to write a script to load the data from one data
+  source to another.  I had to do that today, specifically load data stored in text
+  files into the back-end database of a Java/J2EE application.  Although I could have
+  written some Java code and used JDBC to do it, I figured I would try using the Ruby
+  on Rails ActiveRecord library instead.  It turned out to be very easy to use for
+  this kind of task.  One of the nice things about ActiveRecord is that although it
+  is part of Rails, you can easily use it in a standalone script outside of Rails.
+  \ Here's how I did it.\r\n\r\nFirst, let me explain the data I'm loading.  My database
+  has a products table and a reviews table.  Here's what they look like:\r\n\r\n    mysql>
+  desc products;\r\n    +-------+--------------+------+-----+---------+----------------+\r\n
+  \   | Field | Type         | Null | Key | Default | Extra          |\r\n    +-------+--------------+------+-----+---------+----------------+\r\n
+  \   | id    | bigint(20)   |      | PRI | NULL    | auto_increment |\r\n    | name
+  \ | varchar(255) | YES  |     | NULL    |                |\r\n    +-------+--------------+------+-----+---------+----------------+\r\n\r\n
+  \   mysql> desc reviews;\r\n    +--------------+--------------+------+-----+---------+----------------+\r\n
+  \   | Field        | Type         | Null | Key | Default | Extra          |\r\n
+  \   +--------------+--------------+------+-----+---------+----------------+\r\n
+  \   | id           | bigint(20)   |      | PRI | NULL    | auto_increment |\r\n
+  \   | product_id   | bigint(20)   |      |     | 0       |                |\r\n
+  \   | published_at | datetime     | YES  |     | NULL    |                |\r\n
+  \   | author       | varchar(255) | YES  |     | NULL    |                |\r\n
+  \   | title        | varchar(255) | YES  |     | NULL    |                |\r\n
+  \   | comments     | text         | YES  |     | NULL    |                |\r\n
+  \   +--------------+--------------+------+-----+---------+----------------+\r\n\r\nThese
+  tables and column names follow the rails naming conventions, which makes using ActiveRecord
+  easy in this case.  Now the data I need to load into these tables are in text files.
+  \ First there is one file called `products.txt` that looks like this:\r\n\r\n    http://www.foo.com?id=1
+  Product #1\r\n    http://www.foo.com?id=2 Product #2\r\n    http://www.foo.com?id=3
+  Product #3\r\n    http://www.foo.com?id=4 Product #4\r\n    http://www.foo.com?id=5
+  Product #5 \r\n\r\nAnd then there is one text file that contains the reviews for
+  each product.  The file is named after the id in the URL, so for example, the reviews
+  of Product #1 are in `product_1_review.txt`.  That file looks like this:\r\n\r\n
+  \   Suzy Q\r\n    Monday, March 12, 2007\r\n    This is a great product!\r\n    Lorem
+  ipsum dolor sit amet, consectetuer adipiscing elit...\r\n    Bob Smith\r\n    Saturday,
+  March 17, 2007\r\n    I loved it too!\r\n    Lorem ipsum dolor sit amet, consectetuer
+  adipiscing elit...    \r\n\r\nThe 4th line contains a lot of text data, I've truncated
+  it in this example.  The format is one column per line, in this order:\r\n\r\n    Author
+  Name\r\n    Published Date\r\n    Review Title\r\n    Review Comments\r\n\r\nI've
+  already got Ruby, Rails and the MySql Ruby drivers installed on my machine, so I've
+  got everything I need.  So let's write the script.\r\n\r\nFirst we start off with
+  including the libraries we're going to use:\r\n\r\n    require 'rubygems'\r\n    require_gem
+  'activerecord'\r\n    require 'date'\r\n\r\nNext we setup our ActiveRecord database
+  connection info:  \r\n\r\n    ActiveRecord::Base.establish_connection(\r\n        :adapter
+  \ => \"mysql\",\r\n        :host     => \"localhost\",\r\n        :database => \"foo\",\r\n
+  \       :username => \"foo\",\r\n        :password => \"foo\"\r\n    )\r\n\r\nPretty
+  self explanatory, as is much of this script.  Next, we'll define the classes that
+  we plan on using:\r\n\r\n    class Product < ActiveRecord::Base\r\n      has_many
+  :reviews\r\n    end\r\n    class Review < ActiveRecord::Base \r\n      belongs_to
+  :product\r\n    end\r\n\r\nAnd we can do that right in the script, the class definitions
+  don't need to be in their own file or anything.  So with this, now active record
+  knows to look up the metadata for these objects from the database, and we've got
+  out classes ready to use.  \r\n\r\nNext we're going to end up with a few nested
+  blocks.  I'll start with the outermost block:\r\n\r\n    ActiveRecord::Base.transaction
+  do\r\n        ...\r\n    end\r\n\r\nThis just wraps the whole operation in a database
+  transaction, so that if anything goes wrong, we rollback all previous statements.
+  \ Inside of that, we have the code to read each line of the `products.txt` file:\r\n\r\n
+  \   open(\"products.txt\").each_line do |product_line|\r\n        ...\r\n    end\r\n\r\nAgain,
+  I'm not sure how this could be any more self-explanatory, but for the record, this
+  opens the file `products.txt` and passes each line of it into a block, until the
+  file has no more lines.  Next we use a regular expression to parse out the id from
+  the url, and then create a product object using the name:\r\n\r\n    if md = /.*\\?id=(\\d+)\\s(.*)/.match(product_line)\r\n
+  \     product = Product.new(:name => md[2].strip)\r\n      product.save!\r\n\r\nStill
+  inside this if statement, we'll open the reviews text file for this product and
+  create a review for each review in the file:\r\n\r\n    reviews = File.new(\"product_#{md[1]}_reviews.txt\")\r\n
+  \   review = Review.new #Need to do this to put review variable in outer scope\r\n
+  \   reviews.each_line do |line|\r\n      case reviews.lineno%4\r\n      when 1\r\n
+  \       review = Review.new\r\n        review.product = product\r\n        review.author
+  = line.strip\r\n      when 2\r\n        review.published_at = Date.parse(line)\r\n
+  \     when 3\r\n        review.title = line.strip\r\n      when 0\r\n        review.comments
+  = line.strip\r\n        review.save!\r\n      end  \r\n    end\r\n\r\nFirst, you
+  see that this time I created a File object rather than using open.  This gives us
+  the value of lineno inside the each_line block.  We have to declare the review variable
+  first outside the iterator, or else the review variable inside the iterator would
+  be local to just the one iteration.  The case statement uses modulo on the line
+  number so that we get the data from each line, and then when on the 4th line, we
+  save the review.  The `parse` class method of Date \"just works\" with the date
+  format we have in our data, and it also works with a lot of other standard date
+  formats, but you can pass a date format to it if you have a unique format.  So that's
+  it, that's our whole script.  We add a could of `end` statements to close up the
+  blocks and we end up with this as the final version:\r\n\r\n    require 'rubygems'\r\n
+  \   require_gem 'activerecord'\r\n    require 'date'\r\n\r\n    ActiveRecord::Base.establish_connection(\r\n
+  \       :adapter  => \"mysql\",\r\n        :host     => \"localhost\",\r\n        :database
+  => \"foo\",\r\n        :username => \"foo\",\r\n        :password => \"foo\"\r\n
+  \   )\r\n\r\n    class Product < ActiveRecord::Base\r\n      has_many :reviews\r\n
+  \   end\r\n    class Review < ActiveRecord::Base \r\n      belongs_to :product\r\n
+  \   end\r\n\r\n    #wrap the whole operation in a transaction\r\n    ActiveRecord::Base.transaction
+  do\r\n      #Parse the main file\r\n      open(\"products.txt\").each_line do |product_line|\r\n
+  \       #Get the id and name of the product\r\n        if md = /.*\\?id=(\\d+)\\s(.*)/.match(product_line)\r\n
+  \         product = Product.new(:name => md[2].strip)\r\n          product.save!\r\n
+  \         reviews = File.new(\"product_#{md[1]}_reviews.txt\")\r\n          review
+  = Review.new #Need to do this to put review variable in outer scope\r\n          reviews.each_line
+  do |line|\r\n            case reviews.lineno%4\r\n            when 1\r\n              review
+  = Review.new\r\n              review.product = product\r\n              review.author
+  = line.strip\r\n            when 2\r\n              review.published_at = Date.parse(line)\r\n
+  \           when 3\r\n              review.title = line.strip\r\n            when
+  0\r\n              review.comments = line.strip\r\n              review.save!\r\n
+  \           end  \r\n          end\r\n        end\r\n      end\r\n    end\r\n\r\n"
+format: Markdown
+guid: cbaf23e7-0f80-4ca2-8155-d4e524fd6080
+comments_count: 0

@@ -1,0 +1,14 @@
+---
+id: 5124
+article_id: 4897
+created_at: 2008-04-29 11:28:53.000000000 Z
+url: http://codefluency.com
+email: bruce@codefluency.com
+author: Bruce Williams
+ip: 207.71.25.99
+body: |-
+  Good article; I'm a big fan of 1.9 myself.  I also don't think the number of people 'flocking' makes that big of a difference for an unstable version (I remember 1.7):
+
+  The 'hashrocket' use in Hash literals is [at least at this time] still supported, and you can even mix and match, although it's odd:
+    { foo: 1, :bar => 2, baz: 3 }
+guid: d4653043-368a-4ceb-86d4-ec43447911a0

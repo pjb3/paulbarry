@@ -1,0 +1,13 @@
+---
+id: 123
+article_id: 122
+created_at: 2006-09-21 00:10:14.000000000 Z
+url: ''
+email: ''
+author: David Sissitka
+ip: 24.28.18.244
+body: The Rails equivalent of Django's models would be migrations (And models, for
+  custom functions and the like.). As for Python, triple quotes delimit a string that
+  covers multiple lines. I believe the query returned 1L because there was one result
+  set, and t
+guid: 6301458d-2171-4aea-ac46-152ed0b11574

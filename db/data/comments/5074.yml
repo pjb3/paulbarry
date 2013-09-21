@@ -1,0 +1,19 @@
+---
+id: 5074
+article_id: 4808
+created_at: 2007-10-25 09:00:00.000000000 Z
+url: 
+email: 
+author: Jani
+ip: 81.22.162.228
+body: "If you decompile the .class file you'll see that you are using StringBuilder
+  on both append() and concat() methods:\n\n    private void concat()\n    {\n        String
+  s = \"\";\n        long l = System.currentTimeMillis();\n        for(int i = 0;
+  i < iterations; i++)\n            s = (new StringBuilder()).append(s).append(\"foo\").toString();\n\n
+  \       System.out.println((new StringBuilder()).append(\"String concat took \").\n\t\tappend(System.currentTimeMillis()
+  - l).append(\" ms\").toString());\n    }\n\n    private void append()\n    {\n        StringBuilder
+  stringbuilder = new StringBuilder();\n        long l = System.currentTimeMillis();\n
+  \       for(int i = 0; i < iterations; i++)\n            stringbuilder.append(\"foo\");\n\n
+  \       System.out.println((new StringBuilder()).append(\"String append took \").\n\t\tappend(System.currentTimeMillis()
+  - l).append(\" ms\").toString());\n    }"
+guid: 1e80a7be-351c-4d24-8b73-6862ef4c3769

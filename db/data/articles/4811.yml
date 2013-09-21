@@ -1,0 +1,14 @@
+---
+id: 4811
+slug: sql-on-rails
+created_at: 2007-04-02 08:07:15.000000000 Z
+published_at: 2007-04-02 08:09:19.000000000 Z
+title: SQL on Rails
+body: "[SQL on Rails][sor] takes the cake for geeky april fools jokes.  This is powerful
+  stuff:  \r\n\r\n    DECLARE @stuff = SELECT * from the_internet WHERE content LIKE
+  '%criteria%'\r\n\r\n>\"This is actually what google used when they first came on
+  the market\"\r\n\r\nTake the time to watch the [screencast][sor_sc], it's hilarious.\r\n\r\n[sor]:
+  http://www2.sqlonrails.org/\r\n[sor_sc]: http://screencast17.sqlonrails.org/video/screencast2.mov"
+format: Markdown
+guid: bd99f85f-5947-47b2-bf84-a5bdc2dce1ee
+comments_count: 0

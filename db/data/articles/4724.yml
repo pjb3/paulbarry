@@ -1,0 +1,21 @@
+---
+id: 4724
+slug: grails-is-not-a-rails-clone
+created_at: 2006-12-15 09:43:30.000000000 Z
+published_at: 2006-12-15 09:43:30.000000000 Z
+title: Grails is not a Rails clone
+body: "I just read [Graeme's post][rocher] post about JavaPolis 2006, and in it one
+  thing he mentions is that Grails \"is not just a Rails clone\".  For what I have
+  read about it so far, I agree with that statement.  I would go as far as to say
+  that Grails was probably a poor choice of name, because I think there a lot of Java
+  developers out there that took a look at rails, didn't like it, and then when they
+  hear Grails, they think \"A rails clone in Groovy/Java, why would I be interested
+  in that?\".\r\n\r\nGrails has a lot of features and architectural difference from
+  Rails that make it (I won't say better, so as to avoid a flame war) more attractive
+  to Java developers.  But I will say that I've ran into a few problems already just
+  trying to get a few simple examples working, not the least of which is subscribing
+  to the Grails mailing list.  Rather than post them here, I'll try to get my mailing
+  list issues worked out and get help over there.\r\n\r\n[rocher]: http://graemerocher.blogspot.com/2006/12/grails-javapolis-report.html"
+format: Markdown
+guid: 9490182e-6a44-4207-b222-bc7f0e3432c1
+comments_count: 0

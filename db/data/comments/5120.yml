@@ -1,0 +1,18 @@
+---
+id: 5120
+article_id: 4838
+created_at: 2008-04-28 16:32:05.000000000 Z
+url: 
+email: 
+author: sw0rdfish
+ip: 68.179.14.113
+body: |+
+  Thanks Paul,
+
+  I checked around and I'm pretty sure it's returning strings... Its' weird because if I have no Memberships ( Groups ) already defined, I don't think it even goes into the loop... even though I choose two new ones.
+
+  And if the user already has groups, which I call roles, the user is removed from, and then re-added to the same group he was already a member of, regardless of which boxes I check off.
+
+  I should have stuck with HABTM, but now I'm curious.
+
+guid: 066f303d-f7cc-43ad-a025-0f34a7d6e7a4

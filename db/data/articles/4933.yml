@@ -1,0 +1,60 @@
+---
+id: 4933
+slug: write-everything-twice-and-because-what-if-i-need-it-later
+created_at: 2009-04-01 08:08:54.000000000 Z
+published_at: 2009-04-01 08:25:49.000000000 Z
+title: '"Write Everything Twice" and "Because What If I Need It Later"'
+body: "Programmers are concerned with the number of lines of code they write in their
+  programs.  There is this idea that the fewer lines of code you write the better.
+  \ This is a hold over from the days of tiny hard drives measured in Kilobytes, a
+  far cry from today's standard of measuring hard drives in hundreds of Gigabytes
+  or even Terabytes.  We no longer need to convolute our programs with abstractions
+  simply to save on the number of lines.  This is why I'm advocating the \"Write Everything
+  Twice\", or the WET principle.  The next time you have a method or function in your
+  code that does something and you want to use that function in another place in your
+  code, but have it function slightly different, just simply copy and paste the original
+  method and alter the copy.  You've heard it said time and time again.  Disk space
+  is cheap, which in turn means lines of code are cheap.\r\n\r\nAnother closely related
+  principle is \"Because What If I Need It Later\", or BWIINIL (pronounced ba-WIN-null).
+  \ Many programmers are lazy in that when they develop an application, they sometimes
+  only write the code for that features that they think they need at that moment.
+  \ What they don't realize is that there is significant mental cost of switching
+  back into the context of that part of the code a later date.  Any time you are writing
+  code you should say to yourself \"What else might I need later?\".  \r\n\r\nOne
+  particularly good way to apply the BWIINIL principle is to get the book [Design
+  Patters: Elements of Reusable Object-Oriented Software][dp], which is more commonly
+  know as the [Gang of Four][gof] book, and attempt to apply every pattern in the
+  book to every method you write.  This will allow you to insert layers upon layers
+  of abstraction and indirection that may seem like overkill at first, but will come
+  in handy some day when you are adding new features.\r\n\r\nHere's an [excellent
+  real word example taken from Uncyclopedia][uncyc].  We'll all familiar with this
+  trivial implementation of HelloWorld in Java:\r\n\r\n    public class HelloWorld
+  {\r\n        public static void main(String[] args) {\r\n            System.out.println(\"Hello,
+  World!\");\r\n        }\r\n    }\r\n\r\nThis kind of code is often included in books
+  about Java, which is understandably watered down for programmers first learning
+  Java.  But if you really want to graduate to that next level and write a professional,
+  enterprise-ready implementation of Hello World, you need this:\r\n\r\n    interface
+  Printer {\r\n        void print(Message message);\r\n    }\r\n\r\n    class Message
+  {\r\n        private String message;\r\n\r\n        public Message(String message)
+  {\r\n            this.message = message;\r\n        }\r\n\r\n        public void
+  print(Printer printer) {\r\n            printer.print(this);\r\n        }\r\n\r\n
+  \       public String toString() {\r\n            return message;\r\n        }\r\n
+  \   }\r\n\r\n    abstract class AbstractPrinterFactory {\r\n        public static
+  AbstractPrinterFactory getFactory() {\r\n            return new SystemOutPrinterFactory();\r\n
+  \       }\r\n\r\n        public abstract Printer getPrinter();\r\n    }\r\n\r\n
+  \   class SystemOutPrinterFactory extends AbstractPrinterFactory {\r\n        public
+  Printer getPrinter() {\r\n            return new SystemOutPrinter();\r\n        }\r\n
+  \   }\r\n\r\n    class SystemOutPrinter implements Printer {\r\n        public void
+  print(Message message) {\r\n            System.out.println(message);\r\n        }\r\n
+  \   }\r\n\r\n    class HelloWorld {\r\n        public static void main(String[]
+  args) {\r\n            Message message = new Message(\"Hello, World!\");\r\n            AbstractPrinterFactory
+  factory = AbstractPrinterFactory.getFactory();\r\n            Printer printer =
+  factory.getPrinter();\r\n            message.print(printer);\r\n        }\r\n    }\r\n\r\nAlso
+  make sure to include UML class diagrams that shows how these components interact.
+  \ Once you learn to embrace the WET and BWIINIL principles and apply them to your
+  everyday coding, I'm sure you'll quickly see an increase in the quantity...er, I
+  mean....quality of your code.\r\n\r\n[dp]: http://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional/dp/0201633612/ref=sr_11_1?ie=UTF8&qid=1238586549&sr=11-1\r\n[gof]:
+  http://en.wikipedia.org/wiki/Design_Patterns_%28book%29\r\n[uncyc]: http://uncyclopedia.wikia.com/wiki/Java#public_class_ExampleCode_extends_Java_throws_EveryExceptionUnderTheSUN_.7B"
+format: Markdown
+guid: 0beef3a0-fdb1-4e75-9386-d3e776697991
+comments_count: 2

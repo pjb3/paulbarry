@@ -1,0 +1,54 @@
+---
+id: 4935
+slug: the-busy-rails-developers-intro-to-rake
+created_at: 2009-04-20 21:22:50.000000000 Z
+published_at: 2009-04-20 22:02:25.000000000 Z
+title: The Busy Rails Developer's Intro To Rake
+body: "This is just a quick 60 second intro to [Rake][rake].  If you are doing development
+  with [Ruby on Rails][ror], you undoubtedly use Rake on a daily basis.  For example,
+  you use `rake db:migrate` to run your migrations or `rake test:units` to run your
+  unit tests.  But do you know how to write your own Rake tasks?  If you never have
+  done that, you might hesitate to write a rake task instead thinking you ran just
+  write a quick ruby script rather than take the time to figure out how to write a
+  Rake task.\r\n\r\nSo to create a rake task, in an existing Rails app, create a file
+  called `lib/tasks/app.rake`.  You can name it whatever you want as long as it ends
+  in `.rake`.  I'm choosing to use `app` because we are going to write some app-specific
+  tasks.  In the file, put this:\r\n\r\n    task :hello_world\r\n\r\nNow from the
+  command line you can run your task with `rake hello_world`.  Nothing happens, but
+  it runs.  Now let's have it print hello world:\r\n\r\n    task :hello_world do\r\n
+  \     puts \"Hello, World!\"\r\n    end\r\n\r\nNow when you run your task, it prints
+  \"Hello, World!\".  Let's add a description to our task to let people know what
+  it does:\r\n\r\n    desc \"Prints 'Hello, World!'\"\r\n    task :hello_world do\r\n
+  \     puts \"Hello, World!\"\r\n    end\r\n\r\nNow if you run `rake -T`, you will
+  see your hello_world task in the list of tasks.  `rake -T` only shows tasks that
+  have a description.  You can also run `rake -D hello_world` to see the full description
+  of the task.  You should give all of your tasks that you expect users to run from
+  the command-line a description.\r\n\r\nNow a problem with our task is what happens
+  if someone else wants to write a task named `hello_world`?  Well, we would have
+  a namespace problem.  So what we want to do is put all of our tasks into the `app`
+  namespace:\r\n\r\n    namespace :app do\r\n      desc \"Prints 'Hello, World!'\"\r\n
+  \     task :hello_world do\r\n        puts \"Hello, World!\"\r\n      end\r\n    end\r\n\r\nSo
+  now we can run our task as `rake app:hello_world`.  \r\n\r\nSo this is obviously
+  not a real task. Let's say we want to know what the load path of our app looks like.
+  \ Easy, we'll just do this:\r\n\r\n    namespace :app do\r\n      desc \"Prints
+  load path of this app\"\r\n      task :load_paths do\r\n        Rails.configuration.load_paths.each
+  do |p|\r\n          puts p\r\n        end\r\n      end\r\n    end\r\n\r\nWhen you
+  try to run this rake tast, you will get this error:\r\n\r\n    rake aborted!\r\n
+  \   uninitialized class variable @@configuration in Rails\r\n\r\nThe problem is
+  that by default, a rake task doesn't load the Rails environment.  It's easy to tell
+  it to do that with this:\r\n\r\n    namespace :app do\r\n      desc \"Prints load
+  path of this app\"\r\n      task :load_paths => :environment do\r\n        Rails.configuration.load_paths.each
+  do |p|\r\n          puts p\r\n        end\r\n      end\r\n    end\r\n\r\nBy saying
+  `:load_path => :environment`, you are saying that the load_path task depends on
+  the environment being loaded.  Or more specifically, you are saying \"run the environment
+  task before running this task\".  There is a task called \"environment\", and it
+  loads the Rails environment.  You won't see it under `rake -T`, because it has no
+  description because it is not a task you should run directly, only as a dependency
+  of other tasks.  \r\n\r\nNow that we have the Rails environment loading, when you
+  run the rake task, you will get the output you expect.  If you make your task depend
+  on environment, you will also be able to access your models from within your task.
+  \ Now that you know the basics of Rake, you can easily get going making Rake tasks
+  for your Rails app. \r\n\r\n[rake]: http://rake.rubyforge.org\r\n[ror]: http://rubyonrails.org"
+format: Markdown
+guid: f5f8c295-b9fe-480c-803f-a82ba38a2969
+comments_count: 4

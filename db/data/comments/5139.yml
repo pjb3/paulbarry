@@ -1,0 +1,15 @@
+---
+id: 5139
+article_id: 4889
+created_at: 2008-05-15 10:25:52.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 68.167.146.251
+body: |-
+  @James
+
+  That is true, this example was meant to mostly show how to download the image and use caching.  For a real app, I would use attachment_fu and store the file data in a separate table, and attachment_fu supports that with the db_file option.  The only time you even load that record would be in this controller, when the file gets cached.
+
+  One advantage of keeping the data in the DB is that there are no extra operations required to keep the file on the file system and record in the DB in sync.  Also, you can just backup your database and you get the file data right along with it.  Also if you have more than one app server, the file data is stored in a central location.  But on a large app, storing a lot of file data in the DB could make the DB harder to manage, so storing the file data on a shared file system would make more sense.  But for small to medium sites, as long as you keep the file data in a separate table from the record that has the data about the file, I prefer to keep everything the DB, YMMV.
+guid: c03b839f-9f53-45c6-ac07-e5ea73b5197f

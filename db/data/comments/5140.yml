@@ -1,0 +1,18 @@
+---
+id: 5140
+article_id: 4888
+created_at: 2008-05-15 10:34:39.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 68.167.146.251
+body: "@James\n\nThanks for the feedback.  Rake tasks might be a better way to go,
+  I'll have to try that.  I like using the pipe-separated, because it doesn't require
+  any library at all and I kind of just got used to doing in other languages, like
+  Perl and Java.  It seems pragmatic to me because doing line.split(\"|\") is so trivial
+  and you can do that in any language without relying on a library that may or may
+  not be installed.  There might be some cases where FasterCSV would be a good option,
+  but using pipe-separated works well in simple cases for me.  \n\nBut as far as the
+  boilerplate code, you are right, less code is better code, so I'll look into ways
+  of eliminating the unnecessary complication."
+guid: ff9b659c-f10c-41ed-9fc3-9e93e3c1f306

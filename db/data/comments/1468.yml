@@ -1,0 +1,13 @@
+---
+id: 1468
+article_id: 280
+created_at: 2006-11-02 13:37:34.000000000 Z
+url: ''
+email: ''
+author: Brandon Corfman
+ip: 128.63.24.9
+body: I'm no web guy, but Django's method of OR mapping seems sub-optimal and not
+  very pythonic to me. I would imagine that is one reason why SQLAlchemy is being
+  integrated into Django ... it separates the table definitions/types from the Python
+  classes used to
+guid: 764b466c-3949-4d02-8dc7-4868792f896b

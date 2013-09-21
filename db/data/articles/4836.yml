@@ -1,0 +1,39 @@
+---
+id: 4836
+slug: describing-models-in-rails
+created_at: 2007-10-15 20:27:44.000000000 Z
+published_at: 2007-10-15 20:29:21.000000000 Z
+title: Describing models in Rails
+body: "One of the common complaints of Rails is that you can't see what the attributes
+  of an object are without opening up your database client.  Well, here's a way to
+  do it in the irb console.  Just put this into your .irbrc file:\r\n\r\n    module
+  ActiveRecord\r\n      class Base\r\n        def self.desc\r\n    \r\n          fields
+  = [:name, :sql_type, :null]\r\n          headers = { fields[0] => 'Field', \r\n
+  \           fields[1] => 'Type', \r\n            fields[2] => 'Null'\r\n          }\r\n
+  \    \r\n          lengths = {}\r\n          headers.each{|k,v| lengths[k] = v.length
+  }\r\n    \r\n          data = self.columns.collect do |c|\r\n            values
+  = []\r\n            fields.each do |f|\r\n              v = c.send(f)\r\n              values
+  << v\r\n              lengths[f] = v.to_s.length if lengths[f] < v.to_s.length\r\n
+  \           end\r\n            values\r\n          end\r\n\r\n          sep = \"+\"\r\n
+  \         fields.each{|f| sep << \"-\"*(lengths[f]+2)+\"+\" }\r\n\r\n          #Headers\r\n
+  \         str = sep+\"\\n|\"\r\n          fields.each do |f| \r\n            str
+  << \" #{headers[f]} \"\r\n            pad = lengths[f]-headers[f].length\r\n            str
+  << \" \"*pad if pad > 0\r\n            str << \"|\"\r\n          end\r\n          str
+  << \"\\n#{sep}\\n\"\r\n    \r\n          #Data\r\n          for row in data do\r\n
+  \           str << \"|\"\r\n            row.each_with_index do |f, i|\r\n              str
+  << \" #{f} \"\r\n              pad = lengths[fields[i]]-f.to_s.length\r\n              str
+  << \" \"*pad if pad > 0\r\n              str << \"|\"        \r\n            end\r\n
+  \           str << \"\\n\"\r\n          end\r\n    \r\n          str << \"#{sep}\\n\"\r\n
+  \   \r\n          puts str\r\n    \r\n        end\r\n      end\r\n    end\r\n\r\nAnd
+  then run `script/console` from the root of your rails app, and then just call the
+  `desc` class method on any of your models, like this:\r\n\r\n    >> User.desc\r\n
+  \   +------------+--------------+-------+\r\n    | Field      | Type         | Null
+  \ |\r\n    +------------+--------------+-------+\r\n    | id         | int(11)      |
+  false |\r\n    | username   | varchar(255) | false |\r\n    | first_name | varchar(255)
+  | true  |\r\n    | last_name  | varchar(255) | true  |\r\n    | password   | varchar(255)
+  | true  |\r\n    | email      | varchar(255) | true  |\r\n    +------------+--------------+-------+\r\n\r\nAnd
+  you get a MySQL like print out of your database table, regardless of which kind
+  of database you are using.\r\n"
+format: Markdown
+guid: 712b336f-b9c6-4d98-af0d-5e2e588254a6
+comments_count: 2

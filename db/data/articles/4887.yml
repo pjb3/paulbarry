@@ -1,0 +1,71 @@
+---
+id: 4887
+slug: sending-liquid-based-email-with-rails
+created_at: 2008-04-19 07:03:39.000000000 Z
+published_at: 2008-04-19 07:07:24.000000000 Z
+title: Sending Liquid-based Email with Rails
+body: "Many applications send emails out to users when certain actions happen, such
+  as placing an order.  Sometimes the contents of those emails can change frequently,
+  so it is a nice feature is to be able to give the administrative users of your system
+  a way to change the contents of those emails.\r\n\r\nOne way to do it is to use
+  the Liquid templating language.  The reason Liquid is a good choice is that Liquid
+  is \"non-evaling\", which means you can just execute arbitrary Ruby code from within
+  a Liquid template.  This isn't true of ERB, for example, where you could just put
+  `<% something_evil %>` in the middle of a template and it would get executed.  So
+  if you were to give your users a way to edit the the template and it was using ERB,
+  you would have a potential security problem.\r\n\r\nSo create a rails app:\r\n\r\n
+  \   $ rails liquid\r\n    \r\nThen make sure you have the liquid gem installed:\r\n\r\n
+  \   $ sudo gem install liquid\r\n    \r\nThen require liquid in your config/environment.rb
+  (sidenote: [edge rails has a better way of doing this][edge-gems])\r\n\r\n    require
+  'liquid'\r\n    \r\nNext we'll create the model and interface for letting users
+  edit the mail templates:\r\n\r\n    $ script/generate scaffold mail_template name:string
+  body:text\r\n    $ rake db:migrate\r\n    \r\nNow you can create a new mail template
+  through the browser or just using IRB:\r\n\r\n    $ script/console\r\n    >> MailTemplate.create!(:name
+  => \"order_confirmation\", \r\n      :body => \"Dear {{name}},\\n\\nThank you for
+  your order!\")\r\n\r\nThere you can see the very basic syntax of a Liquid template.
+  \ The `{{name}}` is a variable that will get replace with content when we render
+  the template.  Now we'll generate a mailer:\r\n\r\n    $ script/generate mailer
+  OrderMailer order_confirmation\r\n\r\nNow we have to modify the OrderMailer to use
+  our Liquid template stored in the database.  Edit `app/models/order_mailer.rb` so
+  that it has the following contents:\r\n\r\n    class OrderMailer < ActionMailer::Base\r\n\r\n
+  \     def order_confirmation(sent_at = Time.now)\r\n        @from       = 'orders@yoursite.com'\r\n
+  \       @recipients = 'some_customer@whatever.com'\r\n        @subject    = 'Order
+  Confirmation'\r\n        @body       = {\"name\" => \"Paul\"}\r\n        @sent_on
+  \   = sent_at\r\n        @headers    = {}\r\n      end\r\n  \r\n      def render_message(method_name,
+  body)\r\n        mail_template = MailTemplate.find_by_name(method_name)\r\n        template
+  = Liquid::Template.parse(mail_template.body)\r\n        template.render body\r\n
+  \     end\r\n  \r\n    end\r\n\r\nThe `order_confirmation` method should look familiar,
+  it is the almost the same as it would be for any regular mailer.  One caveat is
+  that Liquid expects the keys in the context hash that you pass to it to be strings,
+  not symbols.  The `@body` instance variable is the context hash that will be passed
+  to Liquid.  Those are the variables that you will have access to when the template
+  renders.\r\n\r\nThe real work is happening in the `render_message` method.  This
+  is the method that the mailer calls when delivering your message.  Normally you
+  don't need to override this method, it takes care of finding the ERB template and
+  rendering it for you.  We can override it here to look for our Liquid template from
+  the database.  The first argument to the method will be set to the method name of
+  the mailer, which in this case is `order_confirmation`.  The second argument will
+  be the value that we set `@body` to in the `order_confirmation` method.  This makes
+  for a pretty clean way of doing this, hooking in our Liquid functionality using
+  the standard object-oriented technique of overriding a method, [no monkey patching
+  required, which should make Avdi proud][avdi]!\r\n\r\nMake sure you've started the
+  app with `script/server` and then go into `script/console` and enter this:\r\n\r\n
+  \   >> OrderMailer.deliver_order_confirmation\r\n\r\nNow in the output from `script/server`,
+  you should see something like this:\r\n\r\n    Sent mail:\r\n     Date: Sat, 19
+  Apr 2008 06:41:53 -0400\r\n    From: orders@yoursite.com\r\n    To: some_customer@whatever.com\r\n
+  \   Subject: Order Confirmation\r\n    Mime-Version: 1.0\r\n    Content-Type: text/plain;
+  charset=utf-8\r\n\r\n    Dear Paul,\r\n\r\n    Thank you for your order!\r\n\r\nEditorial:
+  \ 4 years ago, [Matt Raible][raible] posted an article to the The Server Side titled
+  [Sending Velocity-based Email with Spring][tss].  Consider this the Ruby equivalent
+  to that article.  Compare the amount of code/configuration required to accompish
+  this task in Java/J2EE vs. Ruby on Rails.  Also, the Ruby version is more complicated
+  because it involves storing/retrieving the templates from the database rather than
+  the file system.  If we were just retrieving the templates from the file system,
+  this probably would have been a 2 line article.  This is just another example of
+  how much simpler Rails makes things when compared to Java/J2EE.\r\n\r\n[raible]:
+  http://raibledesigns.com\r\n[tss]: http://www.theserverside.com/tt/blogs/showblog.tss?id=SpringVelocityEmail\r\n[liquid]:
+  http://www.liquidmarkup.org\r\n[edge-gems]: http://ryandaigle.com/articles/2008/4/1/what-s-new-in-edge-rails-gem-dependencies\r\n[avdi]:
+  http://avdi.org/devblog/2008/02/23/why-monkeypatching-is-destroying-ruby/"
+format: Markdown
+guid: 204fae7a-849b-4d39-a892-7f48efb2babb
+comments_count: 2

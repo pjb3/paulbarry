@@ -1,0 +1,16 @@
+---
+id: 5060
+article_id: 4806
+created_at: 2007-04-25 20:36:04.000000000 Z
+url: 
+email: jbsteadman@google.com
+author: JB
+ip: 65.57.245.11
+body: "@Maritn\n\nTo clarify my previous comments on Sessions, in order to inject
+  a Session into a long-lived Dao, for example, you should set up a request-scoped
+  binding from Session.class to your Provider<Session>. Then each time your Dao asks
+  its Provider for a Session, you will get the Session that belongs to the current
+  request. \n\nThis assumes a one-to-one relationship from Session to web request,
+  which is what our app needs. If you have different needs, I imagine you could handle
+  them with differnt scoping."
+guid: b3d8fc01-2e0f-4c52-9d62-14892c753bf8

@@ -1,0 +1,39 @@
+---
+id: 7
+slug: struts-is-still-on-top
+created_at: 2006-03-10 19:50:00.000000000 Z
+published_at: 2006-03-10 19:50:00.000000000 Z
+title: Struts is still on top
+body: "According to poll conducted by JBoss, Struts is still the number one web framework,
+  and by a convincing margin at 59%.  Second place is Java Server Faces at 35% and
+  Spring MVC is at 26%.  I'm surprised to see WebWork so low down at 5%.  There seems
+  to be a lot of discussion about WebWork, I would have thought it would be higher
+  than Spring MVC.  I thought no one uses Spring MVC.  And I am also surprised to
+  see Struts so high.  I would have thought most people would have moved on from Struts
+  by now.\r\n\r\nMy personal experience with MVC frameworks is pretty simple.  I first
+  start to learn the MVC pattern with Struts, which I think many other people did
+  because it was the first mature MVC product to gain significant mindshare.  Struts
+  had some limitations, but was certainly better than building your own web framework.
+  \ I developed a couple of apps using Struts, happily creating ActionForms and using
+  a mix of the struts tags and JSTL (it was in 1.1 in those days) in my views.\r\n\r\nThen
+  I discovered Spring, which was more appealing simply from the standpoint that it
+  addresses the whole stack of your application, not just the web part.  When I first
+  started using Spring, I stuck with Struts for the web framework, partially because
+  the Spring MVC framework seemed confusing at first.  But the more I studied the
+  Spring MVC framework, I started to like the Data Binder and the way it treats GET
+  versus POST requests.  Also, the ability to easily plug in a different view layer
+  technology, such as velocity, which seemed infinately cleaner than JSP to me, made
+  me switch to Spring MVC.\r\n\r\nAt this point, I haven't felt compelled to actually
+  bother evaluating any of the other frameworks.  Spring seems at least \"good enough\"
+  at this point.  WebWork, JSF, Tapestry, Wicket, maybe some of these frameworks have
+  features that make them better.  But it takes time to get up to speed on new frameworks,
+  and it doesn't seem like it would be worth the time for me to invest in it at this
+  point.  \r\n\r\nAnd maybe that's exactly why Struts is still on top.  If you don't
+  take the time to really evaluate what else is out there, you'll always think what
+  you are using is good enough.  Well my personal experience has been that Spring
+  MVC has made me a more productive developer.  So if you haven't do so yet, check
+  out another framework, because it can make you a better developer too.  And I'll
+  make a pledge to myself to check out a few of the other web frameworks as well."
+format: Markdown
+guid: 2ee291de-cba6-4fab-9a26-8272808e1a0b
+comments_count: 0

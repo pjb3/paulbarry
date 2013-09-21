@@ -1,0 +1,73 @@
+---
+id: 4944
+slug: types-and-metaprogramming-can-we-have-both
+created_at: 2009-07-21 10:45:57.000000000 Z
+published_at: 2009-07-21 10:49:50.000000000 Z
+title: 'Types and Metaprogramming: Can We Have Both?'
+body: "Michael Feathers has posted a an excellent article called [Ending the Era of
+  Patronizing Language Design][feathers].  You should go read the whole article, but
+  the crux of the arguments boils down to:\r\n\r\n> The fact of the matter is this:
+  it is possible to create a mess in every language. Language designers can't prevent
+  it. All they can do is determine which types of messes are possible and how hard
+  they will be to create. But, at the moment that they make those decisions, they
+  are far removed from the specifics of an application. Programmers aren't. They can
+  be responsible. Ultimately, no one else can.\r\n\r\nI agree with Michael, but I
+  see it from a slightly different viewpoint.  The most common argument for static
+  typing is that it will prevent you from shooting yourself in the foot.  If your
+  program has syntax errors or type errors, the compiler will catch them for you.
+  \ These means that you can write less tests than you would need to write for the
+  same program written in a dynamically typed language.\r\n\r\nThis argument I completely
+  disagree with.  Having a spell checker doesn't mean you can proofread less.  No
+  amount of spell checking and grammar checking is going to prevent your writing from
+  having errors.  If you don't test your program, it will have errors.\r\n\r\nI like
+  looking at static typing in a more \"glass is half full\" sort of way.  The bigger
+  benefit of static typing is that the type system can be used as a mechanism to make
+  the code more self-descriptive.  Here's an analogy from [Real World Haskell][rwh-types]:\r\n\r\n>
+  A helpful analogy to understand the value of static typing is to look at it as putting
+  pieces into a jigsaw puzzle. In Haskell, if a piece has the wrong shape, it simply
+  won't fit. In a dynamically typed language, all the pieces are 1x1 squares and always
+  fit, so you have to constantly examine the resulting picture and check (through
+  testing) whether it's correct.\r\n\r\nI think the jigsaw puzzle analogy is even
+  better if you think about it a different way.  Think of a simple puzzle that is
+  made up of only nine pieces.  If each piece is a 1x1 square, you have to look at
+  the part of the picture on each piece to determine where it goes.  If you had a
+  puzzle with nine uniquely shaped pieces, you could solve the puzzle without looking
+  at the picture on each piece _at all_.  You could assemble the puzzle simply by
+  connecting the piece that fit together.\r\n\r\nWhen analyzing a program, \"looking
+  at the picture on the piece\" means reading the body of a method.  Let's take a
+  look at some Ruby code without looking at the body of the method.  Take for example,
+  these two method declarations:\r\n\r\n    def select(*args)\r\n    def select(table_name=self.class.table_name,
+  options={})\r\n\r\nThe first method gives us no hint as to what this method is,
+  whereas in the second example, we can start to see what's going on with this method.
+  \ What if the method signature looked like this:\r\n\r\n    SQLQueryResult execute(SQLQuery
+  query)\r\n\r\nIt should be obvious what this does.  So it should be clear that having
+  types in our method signatures is not the language's way of making sure we don't
+  make errors, but instead is a means for expressing the intent of how the code works
+  and how it should be used.\r\n\r\nThe problem is that this is not the only way of
+  making code more self-descriptive or easier to reason about.  The authors of [Structure
+  and Interpretation of Computer Programs][sicp] state:\r\n\r\n> A powerful programming
+  language is more than just a means for instructing a computer to perform tasks.
+  The language also serves as a framework within which we organize our ideas about
+  processes. Thus, when we describe a language, we should pay particular attention
+  to the means that the language provides for combining simple ideas to form more
+  complex ideas. Every powerful language has three mechanisms for accomplishing this:\r\n\r\n>
+  * primitive expressions, which represent the simplest entities the language is concerned
+  with,\r\n\r\n> * means of combination, by which compound elements are built from
+  simpler ones, and\r\n\r\n> * means of abstraction, by which compound elements can
+  be named and manipulated as units.\r\n\r\nThe meta-programming capabilities of Ruby,
+  which are on par with that of any other language, including Lisp, provide a powerful
+  means of abstraction.  ActiveRecord is a clear example of that:\r\n\r\n    class
+  Order < ActiveRecord::Base\r\n      belongs_to :customer\r\n      has_many :line_items\r\n
+  \   end\r\n\r\nCan statically typed languages provide a means of abstraction on
+  par with that of dynamic typed languages?  [Steve Yegge doesn't think so][yegge].
+  \ I'm not sure and I am in constant search of that answer.  The combination of meta-programming,
+  object-orientation and functional programming in Ruby provides a powerful means
+  of abstraction.  I would love to have all of that as well as a type system, so I
+  would hate to see the programming community [completely give up on static typing
+  and just declare that dynamic typing has won][martin].\r\n\r\n[mfeathers]: http://twitter.com/mfeathers\r\n[feathers]:
+  http://blog.objectmentor.com/articles/2009/07/13/ending-the-era-of-patronizing-language-design\r\n[yegge]:
+  http://www.youtube.com/watch?v=tz-Bb-D6teE\r\n[sicp]: http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-10.html\r\n[rwh-types]:
+  http://book.realworldhaskell.org/read/types-and-functions.html\r\n[martin]: http://railsconf.blip.tv/file/2089545/"
+format: Markdown
+guid: 38d8d98a-d4c7-4c01-b362-4e827ad92fa1
+comments_count: 5

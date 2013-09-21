@@ -1,0 +1,12 @@
+---
+id: 5328
+article_id: 4949
+created_at: 2009-09-03 19:39:32.000000000 Z
+url: http://blog.rictic.com/
+email: rictic@gmail.com
+author: Peter Burns
+ip: 208.68.111.135
+body: '@Jörg W Mittag - TCO is a language feature, not an implementation optimization.  If
+  recursive code might overflow the stack and it might not, then code can''t depend
+  on it, and recursion is best used quite sparingly.'
+guid: 64ce0615-5b88-40a0-8ad0-309250dfadfe

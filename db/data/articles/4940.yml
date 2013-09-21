@@ -1,0 +1,37 @@
+---
+id: 4940
+slug: programming-clojure
+created_at: 2009-06-28 12:34:35.000000000 Z
+published_at: 2009-06-28 12:37:44.000000000 Z
+title: Programming Clojure
+body: "<div style=\"float: left\"><img src=\"http://farm4.static.flickr.com/3550/3668736570_5d0528aaed_m.jpg\"
+  alt=\"Programming Clojure\" style=\"margin: 0 15px 15px 0\"/></div>\r\n\r\nA few
+  weeks ago I received my printed copy of [Programming Clojure][pc] by [Stuart Halloway][stu]
+  in the mail.  I had been a technical reviewer of the book so I was excited to see
+  it finally in print.  In case you haven't heard of it yet, [Clojure][clj] is a programming
+  language designed by Rich Hickey, a Lisp dialect, that runs on the Java Virtual
+  Machine and is designed support concurrent programming.\r\n\r\nClojure has [excellent
+  documentation][clj-doc] and Rich has posted [several great videos][clj-vids] of
+  talks he has given that cover the rational for Clojure as well as an introduction
+  into the major concepts.  I highly recommend that you watch those videos if you
+  haven't already because Rich does a great job explaining why concurrency is hard
+  using the typical Object-Oriented model that we program in today and how the features
+  of Clojure support a better model for concurrency.  Whether you are programming
+  in Java, C#, Erlang, Haskell, Python, Ruby, etc., you will probably be able to learn
+  something from these talks, and plus Rich is just an interesting guy to listen to.\r\n\r\nSo
+  after all that, you might be saying why do we need a book about Clojure?  The answer
+  is that although the documentation is good, it can be a little intimidating when
+  first learning Clojure.  For programmers with little or no Lisp or functional programming
+  experience, figuring out how to do basic things the idiomatic way in Clojure can
+  be a daunting task.  Stuart's book does an excellent job filling this gap.\r\n\r\nThe
+  book covers all the major feature of Clojure and is very up-to-date.  As a reviewer
+  I got to see the evolution of this book from revision to revision and it was amazing
+  to me to see how much work Stuart put in.  Chapters were often completely re-written
+  to keep up with changes in the language that occurred before it stabilized in a
+  1.0 release.  I think the final product greatly benefited from that work and is
+  an excellent resource for learning Clojure.  I encourage you to pick up a copy today.\r\n\r\n[pc]:
+  http://pragprog.com/titles/shcloj/programming-clojure\r\n[stu]: http://twitter.com/stuarthalloway\r\n[clj]:
+  http://clojure.org\r\n[clj-doc]: http://clojure.org/Reference\r\n[clj-vids]: http://clojure.blip.tv/posts?view=archive&nsfw=dc"
+format: Markdown
+guid: 032f1da0-1d0d-430f-aca3-9b2d2e16a182
+comments_count: 1

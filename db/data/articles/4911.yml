@@ -1,0 +1,70 @@
+---
+id: 4911
+slug: top-10-things-that-suck-about-the-iphone-3g
+created_at: 2008-07-23 18:02:17.000000000 Z
+published_at: 2008-07-23 18:32:01.000000000 Z
+title: Top 10 Things That Suck About the iPhone 3G
+body: "<img src=\"http://img.skitch.com/20080723-de3ithsjpp434ei8bmrn82n4i8.jpg\"
+  alt=\"Top Ten Things That Suck About the iPhone 3G\"/>\r\n\r\nFor the most part
+  I'm pretty happy with my new iPhone 3G, so this is meant to be constructive criticism.
+  \ I don't even compare my iPhone to the simple run-of-the-mill phone I was using
+  before.  That was a true cell phone, this is a handle-held computer that you can
+  make phone calls with.\r\n\r\n**10. No Internet Connection Sharing**\r\n\r\nIt would
+  be nice to be able to connect to the internet on a Macbook that has an iPhone connected
+  to it.\r\n\r\n**9. No Finder**\r\n\r\nThe standard web file upload capability is
+  disabled.  It would be nice if there were an [iPhone Finder app][finder], that let
+  you browse through a hierarchy of all files saved on the iPhone, including photos,
+  mp3s, apps, mail attachments, etc.  Also maybe have some way of transferring documents
+  like PDFs to the iPhone, and some way of viewing them as well as being able to upload
+  them to websites.\r\n\r\n**8. Video Recording**\r\n\r\nIt would be really nice to
+  be able to record and upload videos, even have live video chat, but I'm sure that's
+  a hardware/bandwidth limitation for now.\r\n\r\n**7. Lack of Openness**\r\n\r\nThe
+  iPhone SDK NDA has some pretty silly restrictions in it, as you can see from [Prag
+  Dave's recent fiasco][iphone-sdk].  Also, to distribute apps on the App Store, you
+  must pay $99 for a developer's license, even if you plan to give away your app for
+  free.  The fact is the Apple often behaves in the same monopolistic ways the Microsoft
+  does, but we generally give them a pass on it because they make great products.
+  \ It's like the typical story of the young upstart revolutionist gaining the support
+  of the people to overthrow the evil dictator, only to become the next evil dictator
+  himself.  Expect the anit-mac fanboy, free as in speech, Slashdot crew to jump all
+  over this once the [Android project][android] gets some traction.\r\n\r\n**6. Stability**\r\n\r\nApps
+  crash with some regularity and the whole OS will crash and restart as well sometimes.
+  \ The iPhone needs less crashes and when it does crash, crashing a little more gracefully
+  would be nice.\r\n\r\n**5. Flash**\r\n\r\nIf you could install Flash, you could
+  watch embedded videos from Vimeo, Blip.TV, ESPN Videos, etc.  Also, if you could
+  install Silverlight, you could watch MLB.TV, but that one is MLB.TV's fault, they
+  should have a native iPhone App.  3G probably doesn't give you enough bandwidth,
+  but it would still be nice to watch live baseball games when connected to WiFi.\r\n\r\n**4.
+  Real GPS**\r\n\r\nI don't know if it's a technical limitation or not, but we need
+  a TomTom/Garmin/VZ Navigator quality turn-by-turn, voice narrated GPS directions
+  app.  My crappy samsung phone had that:\r\n\r\n<object width=\"425\" height=\"344\"><param
+  name=\"movie\" value=\"http://www.youtube.com/v/yurqFgTIm3c&hl=en&fs=1\"></param><param
+  name=\"allowFullScreen\" value=\"true\"></param><embed src=\"http://www.youtube.com/v/yurqFgTIm3c&hl=en&fs=1\"
+  type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" width=\"425\" height=\"344\"></embed></object>\r\n\r\n**3.
+  AT&T**\r\n\r\nI switched to the iPhone from Verizon.  Quality of service is much
+  worse, I barely get a signal in my own house, which is a mile from downtown Baltimore.
+  \ So much for more bars in more places.\r\n\r\n**2. Copy & Paste**\r\n\r\nThe biggest
+  reason I need copy & paste is for passwords.  For password management, I use Password
+  Gorilla, which totally sucks, but runs on Windows and Mac.  A password manager is
+  a trivial app to write, so I would create one myself, but without cut & paste, there's
+  no way to make it work.  Even if you had cut & paste, you would need the next item.\r\n\r\n**1.
+  No Multitasking**\r\n\r\nFor example, I want to have Pandora running in the background
+  while I check my email.  I want to be logged into AIM so people can IM me while
+  I'm doing something else.  I want to be notified when I have new mail.  I want the
+  Twittervision and NetNewsWire icons to update to show me there are unread items,
+  but they can't until you can run more than one app at the same time.\r\n\r\nWhat
+  I want is Command+Tab.  You know how in Safari you press the bottom right button
+  and you can see all your pages, switch from one to the next?  That's what you need
+  for the whole OS.  You press the home button (the actual only real button, is that
+  called the home button?) and instead of closing the app you are running and taking
+  you back to the home screen, it gives you the Command+Tab/Safari like view of all
+  running apps.  You slide from one app to the next and pick which one to bring to
+  the foreground.  You press the home button again, then it takes you home.  Combine
+  that with Cut & Paste and the result would be a serious workflow/usability improvement.\r\n\r\nI
+  realize this means the OS needs better memory management and the hardware needs
+  more RAM, but I confident Apple can make that happen.\r\n\r\n[finder]: http://ifapp.wordpress.com/2008/07/03/idisk-is-the-new-finder-finder-in-iphone-4/\r\n[iphone-sdk]:
+  http://pragdave.blogs.pragprog.com/pragdave/2008/07/if-you-work-for.html\r\n[android]:
+  http://code.google.com/android/"
+format: Markdown
+guid: 92d7c58a-9021-4edc-9bb5-a8df29383cc4
+comments_count: 1

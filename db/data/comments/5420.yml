@@ -1,0 +1,13 @@
+---
+id: 5420
+article_id: 4881
+created_at: 2010-07-08 21:43:27.000000000 Z
+url: http://www.thebridalbell.com
+email: ''
+author: Randy
+ip: 198.175.55.5
+body: This has topic has crossed my mind a lot since coming over from j2ee and being
+  a ruby newbie.  The one thing that I can't wrap my head around is handling concurrent
+  users.  If my site consistently has say 2 concurrent users does that mean I need
+  to have two rails servers running to be able to adequately support them?
+guid: 6dc37563-73d3-49e5-ac48-20a4996ada92

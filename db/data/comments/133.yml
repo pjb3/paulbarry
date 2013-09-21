@@ -1,0 +1,13 @@
+---
+id: 133
+article_id: 122
+created_at: 2006-09-21 18:20:05.000000000 Z
+url: ''
+email: ''
+author: Duncan McGreggor
+ip: 67.176.2.187
+body: |-
+  David, the 1L may *represent* a boolean (I have no idea what the mysql lib is doing; I can't remember the last time I used mysql or the python bindings for it... long live efficient ORMs), but it really is a long int :-)
+
+  Paul, I'm hardly the person to as
+guid: 30f4c394-145c-4e6a-a4ba-e53f27c3e636

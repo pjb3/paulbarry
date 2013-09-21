@@ -1,0 +1,22 @@
+---
+id: 4851
+slug: macbookpro-new
+created_at: 2007-12-10 20:54:46.000000000 Z
+published_at: 2007-12-10 20:55:56.000000000 Z
+title: MacBookPro.new
+body: "I just got a new Macbook Pro and I'm slightly underwhelmed so far.  It didn't
+  have Leopard installed, it has Tiger.  Ok, not a big deal, but it is a slight annoyance,
+  considering Leopard has been out for over a month.  It did come with the Leopard
+  DVD, so no problem, I'll just install that.  So I pop in the DVD, reboot, and we're
+  back to the Welcome to Mac OS X 10.4 screen.  :(\r\n\r\nLuckily I stumbled across
+  [this article][macfixit] the says hold down \"C\" while it is booting to get it
+  to boot from DVD.  Or maybe the command key.  Oh, and if that doesn't work, then
+  try Command+Option+Shift+Delete.  Huh?  I know that white screen that comes up with
+  the grey apple is pretty and everything, but do you think they could have it detect
+  if you have a DVD in the drive, and if so, have it say \"Press the Apple Key to
+  boot from DVD\"?  It's always the little things.  Anyway, let's see if I can have
+  [Rails][rails] running by the end of the night.\r\n\r\n[macfixit]: http://www.macfixit.com/article.php?story=20050311073316780\r\n[rails]:
+  http://www.rubyonrails.com"
+format: Markdown
+guid: f1cf7cab-71c7-435e-a161-a2dde2e5c8e9
+comments_count: 0

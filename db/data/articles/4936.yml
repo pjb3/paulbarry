@@ -1,0 +1,105 @@
+---
+id: 4936
+slug: this-just-in-javascript-is-a-real-language
+created_at: 2009-05-11 14:05:39.000000000 Z
+published_at: 2009-05-11 14:15:32.000000000 Z
+title: 'This Just In: JavaScript is a Real Language'
+body: "Some people think of [JavaScript][js] as that crappy language that runs inside
+  of browsers.  The truth is that the languages is not that bad, aside from a few
+  warts (void, explicit return, [global by default][global-by-default], I'm looking
+  at you), it's pretty nice.  I think it's gotten a bad rap for a few reasons.  \r\n\r\nFirst
+  of all, the [DOM][dom].  Before modern JavaScript libraries like [jQuery][jquery]
+  and [Prototype][prototype-js] came along, developers were constantly pulling their
+  hair out dealing with incompatibilities across different browser implementations
+  of the DOM.  Modern libraries have done a lot to normalize behavior across browsers
+  and browser implementations have gotten better, but many developers still have bad
+  memories of dealing with \"JavaScript\" back in the day.  The truth was this wasn't
+  really a problem in JavaScript the language, more so the DOM and browser implementations.
+  \ If the language that Netscape put into the browser originally was Ruby, we would
+  blame Ruby for all of these problems too.\r\n\r\nNext, I think there was a whole
+  class of Java developers upset that [OO][oo] didn't work in JavaScript the way it
+  did in Java.  JavaScript wasn't considered a \"real\" OO language and was therefore
+  inferior to Java.  JavaScript has [it's own way of dealing with OO][prototype] and
+  the sooner you understand how that works, the more comfortable you will be with
+  JavaScript.\r\n\r\nIn the opposite way that many Java developers despised JavaScript,
+  many Ruby developers, including Java developers converted to Ruby developers, started
+  to appreciate JavaScript.  JavaScript has anonymous functions just like Ruby has
+  anonymous functions.  Ruby makes ubiquitous use of anonymous functions through blocks.
+  \ I think for many developers, Ruby was the first language they used that showed
+  how useful anonymous functions can be.  I think this is also the reason that you
+  see some many Ruby developers interested other functional languages like Erlang,
+  Haskell and Lisp.\r\n\r\nLastly, I think many developers don't see JavaScript as
+  a general purpose language simply because it's trapped inside the browser.  You
+  can't run a JavaScript script from the command line just like you can run a Ruby,
+  Python or Perl script.  \r\n\r\nWell, it turns out that last one isn't true and
+  I want to show you how to get started writing some JavaScript as a \"real\" language,
+  and specifically, a functional language.\r\n\r\nThe first thing you'll need is a
+  JavaScript interpreter.  There are many JavaScript interpreters available, such
+  as:\r\n\r\n * [SpiderMonkey][spidermonkey], the C-based JavaScript interpreter for
+  the Mozilla Gecko rendering engine\r\n * [V8][v8], the C++-based JavaScript interpreter
+  for the Google Chrome browser\r\n * [Rhino][rhino], the Java-based JavaScript interpreter.
+  \ \r\n\r\nLet's go with SpiderMonkey.\r\n\r\nIf you are on a mac and you want to
+  get up and running with SpiderMonkey, the easiest thing to do is `sudo port install
+  spidermonkey`.  \r\n\r\nIf you want to build it from source, [download the tarball][tarball]
+  and untar it somewhere on your machine.  I did that in the `src` directory in my
+  home directory.  Then you go into the `js/src` directory and run the make command.
+  \ Here's what that looks like:\r\n\r\n    cd ~/src\r\n    wget http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz\r\n
+  \   tar xvzf js-1.8.0-rc1.tar.gz\r\n    cd js/src\r\n    make -f Makefile.ref\r\n\r\nNow
+  you should have a directory like `Darwin_DBG.OBJ`, it will be named differently
+  if you aren't on a Mac.  Inside that directory there is a `js` program you can run.
+  \ To make life easier, add `~/src/js/src/Darwin_DBG.OBJ` to your path, or create
+  a symlink in `/usr/bin` to `~/src/js/src/Darwin_DBG.OBJ/js`.  \r\n\r\nNow either
+  way, whether you installed spidermonkey via mac ports or from source, you should
+  be able to just type `js` from the terminal and be at an interactive JavaScript
+  interpreter, with `js>` as the prompt:\r\n\r\n    $ js\r\n    js> print(\"Hello,
+  World\")\r\n    Hello, World\r\n\r\nYou can also run `js my_awesome_script.js` to
+  run a script saved in a file.  I have created a [textmate bundle that has a run
+  command for javascript files][js-tm].  If you install this, then you can press Cmd-R
+  to see the output of the file.\r\n\r\nSo now let's write a little JavaScript.  First
+  things first, open a file called `hello.js` in Textmate and put this into it:\r\n\r\n
+  \   print(\"Hello, World!\")\r\n    \r\nIf you've created the command properly,
+  you should see `Hello, World!` printed out.  If you aren't using Textmate, then
+  you will have to figure out how to get your editor to run the file.  Even if you
+  can't do that, it's as simple as running `js hello.js` from the command line.\r\n\r\nNow
+  we can write some real code.  What we want to focus on doing is functional programming.
+  \ Most of the basic functions for functional programming aren't defined in JavaScript
+  by default, but it's easy enough to write our own that handle the basic things.
+  \ Note that this kind of functional programming is going to be functional in that
+  we are going to pass functions to and return functions from functions, a.k.a higher-order
+  functions, but we aren't going to focus on other popular aspects of functional programming
+  such as immutable data and pure functions.  Baby steps.  :)\r\n\r\nSo the first
+  thing we need is some kind of implementation of an iterator function, because we're
+  not writing for loops.  Let's do something like Ruby's `each`:\r\n\r\n    function
+  each(f, arr) {\r\n      for(var i=0; i < arr.length; i++) {\r\n        f.apply(null,
+  [arr[i]])\r\n      }\r\n    }\r\n\r\nWhat this does is take a Function and an Array
+  and applies the Function to each element of the Array.  To test this out, let's
+  also add this line of code to test it:\r\n\r\n    each(print, [1,2,3,4,5])\r\n    \r\nYou
+  can see that we can pass the `print` function to each and have it print the numbers
+  from 1 to 5.  Ok, next up is `map`, which takes a Function and an Array and returns
+  a new Array which contains the result of applying the Function to each element of
+  the Array.\r\n\r\n    function map(f, arr) {\r\n      var result = []\r\n      each(function(e)
+  {\r\n        result.push(f.apply(null, [e]))\r\n      }, arr)\r\n      return result\r\n
+  \   }\r\n\r\nWe can test that out with:\r\n\r\n    print(map(function(e){\r\n      return
+  e * e\r\n    }, [1,2,3,4,5]))\r\n\r\nThis time, we are passing an anonymous Function
+  as the first argument to the `map` Function.  This Function takes one value and
+  multiplies it by itself, better know as `square`.  Now for our last trick, we will
+  do the functional programming equivalent of hello world, [fibonacci][fib]:\r\n\r\n
+  \   function fib(n) {\r\n      if(n <= 1) {\r\n        return n\r\n      } else
+  {\r\n        return fib(n-1) + fib(n-2)\r\n      }\r\n    }\r\n\r\nWe can test this
+  with:\r\n\r\n    each(print, map(fib, [1,2,3,4,5,6,7,8,9,10]))\r\n    \r\nHere's
+  the [entire code in one gist][gist].\r\n    \r\nNow that JavaScript is being viewed
+  as a \"real\" language, it's even got it's own [conference][jsconf]!  There's also
+  some [IRC channels devoted to JavaScript][irc] as well and of course, [Stack Overflow][so].
+  \ Happy JavaScripting!\r\n\r\n[js]: http://en.wikipedia.org/wiki/JavaScript\r\n[global-by-default]:
+  http://paulbarry.com/articles/2008/09/01/javascript-global-by-default\r\n[dom]:
+  http://en.wikipedia.org/wiki/Document_Object_Model\r\n[jquery]: http://jquery.com\r\n[prototype-js]:
+  http://prototypejs.org\r\n[oo]: http://en.wikipedia.org/wiki/Object_oriented\r\n[spidermonkey]:
+  https://developer.mozilla.org/en/SpiderMonkey\r\n[rhino]: https://developer.mozilla.org/en/Rhino\r\n[tarball]:
+  http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz\r\n[prototype]: http://blog.blainebuxton.com/2008/05/javascript-stop-fighting-it.html\r\n[fib]:
+  http://en.wikipedia.org/wiki/Fibonacci_number\r\n[gist]: http://gist.github.com/110072\r\n[jsconf]:
+  http://jsconf2009.com\r\n[irc]: https://developer.mozilla.org/en/SpiderMonkey#Community\r\n[so]:
+  http://stackoverflow.com/questions/tagged/javascript\r\n[js-tm]: http://github.com/pjb3/javascript.tmbundle\r\n[v8]:
+  http://code.google.com/p/v8/"
+format: Markdown
+guid: ccec2278-863f-4a2b-ab97-6354abf59721
+comments_count: 3

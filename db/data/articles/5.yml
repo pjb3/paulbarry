@@ -1,0 +1,44 @@
+---
+id: 5
+slug: better-web-apps
+created_at: 2006-03-21 00:17:00.000000000 Z
+published_at: 2006-03-21 00:17:00.000000000 Z
+title: Better Web Apps
+body: "There is an <a href=\"http://oodt.jpl.nasa.gov/better-web-app.mov\">interesting
+  movie</a> posted on the <a href=\"http://oodt.jpl.nasa.gov/wiki/display/oodt/Home\">NASA
+  Object Oriented Data Technology (OODT) Wiki</a> created by <a href=\"http://seankelly.tv/blog/blogentry.2006-02-16.2200699606\">Sean
+  Kelly</a>.  It compares Java/J2EE, Ruby on Rails, and a couple of Python frameworks.
+  \ The basic conclusion is J2EE sucks and any of the other frameworks are much more
+  productive.  Even though the video is 370MB and 36 minutes long, I suggest you watch,
+  if not just for the entertainment value.\r\n\r\nI did have a couple of questions/criticisms,
+  which I emailed to him.  Here they are:\r\n\r\nFirst of all, a two part question.
+  What do you mean by each of these things?\r\n\r\ndata collection - XML feeds? Querying
+  other systems for data?\r\ndata conversion - Converting data from what to what?\r\narchiving/aging
+  - ?\r\nquery optimization - SQL queries?\r\nmetadata mgmt - What metadata?\r\n\r\nAnd,
+  why is J2EE better for these things?\r\n\r\nSecondly, when you first start talking
+  about what the metrics are for a good framework, you say it should use convention
+  over configuration. To the best of my knowledge, this is a term that was pretty
+  much invented by and coined by the Ruby on Rails crew. (let me know if you think
+  otherwise). But anyway, you are saying convention over configuration is good. Then,
+  when you discuss the drawbacks of Ruby on Rails, you complain about having to use
+  the special naming convention for database tables and columns. Isn’t that just convention
+  over configuration in practice? Sure you have to write “more code” if you need to
+  support a legacy database schema, but isn't that true of the other frameworks as
+  well?\r\n\r\nAlso, I’m not sure that comparing Plone to Ruby on Rails is fair. Plone
+  is a CMS, which by nature will give you more features (authentication, authorization,
+  i18n, etc.). A CMS is not a web framework. A CMS is built on top of a web framework.
+  Web frameworks don’t have web interfaces to create pages, that’s what a CMS is for.
+  I think comparing Django or TurboGears to Ruby on Rails is more fair. AFAIK, there
+  is no CMS built in Ruby on Rails, so that makes Plone a clear winner in the Ruby
+  on Rails CMSes vs. Python/Zope CMSes, but doesn’t necessary make Python/Zope better
+  than Ruby on Rails.\r\n\r\nAnd lastly, when I get a free moment, I’m gonna have
+  to build the Java/J2EE version of the time tracker. 223 minutes seems a little bit
+  ridiculous. I don’t know about the lines of code, but my bet is that it can be done
+  is less than two hours, if not faster.\r\n\r\nBut overall, to some degree, I agree
+  with what you are saying. This is the same thing Bruce Tate is saying in his book
+  “Beyond Java”. Other dynamically typed, more object-oriented languages allow you
+  to build frameworks that are easier to use, and developers who use those frameworks
+  will see an increase in productivity. "
+format: Markdown
+guid: a240e3f8-2112-4731-93e8-07c2adeaf42b
+comments_count: 0

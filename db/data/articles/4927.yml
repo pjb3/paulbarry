@@ -1,0 +1,98 @@
+---
+id: 4927
+slug: simple-clarity-in-lisp
+created_at: 2009-01-07 16:29:34.000000000 Z
+published_at: 
+title: Simple Clarity in Lisp
+body: "Yesterday I was watching [a great talk on confreaks.com by Giles Bowkett called
+  \"Code Generation: The Safety Scissors of Metaprogramming\"][talk].  I've seen it
+  before, I think I watched it about 6 months ago, but I've done a lot more Lisp programming
+  since then, so the talk sunk in with me on a different level watching to it again.
+  \ One of the themes of the talk is that Lisp has this very powerful concept of code
+  as data, yet Lisp itself is not popular because it has too many parentheses and
+  no focus on clarity.  As I watch the talk again, I can't help but think that this
+  is exactly what [Clojure][clojure] is, Lisp with clarity.\r\n\r\n[Giles][giles]
+  has several slides where he shows code as data in the Ruby format:\r\n\r\n    code
+  == data\r\n    \r\nThen at some point, he pokes fun at Lisp by saying this is how
+  Lispers view that code:\r\n\r\n    (eq (code (data)))\r\n\r\nAnd if he's talking
+  about Common Lisp or Scheme, he's probably right.  But here is how that looks in
+  Clojure:\r\n\r\n    (eq code data)\r\n\r\nOk, so it probably looks that way in Common
+  Lisp and Scheme as well, put this sort of summarizes the difference between Clojure
+  and older Lisps in a nutshell.  \r\n\r\nSo if you don't know Lisp and you've been
+  avoiding it because people like Giles are telling you that all the power is wrapped
+  up in these mysterious parentheses, my suggestion is to put your preconceived notions
+  about Lisp aside and learn Clojure.  I think you've eventually see that Clojure
+  is actually easier to understand and comprehend than Ruby and certainly Java.\r\n\r\nI
+  think this is the ironic downside of Clojure being a Lisp.  There are all sorts
+  of wonderful things about Lisp, but Scheme and Common Lisp just got a lot of things
+  wrong.  Some people, like [Paul Graham][pg], for instance, were able to see the
+  wonderful things in Lisp and dismiss the bad things.  But even Paul Graham, probably
+  the biggest advocate for Lisp in world, saw that Common Lisp and Scheme are flawed,
+  so he has attempted to create his own Lisp dialect, [Arc][arc].\r\n\r\nSo the problem
+  for Clojure is that when people hear it is a Lisp for the JVM, they immediately
+  think about the parentheses and all the other baggage, and that is what Giles is
+  talking about.  I would even argue that because of these misconceptions, Clojure
+  being a Lisp probably hurts the adoption more than it helps.  In other words, if
+  there were no Lisp before Clojure and all of this were new, people would be more
+  likely to give Clojure a try.  So let me try and dispel some of those misconceptions.\r\n\r\nThe
+  first thing is getting rid of the historical baggage used for the names of things.
+  \ Two of the most fundamental functions in Lisp have ridiculous names that everyone
+  new to Lisp looks at and says \"WTF\"?  What I'm referring to is the infamous `car`
+  and `cdr` (pronounced could-er).  What do these functions do?  Oh, it's not obvious
+  from the name?  Well, `car` returns the first item from a list and `cdr` returns
+  everything but the first item as a list.  The [origin of these names is historical][carcdr],
+  yet they survive to this day.  Haskell chose the sensible names `head` and `tail`
+  for these functions, and Clojure chose `first` and `rest`.  I actually prefer Haskell's
+  names, but Clojure's are certainly much better than the traditional Lisp.\r\n\r\n`lambda`
+  is another similar example.  Lambda is probably not too much of a stretch for Ruby
+  programmers since Ruby choose to adopt the same name.  JavaScript choose to abandon
+  this tradition and go with `function`, which is much more sensible.  Clojure took
+  this a step further and chose `fn`, and obvious abbreviation for `function`.  The
+  abbreviation makes sense because anonymous functions are used so often in functional
+  languages.  When Lisp programmers come to Clojure, [they don't get any of this and
+  are upset that the traditional Lisp names aren't used][dontgetit].  This is why
+  Lisp has lived in relative obscurity, or as Giles put it \"wrapped up in the minds
+  of wizards\", for many years and conversely is why I think Clojure has a chance
+  to flourish.\r\n\r\nAnother example is `cond`.  `cond` is a function in most Lisps
+  that is a conditional statement, equivalent to a switch statement in most C-based
+  languages.  Here's an example of a scheme switch statement:\r\n\r\n    (cond ((>
+  x 0) \"Positive\")\r\n          ((< x 0) \"Negative\")\r\n          (else \"Zero\"))\r\n\r\nEven
+  with _all those parentheses_, I'm assuming you can understand what that does.  Now
+  here it is in Clojure:\r\n\r\n    (cond (> x 0) \"Positive\" \r\n          (< x
+  0) \"Negative\" \r\n          :else \"Zero\")\r\n\r\nClojure only requires you use
+  minimum amount of parentheses necessary.  It seems subtle in this small example,
+  but it makes a difference as programs grow larger.  \r\n\r\nAnother issue is with
+  `let`.  `let` is the typical Lisp function for creating local variables.  Lisp has
+  a few variants of `let`, one of the more popular ones being `let*`.  Can you guess
+  what `let*` does?  No, and neither can anyone else new to Lisp.  The answer is [here][let],
+  but don't go read that.  The short answer is that what you probably always want
+  and expect is `let*`.  In fact, in a lot of cases `let` will work, but `let*` will
+  always work, so there's no reason not to just use `let*` all the time.  So Clojure's
+  `let` behaves like the `let*` of other Lisps, because there's really no need for
+  the basic form of `let`.  This is level of pragmatism is pervasive in the design
+  of Clojure.\r\n\r\nOther example is the Common Lisp series of map functions.  There
+  are [mapc, mapcan, mapcar, mapcon, maphash, mapl and maplist][map].  Frankly I have
+  no idea what the difference between all these functions are, but there just can't
+  be the need for this many variants.  I think part of the problem is that Common
+  Lisp has to have different functions for different data structures, where as Clojure
+  treats everything as a seq, unifying the behavior of various data types.\r\n\r\nThese
+  are just a few examples of ways in which Clojure is clearer than Scheme or Common
+  Lisp.  If it were just these few examples, than it wouldn't be a big deal, but there
+  are lots of other examples similar to these.  I also didn't get into some of the
+  bigger decisions, such as Clojure being functional and based on immutable data types.
+  \ Lisp can be morphed into any paradigm of programming, functional, object-oriented,
+  etc.  These means that for any given Common Lisp program, you don't really know
+  which paradigm of programming will be used.\r\n\r\nSo does all this add to improved
+  code in larger programs?  It seems to.  [Peter Norvig's spelling corrector][spell]
+  gives us a chance to compare implementations of the same program in different Lisps.
+  \ There are two Scheme implementations submitted, one is 89 lines, the other 45
+  lines, and [the Clojure example][spell-clj] is just 18 lines, 3 shorter than the
+  Python example.\r\n\r\n[talk]: http://mwrc2008.confreaks.com/03bowkett.html\r\n[clojure]:
+  http://clojure.org\r\n[giles]: http://gilesbowkett.blogspot.com\r\n[let]: http://www.federated.com/~jim/schintro-v14/schintro_126.html\r\n[map]:
+  http://www.lispworks.com/documentation/HyperSpec/Body/f_mapc_.htm#mapc\r\n[carcdr]:
+  http://en.wikipedia.org/wiki/CAR_and_CDR\r\n[dontgetit]: http://groups.google.com/group/clojure/msg/cee416ecaea53048\r\n[spell]:
+  http://norvig.com/spell-correct.html\r\n[spell-clj]: http://en.wikibooks.org/wiki/Clojure_Programming/Examples#Norvig.27s_Spelling_Corrector\r\n[pg]:
+  http://paulgraham.com/lisp.html\r\n[arc]: http://paulgraham.com/arc.html"
+format: Markdown
+guid: 83ed419b-065e-48ed-81d4-eda3bc2376d2
+comments_count: 0

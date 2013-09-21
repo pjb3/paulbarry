@@ -1,0 +1,12 @@
+---
+id: 5207
+article_id: 4913
+created_at: 2008-09-25 04:41:53.000000000 Z
+url: http://henrik.nyh.se
+email: henrik@nyh.se
+author: Henrik N
+ip: 83.250.94.68
+body: |-
+  I do something similar but module-based (meaning it can be shared between different models) here:
+  http://henrik.nyh.se/2008/09/augmentations
+guid: 2a4485f6-b230-46ec-96c1-5d0202568e75

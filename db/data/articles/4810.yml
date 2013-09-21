@@ -1,0 +1,101 @@
+---
+id: 4810
+slug: separating-html-from-the-rest-with-radar
+created_at: 2007-03-30 11:29:11.000000000 Z
+published_at: 2007-03-30 12:30:46.000000000 Z
+title: Separating HTML from the REST with RADAR
+body: "Dave Thomas has posted a really good article entitled [The RADAR Architecture:
+  RESTful Application, Dumb-Ass Recipient][pragdave].  I can already see the RADAR
+  books published by O'Reilly, Manning, Wrox, Apress and of course, The Pragmatic
+  Programmers, on the shelves at Barnes & Noble.  The concept is inspired by RESTful
+  Rails, but proposes an alternate approach from the one currently used by Rails.\r\n\r\nIf
+  you aren't familiar with RESTful Application Architecture, I'll try to give a brief
+  crash course.  The basic idea is that you treat everything in your application as
+  a resource.  Each resource has a few different URLs you use to view and edit the
+  data.  You use the HTTP methods has they were originally intended to indicate to
+  the action you wish to take on the data.\r\n\r\nAccording to the [Wikipedia article
+  on HTTP], version 1.0 of the spec was released in May 1996, almost 11 years ago.
+  \ For years, the developers of web browsers, and therefore by association, the developers
+  of web applications, have completed ignore most of the HTTP methods that were included
+  in the spec.  We all know about GET and POST, GET is used to retrieve a document,
+  and POST is used to send data to the server.  But there were other methods that
+  were in the spec, specifically PUT and DELETE.  Sadly, some browsers (I don't know
+  which ones do an don't) don't support PUT and DELETE, so therefore they cannot be
+  used by HTML-browser-based web applications.  But let's ignore HTML web browsers
+  and just look at the spec for a minute.  \r\n\r\n(As a sidebar, somewhere there
+  is someone who worked on the original HTTP spec screaming **\"it's 'bout time!\"**.
+  \ It's funny how sometimes in the world of technology, it takes years for people
+  to start using a particular technology how it was originally intended, and when
+  they finally do, it makes a big impact.)\r\n\r\nIf you think about it, a typical
+  database driven, web application, it's really just a glorified database front-end.
+  \ It allows end users to perform CRUD operations on data stored in the database.
+  \ As it turns out, the original HTTP methods map nicely to the CRUD operations:\r\n\r\n
+  \   Create = POST\r\n    Retrieve = GET\r\n    Update = PUT\r\n    Delete = DELETE\r\n\r\nMost
+  of the time, there are 2 variants of the retrieve operation.  First is the list,
+  where you see a list of all of the resources of a given type, and the second is
+  details, where you see the details of a given resource.  So, with that, you might
+  have the following URLs associated with working with articles:\r\n\r\n    GET     /articles
+  \   => Retrieve a list of all articles\r\n    GET     /articles/1  => Retrieve the
+  details for article \"1\"\r\n    POST    /articles    => Create a new article\r\n
+  \   PUT     /articles/1  => Update article \"1\"\r\n    DELETE  /articles/1  =>
+  Delete article \"1\"\r\n\r\nSo there you have it, the basics of a RESTful Application
+  Architecture.  The problem, as Dave points out, is that browsers, without the use
+  of JavaScript, Flash, Java Applets or ActiveX plugins, are just dumb terminals.
+  \ They assume the format of the data that they receive from the web server will
+  be HTML, therefore they just render the graphical representation of the HTML they
+  receive in response to an HTTP request.  A simple HTML web browser cannot display
+  data, and then render a form to allow the user to edit it, without making another
+  request to the server.  The browser relies on the server to generate an HTML form.
+  \ So this means we have to add more responsibility to the server, and therefore
+  we need more URLs, so the server knows which type of view to include in the HTML
+  along with the data.  So, with a Rails application, you end up with URLs like these,
+  to support a purely HTML RESTful application:\r\n\r\n    GET     /articles         =>
+  Retrieve a list of all articles\r\n    GET     /articles/1       => Retrieve an
+  HTML page that displays article \"1\"\r\n    GET     /articles/new     => Retrieve
+  an HTML form to be used to create a new article\r\n    POST    /articles         =>
+  Create a new article\r\n    GET     /articles/1;edit  => Retrieve an HTML form to
+  be used to update article \"1\"\r\n    PUT     /articles/1       => Update article
+  \"1\"\r\n    DELETE  /articles/1       => Delete article \"1\"\r\n\r\nBut in the
+  Web 2.0 world that we live in, we don't want our applications to be just simple
+  HTML pages.  We want to use JavaScript (specifically AJAX), Flash (Flex, Laszlo,
+  etc.) or possibly a standalone desktop application.  But, we also live in a world
+  where we need to support JavaScript-less, Flash-less, Web 1.0 browsers, so we need
+  to design our applications to support both.  If we are using a client that has the
+  ability to create forms and different views of data, then we can go back to the
+  pure, simply REST architecture, using XML, JSON, etc. for the format, because the
+  client will generate the display, we don't have to embed the HTML in the response.
+  \ These types of clients are generally referred to as a [Rich Internet Application][ria],
+  RIA for short.\r\n\r\nRails has a way to handle this, which is the use of the `respond_to`
+  method.  Jamis Buck describes [how to use respond_to to support multiple client
+  formats in this article][buck], but the summary is that if the client asks for XML,
+  you give it XML, if the client asks for HTML, you give it HTML.\r\n\r\nIn [Dave's
+  article][pragdave], he suggests an alternative architecture.  You first build a
+  pure REST application server, that isn't clutter with the extra methods required
+  by HTML-based applications.  Therefore it only responds to the original 5 HTTP method/URI
+  combinations that I listed above.  I would imagine you would still use this in conjunction
+  with `respond_to` in order to give the client the data in various formats, like
+  XML, JSON, etc, but those would only be data formats, not formats like HTML that
+  include visual elements.  Then, you have a \"proxy\" server application, that receives
+  HTTP requests from a dumb browser, retrieves the data from the REST application,
+  then formats the data with HTML, and returns the HTML to the dumb browser.  Then,
+  when you create an RIA, it can talk directly to the REST application server.\r\n\r\nYou
+  could implement this type of architecture without separate applications, one for
+  the HTML-client proxy (a.k.a RADAR) and the one for the REST API.  You could create
+  a single application with separate layers to support the different client types.
+  \ A common application architecture contains 3 layers, presentation, business logic,
+  and persistence.  The presentation layer could be the RADAR HTML-client proxy, and
+  business logic could be the REST API, and the persistence layer could be your typical
+  Data Access Object implementation, or in the case of Rails, ActiveRecord.  If everything
+  is in one server/cluster process, it actually would make more sense to have 2 different
+  presentation layers, the RADAR layer and the REST API layer, and your business layer
+  would be application code that each layer communicates with, that is modeled directly
+  after the REST API.\r\n\r\nThis is just one of example of the interesting application
+  design concepts that are coming out of the Rails community, and these are application
+  design concepts that could be applied in any language/platform.  Java developers
+  who are turning a blind eye to Rails and application frameworks built in other languages
+  are missing out on an opportunity to learn from these concepts.\r\n\r\n\r\n\r\n[pragdave]:
+  http://pragdave.pragprog.com/pragdave/2007/03/the_radar_archi.html\r\n[http]: http://en.wikipedia.org/wiki/HTTP\r\n[buck]:
+  http://weblog.jamisbuck.org/2006/3/27/web-services-rails-style\r\n[ria]: http://en.wikipedia.org/wiki/Rich_internet_application"
+format: Markdown
+guid: 25d43063-0d0b-4781-a596-7a16c1d6643f
+comments_count: 0

@@ -1,0 +1,18 @@
+---
+id: 5323
+article_id: 4947
+created_at: 2009-09-01 00:06:27.000000000 Z
+url: http://www.voodootikigod.com
+email: chris@iterativedesigns.com
+author: Chris Williams
+ip: 68.34.119.68
+body: Another great article. One thing to clarify is that the kaboom is not from out
+  of memory available for the call stack. In JavaScript, the call stack is limited
+  by instruction depth regardless of memory usage. Its a hard and fast limiter on
+  processing depth, unfortunately. A case in point using the recommended accumulator
+  technique can be shown using a large value for both n and p, even the values are
+  clearly processable in the memory allocated. In Firefox, odds(2999, 8000) returns
+  an InternalError because the stack limit has been exceed, not necessarily the memory
+  limit. Safari fails at odds(100000,100000) Full lists of stack size limits at http://www.nczonline.net/blog/2009/05/19/javascript-stack-overflow-error/
+  (note that newer WebKit runtimes have a lot higher threshold).
+guid: 0f667b80-3c6f-4b68-bbbb-24a723770103

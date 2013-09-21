@@ -1,0 +1,17 @@
+---
+id: 5115
+article_id: 4838
+created_at: 2008-04-27 20:06:49.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.16.4.230
+body: |-
+  @Charlie
+
+  reload will reload the the object and it's associated objects into memory from the database.  The value of group_ids is not affected by reload.
+
+  I just tried the example with Rails 2.0 and you are right, memberships 1 and 3 get deleted.  I though that I tested this when I wrote the article, so either something in Rails 2.0 has changed, or maybe the code was broken all along.  Probably the later :)
+
+  Anyway, you were on the right track with fixing the problem.  You set group_ids = nil after the reload statement.  But the trick is that just saying group_ids = nil has no effect.  Inside a method call, that just creates a new local variable and assigns nil to it.  In order to set the group_ids attribute of the object to nil, you must do self.group_ids = nil.  In Ruby, any time you are calling a setter, as we are in this case, group_ids=, then you must prefix it with self, or a local variable will be created, instead of calling the setter.
+guid: 310901a9-c592-4afc-a9cc-5887bba42e8d

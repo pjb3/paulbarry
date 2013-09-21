@@ -1,0 +1,30 @@
+---
+id: 4920
+slug: rubys-uri-for-clojure
+created_at: 2008-12-13 13:08:13.000000000 Z
+published_at: 2008-12-13 13:08:51.000000000 Z
+title: Ruby's URI for Clojure
+body: "[Ruby has a nice library for working with URIs][ruby-uri]:\r\n\r\n    $ irb
+  --simple-prompt\r\n    >> require 'uri'\r\n    => true\r\n    >> uri = URI.parse
+  \"http://www.google.com/search?q=clojure\"\r\n    => #<URI::HTTP:0x2adb22 URL:http://www.google.com/search?q=clojure>\r\n
+  \   >> uri.scheme\r\n    => \"http\"\r\n    >> uri.host\r\n    => \"www.google.com\"\r\n
+  \   >> uri.path\r\n    => \"/search\"\r\n    >> uri.query\r\n    => \"q=clojure\"\r\n
+  \   \r\nSo how do we get this same functionality in [Clojure][clojure]?  Well, turns
+  out [Java has a library that is functionally equivalent to Ruby's][java-uri].  The
+  downsize is it entirely very Java-ish:\r\n\r\n    ~/src/clojure $ java -jar clojure.jar\r\n
+  \   Clojure\r\n    user=> (def uri (java.net.URI. \"http://www.google.com/search?q=clojure\"))\r\n
+  \   #'user/uri\r\n    user=> (.getHost uri)\r\n    \"www.google.com\"\r\n\r\nIt
+  would be nice to use this in a more idiomatic Clojure way, but one of the principals
+  of Clojure is to provide access to all the Java libraries without having to write
+  Clojure wrappers for all of them.  So one way to accomplish this is with the [clojure
+  bean function][clojure-bean].  It takes a java bean and returns a Map with the values
+  for all of the getters in the bean.  We can use this to use the URI in an idiomatic
+  way that looks more like the Ruby version:\r\n\r\n    user=> (def uri (bean uri))\r\n
+  \   #'user/uri\r\n    user=> (uri :scheme)\r\n    \"http\"\r\n    user=> (uri :host)\r\n
+  \   \"www.google.com\"\r\n    user=> (uri :path)\r\n    \"/search\"\r\n    user=>
+  (uri :query)\r\n    \"q=clojure\" \r\n\r\n[clojure]: http://www.clojure.org\r\n[clojure-bean]:
+  http://clojure.org/api#bean\r\n[ruby-uri]: http://www.ruby-doc.org/core/classes/URI.html\r\n[java-uri]:
+  http://java.sun.com/j2se/1.5.0/docs/api/java/net/URI.html\r\n"
+format: Markdown
+guid: 43acb5e5-3aa5-4b11-9e67-2b85fb8cad1e
+comments_count: 0

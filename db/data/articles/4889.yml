@@ -1,0 +1,47 @@
+---
+id: 4889
+slug: serving-images-stored-in-the-database-with-rails
+created_at: 2008-04-19 10:44:06.000000000 Z
+published_at: 2008-04-19 10:46:27.000000000 Z
+title: Serving Images Stored in the Database with Rails
+body: "Some Rails applications accept images uploaded by users via the application,
+  such as profile images.  You have a few choices as to how to store the image.  I'm
+  not going to go over them or debate the merits of each in this article.  Instead
+  I'm going to cover how to handle it if you've decided that you want to store your
+  images in the database.  \r\n\r\nSo to get started with the example, create a rails
+  app and an image model to hold the image data:\r\n\r\n    $ rails myapp\r\n    $
+  cd myapp\r\n    $ script/generate model image file_name:string content_type:string
+  \\\r\n    file_size:integer file_data:binary\r\n    $ rake db:migrate\r\n    \r\nOk,
+  now let's put the awesomest image ever into our database:\r\n\r\n    $ script/console
+  \r\n    \r\n    >> require 'net/http'\r\n    => []\r\n    \r\n    >> host = 'farm1.static.flickr.com'\r\n
+  \   => \"farm1.static.flickr.com\"\r\n    \r\n    >> path = '/62/163977533_55fd5ddd9b_o_d.jpg'\r\n
+  \   => \"/62/163977533_55fd5ddd9b_o_d.jpg\"\r\n    \r\n    >> res = Net::HTTP.get_response(host,
+  path)\r\n    => #<Net::HTTPOK 200 OK readbody=true>\r\n\r\n    >> Image.create!(:file_name
+  => \"awesome.jpg\", \r\n      :content_type => res['Content-type'], \r\n      :file_size
+  => res.body.size, \r\n      :file_data => res.body)\r\n    => #<Image id: 1, file_name:
+  \"awesome.jpg\"...\r\n    \r\nI've added some spacing for dramatic effect.  Now,
+  create an images controller at `app/controllers/images_controller.rb`:\r\n\r\n    class
+  ImagesController < ApplicationController\r\n      caches_page :show\r\n      def
+  show\r\n        if @image = Image.find_by_file_name(params[:file_name])\r\n          send_data(\r\n
+  \           @image.file_data, \r\n            :type => @image.content_type,\r\n
+  \           :filename => @image.file_name,\r\n            :disposition => 'inline'\r\n
+  \         )\r\n        else\r\n          render :file => \"#{RAILS_ROOT}/public/404.html\",
+  :status => 404\r\n        end\r\n      end\r\n    end\r\n\r\nThen setup a route:\r\n\r\n
+  \   map.connect \"/images/*file_name\", :controller => \"images\", :action => \"show\"\r\n\r\nNext
+  make sure caching is turned on for your development environment.  Edit this line
+  in `config/environments/development.rb`:\r\n\r\n    config.action_controller.perform_caching
+  = true\r\n\r\nAnd finally, start up rails and view the image in your browser at
+  http://localhost:3000/images/awesome.jpg.  If you look in your log, you will see
+  a line like this:\r\n\r\n    Cached page: /images/awesome.jpg (0.00100)\r\n\r\nBut
+  if you refresh your browser or hit the same URL from a different browser, you will
+  not see that anymore.  That's because we've cached the file to local disk and it
+  can be served directly from there by the web server without going through rails.
+  \ Mongrel does this by default on your local development setup, but your production
+  environment might require some configuration to make sure that happens.  The guys
+  at Rails envy have [a great article that has the details on how to configure our
+  web and application servers to do that][envy].  The article provides more detail
+  on page caching as well, including how to clear the cache when images change, so
+  you should definitely check that out.\r\n\r\n[envy]: http://www.railsenvy.com/2007/2/28/rails-caching-tutorial\r\n"
+format: Markdown
+guid: ee9e815d-5569-4d15-bbaf-7d6f8d06dca3
+comments_count: 4

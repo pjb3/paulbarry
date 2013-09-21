@@ -1,0 +1,19 @@
+---
+id: 4896
+slug: install-web-sites-as-an-application-with-fluid
+created_at: 2008-04-28 13:36:01.000000000 Z
+published_at: 2008-04-28 13:39:31.000000000 Z
+title: Install Web Sites as an Application with Fluid
+body: "There is a pretty cool Mac OS X application called [Fluid][fluid].  What it
+  allows you to do is run a web site as if it were an application installed on your
+  system.  The end result:\r\n\r\n<img src=\"http://farm4.static.flickr.com/3232/2448932311_cc06f3cae5_o.png\"/>\r\n\r\nAll
+  those web sites you are logged into on a daily basis show up as separate icons in
+  the dock.  For some sites, like Gmail and Google Reader, it shows a label with the
+  count of unread items.  It doesn't come will all those nifty icons, you kind of
+  have to scour the web for them.  Here's where I found those:\r\n\r\n* [Gmail and
+  Facebook][gm-fb]\r\n* [Google Reader][gr]\r\n* [Reddit and del.icio.us][others]\r\n\r\n[fluid]:
+  http://fluidapp.com/\r\n[gm-fb]: http://csi.nfshost.com/blog/?q=goodies\r\n[gr]:
+  http://jvstin.deviantart.com/art/Google-Reader-icon-80952222\r\n[others]: http://www.iconspedia.com/icon/flickr.html"
+format: Markdown
+guid: 69a8effa-ffc7-4baa-947e-228dd44ed0c7
+comments_count: 1

@@ -1,0 +1,30 @@
+---
+id: 4783
+slug: the-death-of-the-nullpointerexception
+created_at: 2006-12-16 10:38:39.000000000 Z
+published_at: 2006-12-16 10:38:39.000000000 Z
+title: The Death of the NullPointerException
+body: "In Chapter 4 of [The Definitive Guide to Grails][DGG], which I will now coin
+  with an acronym soon to be ubitqious among grailers, DGG, there is this code snippet:\r\n\r\n
+  \   class BookmarkController {\r\n        \r\n        def scaffold = Bookmark\r\n
+  \       \r\n        def save = {\r\n            def b = new Bookmark(params)\r\n
+  \           if( ['http', 'https'].contains( b.url?.protocol ) ) {\r\n                //
+  save bookmark\r\n                ...\r\n            } else {\r\n                flash.message
+  = 'Invalid bookmark'\r\n                redirect(action:create)\r\n            }\r\n
+  \       }\r\n    }\r\n\r\nThis is showing how you can use scaffolding, but override
+  one method, without having to throw away the whole scaffold.  That is nice, but
+  this is the greatest:\r\n    \r\n> Note the usage of Groovy’s safe dereference operator
+  to safeguard against the infamous NullPointerException. The expression b.url?.protocol
+  will essentially evaluate the whole expression as null when the url property is
+  null instead of throwing a NullPointerException. It is quite remarkable what a huge
+  difference this one operator makes, not only to the length of your code, but to
+  the quality, simply by dramatically reducing the amount of null checking the programmer
+  is required to perform.\r\n     \r\nAlleluia, Praise Jesus, Amen.  My only complaint
+  is that I don't see this mentioned anywhere in Groovy's documentation.  \r\n\r\nFrom
+  messing around with in in the console, it appears that you have to put the ? on
+  the end of each property that could be null.  In the example above, \"b\" is always
+  guaranteed to be non-null, but for example, if it wasn't, you need to do:\r\n\r\n
+  \   b?.url?.protocol     \r\n\r\n\r\n\r\n[DGG]: http://www.apress.com/book/bookDisplay.html?bID=10205"
+format: Markdown
+guid: c68171c8-39d8-445f-93db-c82cc156076f
+comments_count: 0

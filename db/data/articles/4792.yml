@@ -1,0 +1,31 @@
+---
+id: 4792
+slug: sha-message-digest-in-java
+created_at: 2007-01-19 15:40:27.000000000 Z
+published_at: 2007-01-19 15:40:27.000000000 Z
+title: SHA Message Digest in Java
+body: "I just spent a little while googling for a simple Java SHA utility.  I found
+  a few things, but everything was made up of multiple methods.  I found [this][1],
+  which is close, but I re-factored it to be one static method, so I though I would
+  share:\r\n\r\n    import java.security.MessageDigest;\r\n    import java.security.NoSuchAlgorithmException;\r\n\r\n
+  \   /**\r\n     * @author Paul Barry\r\n     */\r\n    public class HashUtils {\r\n\r\n
+  \       private static final char[] hexChars = {\r\n            '0','1','2','3','4','5','6','7',\r\n
+  \           '8','9','a','b','c','d','e','f'};\r\n\r\n        public static String
+  SHA(String s) {\r\n            try {\r\n                MessageDigest md = MessageDigest.getInstance(\"SHA\");\r\n
+  \               md.update(s.getBytes(), 0, s.getBytes().length);\r\n                byte[]
+  hash = md.digest();\r\n                StringBuilder sb = new StringBuilder();\r\n
+  \               int msb;\r\n                int lsb = 0;\r\n                int
+  i;\r\n                for (i = 0; i < hash.length; i++) {\r\n                    msb
+  = ((int)hash[i] & 0x000000FF) / 16;\r\n                    lsb = ((int)hash[i] &
+  0x000000FF) % 16;\r\n                    sb.append(hexChars[msb]);\r\n                    sb.append(hexChars[lsb]);\r\n
+  \               }\r\n                return sb.toString();\r\n            } catch
+  (NoSuchAlgorithmException e) {\r\n                return null;\r\n            }\r\n
+  \       }\r\n\r\n        public static void main(String[] args) {\r\n            String
+  expected = \"0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33\";\r\n            String actual
+  = SHA(\"foo\");\r\n            if(expected.equals(actual)) {\r\n                System.out.println(\"Passed\");\r\n
+  \           } else {\r\n                throw new RuntimeException(\"Expected: \"+expected+\"\\n\"
+  +\r\n                                           \"  Actual: \"+actual);\r\n            }\r\n
+  \       }\r\n\r\n    }\r\n\r\n[1]: http://www.osix.net/modules/article/?id=42\r\n"
+format: Markdown
+guid: 7ec9a0d2-a29f-4f98-b526-869dba8bda00
+comments_count: 1

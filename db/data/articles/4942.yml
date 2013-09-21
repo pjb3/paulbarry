@@ -1,0 +1,43 @@
+---
+id: 4942
+slug: a-rake-task-for-tracking-your-time-with-git
+created_at: 2009-07-07 00:33:43.000000000 Z
+published_at: 2009-07-07 00:49:03.000000000 Z
+title: A rake task for tracking your time with git
+body: "Are you using Ruby on Rails?  Are you using Git?  Do you have a need to track
+  how long you spend on things?  Then I have just the thing for you.\r\n\r\nI threw
+  together a quick rake task that gets all of your commits in a git repo and  parses
+  out the times and commit message from them.  Then it formats them with the time
+  and also the time interval between them.  You can get the [rake task to track your
+  time from this gist][gist].\r\n\r\nThe output will look something like this:\r\n\r\n
+  \   Fri, Jul 07 10:55AM  20m 49s  Added toolbar for controllers using temp...\r\n
+  \   Fri, Jul 07 10:34AM  21h 52m  Added support for using page templates i...\r\n
+  \   Thu, Jul 07 12:42PM  37m 57s  LH#77, fixed issue with tests failing on...\r\n
+  \   Thu, Jul 07 12:04PM  12m 18s  LH#67, added a limit option to the rende...\r\n
+  \   Thu, Jul 07 11:52AM  17m 30s  Removed debug statement                 ...\r\n
+  \   Thu, Jul 07 11:34AM  19h 52m  LH#66, added :path option to render menu...\r\n
+  \   Wed, Jul 07 03:41PM           Added DSL for modifying portlet behavior...\r\n
+  \   Tue, Jun 06 02:05PM  18h 44m  LH#119, multiple HTML fields on one bloc...\r\n
+  \   Mon, Jun 06 07:20PM   6h 21m  Converted docs to textile               ...\r\n
+  \   Mon, Jun 06 12:58PM           Fix for LH#118, create directories in ge...\r\n
+  \   Sat, Jun 06 10:22PM           Added support for other template handler...\r\n
+  \   Fri, Jun 06 04:49PM   0m 58s  bump build                              ...\r\n
+  \   Fri, Jun 06 04:48PM  23m 11s  Fix LH#106: Section not correctly loadin...\r\n
+  \   Fri, Jun 06 04:25PM  34m 25s  Fix for LH#107, images were not showing ...\r\n
+  \   Fri, Jun 06 03:51PM   9m 48s  Fix for LH#110, can't view usages of a p...\r\n
+  \   Fri, Jun 06 03:41PM  11m 12s  Fix for LH#113, check to see if there is...\r\n
+  \   Fri, Jun 06 03:30PM   2m 52s  Fixed LH#114, documentation typo        ...\r\n
+  \   Fri, Jun 06 03:27PM   0m 38s  bump build number                       ...\r\n
+  \   Fri, Jun 06 03:26PM   5h 38m  Fix for LH#98, tags not getting updated ...\r\n
+  \   Fri, Jun 06 09:48AM  33m 14s  Fixed LH#105, deleted portlets showing u...\r\n\r\nIt
+  doesn't actually truncate the commit messages, I just did that here to make each
+  one fit on a line.  If the time interval is over 24 hours, it doesn't bother printing
+  the interval, because you probably didn't actually work on that one commit for 37
+  hours straight.  I've been thinking if you really want to track time this way then
+  each time you sit down to start hacking on a project, you just make a minor change
+  to the .gitignore or something and then commit it with a message like \"started
+  hacking on foo\", so then when you commit your first chunk of actual work, you will
+  know how long you spend on that.\r\n\r\n[gist]: http://bit.ly/rake-git-time-tracker\r\n"
+format: Markdown
+guid: a2f77695-7b12-473f-9c63-cd30cd100565
+comments_count: 2

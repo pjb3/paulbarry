@@ -1,0 +1,14 @@
+---
+id: 5058
+article_id: 4806
+created_at: 2007-04-25 17:06:43.000000000 Z
+url: 
+email: 
+author: Martin
+ip: 81.178.94.239
+body: Thanks for the quick intro.  As you say Guice is only meant to provide IoC.  For
+  those coming to it from a Spring background this means things such as HibernateDaoSupport
+  and HibernateTemplate are lost, along with the correct session injection and transactional
+  demaraction.  What strategies are there for dealing with this?  I have not found
+  a larger working example of Guice with Hibernate.
+guid: b999746b-ce42-4f97-a3af-0769ca46e3f8

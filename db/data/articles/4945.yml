@@ -1,0 +1,66 @@
+---
+id: 4945
+slug: in-search-of-sharper-tools
+created_at: 2009-07-21 23:23:43.000000000 Z
+published_at: 2009-07-21 23:51:18.000000000 Z
+title: In Search Of Sharper Tools
+body: "After reading the comments in my [last post][lp], one thing I realized that
+  I neglected to do is define what I mean by metaprogramming.  Rubyists probably already
+  know what I mean, but people coming from other programming languages might have
+  different ideas about what I mean by metaprogramming.\r\n\r\nI've actually mentioned
+  this in a few talks I've given about Ruby.  I don't really like the word Metaprogramming,
+  it's a little bit nebulous.  I think a better term is dynamic code generation.  I
+  like that term because I think most programmers will have a pretty good mental model
+  of what I am talking about when I say that.  There are several features of Ruby
+  that when combined together allow you to do almost anything to bend the language
+  to your will.  To understand how to do that, I recommend reading the book [Metaprogramming
+  Ruby][mruby], which is in beta right now.\r\n\r\nI'll give a short, real world example
+  of what I'm talking about.  I'm working on a Rails app that uses a database that
+  has [bit field][bf] columns.  I want to treat the boolean flags in the bit field
+  as though they are regular boolean attributes throughout my code.  So I wrote a
+  Ruby gem [has-bit-field][hbf], which generates all the methods necessary to work
+  with the bit field columns.  You define what is in the bit field in the most clear,
+  simple, elegant way possible by just stating which column has the bit field and
+  then what attributes should be generated for each bit: \r\n\r\n    class Person
+  < ActiveRecord::Base\r\n      has_bit_field :bit_field, :likes_ice_cream, :plays_golf,
+  :watches_tv, :reads_books\r\n    end\r\n\r\nThis is the kind of abstraction that
+  the metaprogramming capabilities of Ruby afford you. I threw this together, with
+  tests, in an hour or so.  Can you imagine the amount of nonsense you would have
+  to go through in Java to create an abstraction equivalent to this?\r\n\r\nThis type
+  of abstraction is what I think makes Ruby a great language, but I realize you are
+  definitely walking a fine line with this kind of thing.  It's possible for this
+  sort of thing to go wrong quickly.  The first way these things go wrong is when
+  the abstraction is not intuitive and not documented.  First of all, a good abstraction
+  should be almost intuitive, requiring other programmers to be able to guess what
+  is does.  This is commonly referred to as the [Principal of Least Surprise][pols].
+  \ This doesn't mean that you are excused from providing some sort of documentation
+  explaining how it works, especially for more complex abstractions.\r\n\r\nThe reason
+  why it's important that the abstraction is clear is that most of the time the code
+  that defines the abstraction is dense at best, and downright ugly at worst.  This
+  isn't a problem specific to Ruby, as anyone who has worked with Lisp macros can
+  attest to.  But in the end I'd rather have a small chunk of code that is tested
+  and documented that I don't really need to look at that enables me to make the code
+  where the business logic is defined as clear as possible.  If other programmers
+  are constantly having to dive into the guts of the definition of these abstractions
+  just to understand how the code works, you have officially created a mess.  And
+  this is no ordinary mess, this is meta-spaghetti, and is a mess on an order of magnitude
+  not possible in statically typed languages.\r\n\r\nSo does this mean you shouldn't
+  use Ruby?  Not at all, and I think [Glenn Vanderburg sums it up best][glv]:\r\n\r\n>
+  Weak developers will move heaven and earth to do the wrong thing. You can't limit
+  the damage they do by locking up the sharp tools. They'll just swing the blunt tools
+  harder. \r\n\r\nI think developers often associate \"blunt tools\" with static typing,
+  because really they associate static typing with Java.  I'm not sure that static
+  typing is in fact a blunt tool.  If static typing means I can't create these kinds
+  of abstractions, then yes, it's a blunt tool.  But can you do this kind of thing
+  with [Scala Compiler Plugins][scp]?  How about with [Template Haskell][th]?  What
+  about with [MetaOCaml][mocaml]?  If you can, are those tools then sharper than Ruby?
+  \ Or is there a way to define abstractions like these without metaprogramming at
+  all?\r\n\r\n[lp]: http://paulbarry.com/articles/2009/07/21/types-and-metaprogramming-can-we-have-both\r\n[mruby]:
+  http://pragprog.com/titles/ppmetr/metaprogramming-ruby\r\n[pols]: http://en.wikipedia.org/wiki/Principle_of_least_surprise\r\n[bf]:
+  http://en.wikipedia.org/wiki/Bit_field\r\n[hbf]: http://github.com/pjb3/has-bit-field\r\n[glv]:
+  http://www.vanderburg.org/Blog/Software/Development/sharp_and_blunt.rdoc\r\n[scp]:
+  http://www.scala-lang.org/node/140\r\n[th]: http://www.haskell.org/th/\r\n[mocaml]:
+  http://www.metaocaml.org/"
+format: Markdown
+guid: ada3b189-049a-419b-838b-6f0ecbb229ed
+comments_count: 0

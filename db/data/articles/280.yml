@@ -1,0 +1,45 @@
+---
+id: 280
+slug: back-from-the-beyond
+created_at: 2006-10-20 20:22:10.000000000 Z
+published_at: 2006-10-20 20:22:10.000000000 Z
+title: Back from the Beyond
+body: "So <a href=\"http://paulbarry.com/articles/2006/09/20/python-is-weird\">as
+  I said I would</a>, I've taken a look at Python and Django.  In my brief look at
+  it, I've learned a few things.  One is that Python isn't that weird, it's just different.
+  \ Handling blocks based on indentation is cool.  Django is cool in a lot of ways.
+  \ The thing I was most impressed with is the admin interface.  The thing I was least
+  impressed with is that the admin interface isn't very customizable.  You get you
+  what you get, which is a lot, but you don't have much control over it.\r\n\r\nBut
+  this blog post isn't really about Python or Django specifically, it's about languages
+  and web frameworks.  Here's what I've decided.  Choosing a web framework and programming
+  language is like choosing a guitar.  There are die hard fans of different types.
+  \ There are obscure niche types.  There are widely used types.  There are even variations
+  among the different types.  But the bottom line is that if you are a shitty guitar
+  player, it's going to sound like shit, not matter which one you pick.  And if you
+  are a great guitar player, anything is going to sound pretty good.  Choosing between
+  them is really a matter a preference.  The part where this analogy falls apart is
+  that once you learn to play guitar, you can pick up any guitar and play, but just
+  because you are a Ruby on Rails expert doesn't mean you can build a web site with
+  Java, and vice versa.  So it's not perfect, but you get the idea.\r\n\r\nI think
+  up until recently, you couldn't argue with a straight face that building a Java
+  application is not more complicated than building a Ruby on Rails app.  Anyone who
+  has tried to maintain a web app built with Struts 1.x, Spring, Hibernate 2.0, JSP
+  1.0 and an overly complex set of ant build scripts can attest to that.  But I'm
+  a believer in the latest innovations in Java.  Annotations and Generics are making
+  life easier.  Stripes and Hibernate 3.2 with Annotations are much better than Struts
+  (or webwork or Spring MVC for that matter) and Hibernate 2.0 respectively.  JSP
+  1.2 is better than JSP 1.0, Maven is better than Ant, the list goes on.\r\n\r\nMy
+  theory is that we are at a point with Java where we can build applications with
+  the same level of productivity as any other framework.  I think we're beyond <a
+  href=\"http://www.amazon.com/Beyond-Java-Bruce-Tate/dp/0596100949/sr=8-1/qid=1161389986/ref=pd_bbs_sr_1/104-4976912-5904717?ie=UTF8\">Beyond
+  Java</a>.  \r\n\r\nSo what I'm planning on doing in attempt to prove Bruce Tate
+  wrong is to build a new version of my own blog in Java.  I'm hoping this little
+  side project will give me a chance to provide the world with an example of how Java
+  applications can be built without endless XML sit-ups.  I also feel the need to
+  blog about it because it will motivate me into actually doing it.  I have had lots
+  of big ideas in the past and I rarely follow through with any of them, but this
+  is one that I intend to.  And so it begins.\r\n\r\n\r\n\r\n  \r\n"
+format: Markdown
+guid: 00d8496e-a134-417b-b54d-f4fe1f15d98e
+comments_count: 8

@@ -1,0 +1,15 @@
+---
+id: 5118
+article_id: 4838
+created_at: 2008-04-28 14:38:16.000000000 Z
+url: 
+email: 
+author: sw0rdfish
+ip: 68.179.14.113
+body: |-
+  I put this code into my project and for some reason all I'm getting is it'll delete whatever "memberships" the current user already has, and then re-add them... ( on an update... on a create, it skips the loop )
+
+  So it's calling the object's group_ids instead of the parameter being passed by the forum...
+
+  Any idea what could cause this?
+guid: 44fed654-a7e5-4940-a0dc-221a84e771eb

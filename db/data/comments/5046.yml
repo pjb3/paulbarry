@@ -1,0 +1,13 @@
+---
+id: 5046
+article_id: 4806
+created_at: 2007-03-24 16:05:18.000000000 Z
+url: 
+email: tony.narvarte@tx.rr.com
+author: Tony
+ip: 63.237.119.62
+body: |-
+  Isn't the reason you can perform the code removal from FooModule due to the fact that you are using the default implementation specified in the @ImplementedBy annotation?
+
+  So to inject some arbitrary implementation (FooManagerImplTest) you would need to keep this example in its original form?
+guid: 2fd1f339-8fe2-4d1d-8a4e-156c4333d589

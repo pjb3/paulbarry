@@ -1,0 +1,120 @@
+---
+id: 4916
+slug: story-driven-development-with-rails-part-i-up-and-running
+created_at: 2008-09-16 16:57:06.000000000 Z
+published_at: 2008-09-16 17:20:47.000000000 Z
+title: 'Story Driven Development with Rails - Part I: Up and Running'
+body: "Earlier this year at the [Gotham Ruby Conference][goruco], [Brian Helmkamp][brynary]
+  gave a [talk on Story Driven Development][sdd].  It's a fantastic talk, I suggest
+  that everyone view it.  In it he explains how to use [RSpec Users Stories][rspec-stories]
+  combined with [Webrat][webrat] for full-stack executable scenario testing.  He also
+  covers what value executable scenarios provide and where executable scenarios fit
+  into your overall web application testing strategy.  This article provides you with
+  a more detailed how-to of the steps required to get up and running with Story Driven
+  Development with [Rails][ror].\r\n\r\nIn this article I don't go to much into the
+  details of how story runner works, so I would say another prerequisite for this
+  article is [Geoffrey Grosenbach's _RSpec User Stories_][peepcode-rspec-stories]
+  available on [PeepCode][peepcode].\r\n\r\nSo let's say we are building a rails version
+  of this blog.  First steps are the basic rails setup:\r\n\r\n    $ rails blog\r\n
+  \   $ cd blog\r\n    $ script/plugin install git://github.com/dchelimsky/rspec.git
+  -r 1.1.4\r\n    $ script/plugin install git://github.com/dchelimsky/rspec-rails.git
+  -r 1.1.4\r\n    $ script/generate rspec      \r\n    $ script/plugin install git://github.com/ratnikov/fixture_replacement2.git
+  \r\n\r\nThat gives us an rspecified Rails app, which has a `stories` directory,
+  all ready for us to put our stories in.  [Fixture Replacement][fix-replace] is an
+  implementation of the [factory pattern for creating test data][manges], which is
+  an alternative to using [fixtures][fixtures] data in [yaml][yaml] files.  So let's
+  create the first story in `stories/view_articles_story.txt`:\r\n\r\n    Story: View
+  Articles\r\n\r\n    As a reader of the blog\r\n    I want to view articles\r\n    So
+  that I can read what you have to say\r\n\r\n      Scenario: display most recently
+  published articles\r\n  \r\n        Given 5 articles have been published\r\n        When
+  I visit the homepage\r\n        Then I should see the articles\r\n        \r\nA
+  couple of things to point out.  First, the naming convention I'm going with is to
+  put the plain text story in `<story_name>_story.txt` and the story runner file in
+  `<story_name>_story.rb`.  Next I'd like to talk a little bit about this story.  I
+  choose to write this story first because it is the most important feature in the
+  application.  Generally I like to try to follow this rule.  When writing a stories,
+  always write a story for the next most important feature.\r\n\r\nSo in order to
+  use this story, we need a runner.  So let's put this into `stories/view_articles_story.rb`:\r\n\r\n
+  \   require File.dirname(__FILE__) + \"/helper\"\r\n\r\n    run_story :view_articles\r\n\r\nThis
+  is about concise as it gets for this file.  The magic happens in `stories/helper.rb`.
+  \ Add this to the bottom of that file:\r\n\r\n    def run_story(story_name, options={})\r\n
+  \     with_steps_for(story_name) do\r\n        run(\r\n          File.join(File.dirname(__FILE__),
+  \"#{story_name}_story.txt\"), \r\n          { :type => RailsStory }.merge(options)\r\n
+  \       )\r\n      end\r\n    end\r\n    \r\nWhat this does is allow you to call
+  `run_story` to run a story.  It assumes by default that you will want to use the
+  steps that are defined in the same file with the same name as the story.  We'll
+  probably enhance `run_story` in the future to do more stuff, but this is all we
+  need for now.  Now you can run either `stories/all.rb` or `stories/view_articles_story.rb`
+  and you should get:\r\n\r\n    Running 1 scenarios\r\n\r\n    Story: View Articles\r\n\r\n
+  \     As a reader of the blog\r\n      I want to view articles\r\n      So that
+  I can read what you have to say\r\n\r\n      Scenario: Homepage\r\n\r\n        Given
+  5 articles have been published (PENDING)\r\n\r\n        When I visit the homepage
+  (PENDING)\r\n\r\n        Then I should see the articles (PENDING)\r\n\r\n    1 scenarios:
+  0 succeeded, 0 failed, 1 pending\r\n\r\n    Pending Steps:\r\n    1) View Articles
+  (Homepage): 5 articles have been published\r\n    2) View Articles (Homepage): I
+  visit the homepage\r\n    3) View Articles (Homepage): I should see all 5 articles\r\n\r\nSo
+  we now have yellow (a.k.a pending) scenarios, so step 1 is done.  The next step
+  is to write step matchers, which should make our scenario fail.  So we add this
+  to `stories/view_articles_story.rb`:\r\n\r\n    steps_for(:view_articles) do\r\n
+  \     Given \"$count articles have been published\" do |count|\r\n        @count
+  = count.to_i\r\n        @count.times {|n| create_article(:title => \"Article ##{n}\")
+  }\r\n      end\r\n      When \"I visit $path\" do |path|\r\n        get path\r\n
+  \     end\r\n      Then \"I should see the articles\" do\r\n        @count.times
+  do |n|\r\n          response.should have_tag(\"h2\", \"Article ##{n}\")\r\n        end\r\n
+  \     end\r\n    end\r\n\r\nMake sure to add that _before_ the `run_story :view_articles`
+  line.  Now you should have red (a.k.a failing) scenarios, that look something like
+  this:\r\n\r\n    FAILURES:\r\n        1) View Articles (Homepage) FAILED\r\n        NoMethodError:
+  undefined method `create_article' for   \r\n        #<ActionController::Integration::Session:0x208bfe0>\r\n\r\nMake
+  sure they are failing for the right reason.  For example, when I first wrote this,
+  I forgot that all the of variables are captured as strings and I left off the call
+  to `.to_i` on count.  I get failing specs, but not because I haven't implemented
+  the code, because my steps are wrong.  Remember, tests can have bugs too.\r\n\r\nLet's
+  take a look at each of these steps.  Inside the given step, we are calling `create_article`.
+  \  Now as you noticed from the failure message, there is no `create_article` method
+  yet.  Fixture Replacement will take care of defining that for us once we have the
+  articles model created and `example_data.rb` created.  In the when step, we are
+  capturing the path the user is trying to access, and then using the same rspec controller
+  helper method we would use if this were a controller spec.  `get /some_path` goes
+  through the routing to call our controller with an HTTP get.  Finally, in the then
+  step, we just check that the HTML in our response has an H2 element with the title
+  of the article in it, for each of the articles we created in the given step.\r\n\r\nSo
+  now on to step 3, which is to write the code to make it go green.  To make this
+  easy, we'll use the rspec scaffold generator:\r\n\r\n    $ script/generate rspec_scaffold
+  Article title:string body:text\r\n    $ rake db:migrate\r\n    $ rake db:test:prepare\r\n
+  \   \r\nSo if we run `stories/view_articles_story.rb` again, we get the same error.
+  \ That's because we still haven't told Fixture Replacement about our article model.
+  \ So create the file `db/example_data.rb` and put this in it:\r\n\r\n    module
+  FixtureReplacement\r\n      attributes_for :article do |a|\r\n        a.title =
+  \"First Post!\"\r\n        a.body = \"Lorem ipsum dolor sit amet, consectetuer adipiscing
+  elit...\"\r\n      end\r\n    end\r\n\r\nThis defines the minimum set of data required
+  to create a valid article.  You can override any value by simply passing it in the
+  hash, as we are doing in the given step.  Fixture Replacement gives you two methods
+  for each model, which are in this case, `create_article` and `new_article`, which
+  do pretty much what you would expect.  You can read more about Fixture Replacements
+  in the [README][fix-readme].\r\n\r\nLast but not least, we have to include `FixtureReplacement`
+  in our RSpec Story Runner, which is as simple as adding the line `include FixtureReplacement`
+  somewhere near the top of `stories/helper.rb`, after all the other require statements.\r\n\r\nSo
+  now if we run our story, we get something like:\r\n\r\n    1) View Articles (Homepage)
+  FAILED\r\n        Spec::Expectations::ExpectationNotMetError: \r\n        Expected
+  at least 1 element matching \"h2\", found 0.\r\n        <false> is not true.\r\n\r\nWhich
+  is still failing, but it's progress.  Obviously the problem now is that our view
+  isn't outputting H2 elements for the article titles.  That's an easy fix which I'll
+  leave as an exercise to the reader (hint: modify the default route, edit the articles
+  index ERB template).  \r\n\r\nOne might argue that checking for H2s is checking
+  the implementation details, which could be fragile if our designer decides to use
+  DIVs instead, for example.  That decision is up to you, personally I like to produce
+  the correct semantic markup, have my tests validate that and apply CSS from there.
+  \ If you'd rather your tests be less coupled to the DOM structure, you could just
+  change your expectation in the then step to `response.should have_text(\"Article
+  ##{n}\")`.  \r\n\r\nHopefully that gets you up and running with Fixture Replacement
+  and RSpec User Stories.  Tune in for Part II of the series, where we cover more
+  complex interactions with [Webrat][webrat].\r\n\r\n[goruco]: http://2008.goruco.com\r\n[brynary]:
+  http://www.brynary.com\r\n[sdd]: http://goruco2008.confreaks.com/01_helmkamp.html\r\n[rspec-stories]:
+  http://rspec.info/documentation/stories.html\r\n[webrat]: http://github.com/brynary/webrat/tree/master\r\n[ror]:
+  http://www.rubyonrails.org\r\n[fix-replace]: http://replacefixtures.rubyforge.org\r\n[fix-readme]:
+  http://replacefixtures.rubyforge.org/files/README.html\r\n[manges]: http://www.dcmanges.com/blog/38\r\n[peepcode]:
+  http://peepcode.com\r\n[peepcode-rspec-stories]: http://peepcode.com/products/rspec-user-stories\r\n[fixtures]:
+  http://ar.rubyonrails.com/classes/Fixtures.html\r\n[yaml]: http://www.yaml.org\r\n"
+format: Markdown
+guid: fa98ea62-e0e0-4e94-be2b-032f8e4bef5c
+comments_count: 5

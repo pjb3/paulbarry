@@ -1,0 +1,13 @@
+---
+id: 129
+article_id: 122
+created_at: 2006-09-21 10:03:45.000000000 Z
+url: http://paulbarry.com
+email: ''
+author: Paul
+ip: 68.167.146.250
+body: "Hey guys, thanks for the feedback.\r\n\r\nDavid:\r\n\r\n - Migrations aren't
+  actual objects that you use.  Migrations are simply SQL DDL statements written in
+  Ruby to abstract the database specific syntax.  They also provide a way to keep
+  track of individual chan"
+guid: 7c1e51bd-44ea-4736-a5b7-ffae0ca562c4

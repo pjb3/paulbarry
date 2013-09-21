@@ -1,0 +1,19 @@
+---
+id: 4791
+slug: hibernate-vs-ibatis
+created_at: 2007-01-14 16:16:45.000000000 Z
+published_at: 2007-01-14 16:16:45.000000000 Z
+title: Hibernate vs. iBatis
+body: "I was googling for something on the internet and cam across [this post][1]
+  I made to the iBatis mailing list almost 2 years ago.  I think for the most part
+  this still holds true, although when I made this statement I was referring to Hibernate
+  2.  Hibernate 3 has some features that make Hibernate even more usable for odd database
+  structures, such as [the ability to map SQL queries to objects][2].  The criteria
+  API is much improved in Hibernate 3, and Hibernate Annotations make configuration
+  of Hibernate much easier.  I think these feature make the argument for using Hibernate
+  even stronger, but iBatis is still a great framework to use for certain scenarios.\r\n\r\n[1]:
+  http://www.mail-archive.com/ibatis-user-java@incubator.apache.org/msg01241.html
+  \r\n\r\n[2]:\r\nhttp://www.hibernate.org/hib_docs/v3/reference/en/html/querysql.html#querysql-load "
+format: Markdown
+guid: 440374cf-0906-46c6-b026-33d947fc8dd8
+comments_count: 0

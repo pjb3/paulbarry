@@ -1,0 +1,15 @@
+---
+id: 4961
+slug: sharing-a-git-repo-on-the-network
+created_at: 2010-02-06 21:55:07.000000000 Z
+published_at: 2010-02-06 21:55:31.000000000 Z
+title: Sharing a git repo on the network
+body: "If you find yourself on a network with other developers you'd like to share
+  a git repo with, here's a simple way to do that.  First, on your machine, the one
+  with the git repo, you run this:\r\n\r\n    $ git daemon --base-path=/path/to/dir/with/repo
+  --export-all\r\n\r\nSo if you have a git repo in your home directory called, foo,
+  you would make the base path be your home directory.  Then, assuming your IP is
+  192.168.1.42, others can clone the repo using:\r\n\r\n    $ git clone git://192.168.1.42/foo"
+format: Markdown
+guid: 582e971f-3382-4b9d-8c8d-5a0ba0885b9e
+comments_count: 1

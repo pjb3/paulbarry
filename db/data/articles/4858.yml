@@ -1,0 +1,12 @@
+---
+id: 4858
+slug: grails-v-rails
+created_at: 2008-01-31 14:54:43.000000000 Z
+published_at: 
+title: Grails v. Rails
+body: "A language that doesn't change the way you think about programming isn't worth
+  learning\r\n\r\n    class Base\r\n    end\r\n    class Category < Base\r\n      has_many
+  :products\r\n    end\r\n    puts Category.new.products"
+format: Markdown
+guid: 812855a6-e927-43b3-9edc-73d3c3558d6e
+comments_count: 0

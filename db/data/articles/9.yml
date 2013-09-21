@@ -1,0 +1,59 @@
+---
+id: 9
+slug: microsofts-self-perpetuating-monopoly
+created_at: 2006-03-05 12:51:00.000000000 Z
+published_at: 2006-03-05 12:51:00.000000000 Z
+title: Microsoft's Self-Perpetuating Monopoly
+body: "Maybe this was already obvious to everyone else 5 years ago, and I problably
+  sub-conciously new it as well, but during my recent attempts to switch to Ubuntu,
+  I came to the following realization.  Microsoft's monopoly on the desktop operating
+  system is self-perpertuating.  Anybody who makes anything that runs on or connects
+  with a computer makes sure it works on/with Windows.  Any other platforms are optional.
+  \ Whether it's a bank web site, a digital camera, desktop software, or a mp3 player,
+  all anyone cares about is \"does it work on windows\".  Even Apple had to make their
+  iPod work with windows.  Due to Microsoft's OS market dominance, there is no economic
+  incentive for software & hardware vendors to make their products work on anything
+  but windows.  So when XYZ company comes out with the latest-greatest thing, the
+  day it hits the shelves, it works on windows and nothing else.  If you want it to
+  run on linux, the only way that is going to happen is if there are enough linux
+  hackers out their that also want that product to run on/work with linux.  If you're
+  lucky, they get something out their fairly quickly, but no matter how fast they
+  are, they are always playing catch up.  \r\n\r\nAnd in the web site department,
+  there is not much linux developers can do.  If some bank doesn't care that they
+  make a requirement of using their site IE on Windows, the end user is screwed.  They'll
+  end up blaming linux, saying \"my bank website doesn't work with linux\", like it's
+  linux's fault the developers of the bank web site don't know how to make standards
+  compliant web sites.  There are even <a href=\"http://www.fafsa.ed.gov/FOTWWebApp/beforebrowser_req.jsp\">government
+  websites</a> that require windows.\r\n\r\nBecause of this, it is very difficult
+  for a normal end user to switch to linux, no matter how user-friendly linux developers
+  make linux.  Linux could very well be a better, more secure, more reliable, more
+  user-friendly operating system than Windows, but the number one thing that will
+  always stop people from switching is that \"Yeah, but my XYZ won't work with/on
+  windows\" and in most cases is not the fault of the designers of linux, but the
+  designers of XYZ.\r\n\r\nTo make it even worse, the issue of linux being free doesn't
+  even help linux, because to most home users, Windows appears to be free.  First
+  of all, it is nearly impossible to buy a computer without windows installed on it,
+  whether it be from dell.com or from a retail store.  Secondly, most of the software
+  that people use with windows (Office, for example), either comes with the computer
+  as well, or can be easily be obtained for free.  (example \"Oh you need Office,
+  I can get a copy of that for your from a friend of mine\").  And I suggest that
+  Microsoft continue to be lax on Office piracy.  Most legitimate organizations (corporations,
+  governments, etc.) pay tons of money for Office licenses.  If users can easily get
+  it for home, then they'll happily use it at home and continue to live in their Microsoft
+  bubble.  If they actually have to shell out $250 for office, users might start giving
+  open office a try, which opens the door for ending the MS Office monopoly.\r\n\r\nSo,
+  in conclusion, there is no end to this, there is no hope for linux.  Linux users
+  will be forced to dual-boot their machines so the can continue to use whatever they
+  need windows for, because Linux will always be playing catch up.  For example, right
+  now, support for mp3 players in linux is abysmal (are there any portable mp3 players
+  that work with linux?).  I would imagine as time goes on, this will improve, and
+  within a few years, my portable mp3 player that I could easily transfer songs to
+  and from 3 years ago will be working with linux.  But by then, the world will have
+  moved on to something else, who knows, maybe cell phones that play mp3s, whatever.
+  \ But whatever that is, it won't work with linux as early as it works with windows,
+  I guarantee it.  Until something drastically changes the landscape of computing,
+  Linux will remain as the small, underground rebellion fighting a losing battle against
+  the evil empire.\r\n\r\n"
+format: Markdown
+guid: 9abee2d6-f297-4137-b516-068e2b904c62
+comments_count: 3

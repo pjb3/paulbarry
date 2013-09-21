@@ -1,0 +1,20 @@
+---
+id: 4814
+slug: comparing-ruby-java-perl-and-lisp-syntax
+created_at: 2007-04-22 12:36:54.000000000 Z
+published_at: 2007-04-22 12:43:49.000000000 Z
+title: Comparing Ruby, Java, Perl, and Lisp Syntax
+body: "I was reading [Peter Cooper's \"8 Easy to Follow Ruby Presentations\"][cooper]
+  article, which links to some Ruby presentations on [SlideShare.net][slideshare].
+  \       I liked one particular bit of geek humor from one of the slides of [Yukihiro
+  Matsumoto's \"The Top 10 Reasons The Ruby Programming Language Sucks\"][matz].  There's
+  no sound, but you can guess from the context that he is trying to show how Ruby's
+  syntax is cleaner than that of other languages:  \r\n\r\n    Compare with other
+  languages:\r\n\r\n    - Ruby: puts \"Hello world!\"\r\n    - Java: threeVeryLongLines.weHopeWork
+  ...\r\n    - Perl: #$<!&;\r\n    - Lisp: ((a(((b)))(c)))\r\n\r\nI'm sure it's meant
+  more as a joke, but as always, there's some truth as the basis for the joke.\r\n\r\n[cooper]:
+  http://www.rubyinside.com/8-easy-to-follow-ruby-presentations-461.html \r\n[slideshare]:
+  http://www.slideshare.net\r\n[matz]: http://www.slideshare.net/vishnu/the-top-10-reasons-the-ruby-programming-language-sucks/"
+format: Markdown
+guid: e1c4879c-12bf-4df7-979c-6614e3f66738
+comments_count: 0

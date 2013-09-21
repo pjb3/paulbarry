@@ -1,0 +1,123 @@
+---
+id: 4904
+slug: method-dispatching-in-ruby
+created_at: 2008-05-29 18:26:43.000000000 Z
+published_at: 2008-05-29 21:37:53.000000000 Z
+title: Method Dispatching in Ruby
+body: "[Patrick Farley][farley]'s [\"Ruby Internals\" talk][farley-talk] from [Mountain
+  West Ruby Conf][mwrc] gives a clear picture of how Ruby's Class/Object system handles
+  method dispatching.  I highly recommend that any Rubyist [watch the video][farley-talk].
+  \ Or better yet, if you are are at [RailsConf, check out the presentation live and
+  in person on Saturday][farley-rc].  This article is a summary and restatement of
+  the ideas put forth in that presentation. \r\n\r\nEvery object in Ruby is an instance
+  of a class.  Each object knows which class it is an instance of (which I will refer
+  to as a class pointer), keeps track of some basic properties like is it frozen,
+  it is tainted, is it a virtual class, etc. and has is a table of instance variables.
+  \ What objects don't have is methods.  \r\n\r\nClasses are very similar to objects.
+  \ In fact, in Ruby, classes are objects.  (Note that this may or may not be the
+  case in the internals of the interpreter, and is not the case in MRI, but it doesn't
+  matter as far as this discuss goes).  In Ruby, classes are instances of the class
+  `Class`.  Once you understand this, many things in Ruby like `def self.foo` or `class
+  << self` really start to make sense. \r\n\r\nBecause classes are objects, they have
+  the class pointer, the same basic properties as all other objects and also have
+  a table of their instance variables.  But in addition, a class has a super pointer,
+  which points as the parent class of the class and a method table, which is where
+  all methods for a class are stored.\r\n\r\nSo when you send a message to an object
+  (a.k.a call a method on an object), Ruby first looks at the class pointer of the
+  object.  It figures out which class it is pointing at.  Then it looks in the method
+  table for that class.  If it has a method, it calls that method.  If there is no
+  method in the method table, it uses the super pointer of the class to find its parent
+  class.  It checks the parent class's method table and keeps doing that until it
+  finds a method or gets to a class that has no parent.  And that's it.  One of the
+  \"rules\" of Ruby is that this is the process for looking up a method, which is
+  known as method dispatching, in all cases in Ruby.  There is only way of doing method
+  dispatch.\r\n\r\nNow, you might see code like this:\r\n\r\n    class Animal; end\r\n
+  \   dog = Animal.new\r\n    cat = Animal.new\r\n    def dog.speak; puts \"woof\";
+  end\r\n    def cat.speak; puts \"meow\"; end\r\n    dog.speak\r\n    cat.speak\r\n\r\nWhich
+  prints `woof` and then `meow`.  In this example, `dog` and `cat` are both instances
+  of the same class `Animal`, but they respond differently to the speak method.  But
+  how does Ruby achieve this instance specific behavior?  Objects can't have methods,
+  so the method must be defined on a class, but the method could not have been defined
+  on the `Animal` class, otherwise one would have overwritten the other.\r\n\r\nThe
+  answer is the singleton class.  It is called the singleton class because it is a
+  class that there can only be once instance of.  Ruby wants to have instance specific
+  behavior and wants to adhere to the rule of having just one method for method dispatch.
+  \ In order to achieve that, when you define a method on an instance, Ruby creates
+  a singleton class, makes the class pointer of the object point to the singleton
+  class and makes the super pointer of the singleton class point to the class.\r\n\r\nOnce
+  you have the singleton class in place, method dispatch can proceed as normal and
+  everything works and you now have instance specific behavior.  But what about this?\r\n\r\n
+  \   dog.class == cat.class\r\n    \r\nThis evaluates to true.  But that's can't
+  be, because the class pointers of `dog` and `cat` are pointing at different classes,
+  a singleton class for each object.  The answer here is that the method `class` does
+  not actually return the direct parent of the object.  It returns the first non-virtual
+  class in the object's inheritance chain.  A singleton class is a virtual class,
+  and there other types of virtual classes that I will mention later.\r\n\r\nNow that
+  you understand the concept of singleton classes, class methods should be clear.
+  \ As I said earlier, every class is an instance of `Class`.  Each instance happens
+  to be assigned to a constant, but it doesn't have to be.  We can modify our previous
+  example like this:\r\n\r\n    animal = Class.new\r\n    dog = animal.new\r\n    cat
+  = animal.new\r\n    def dog.speak; puts \"woof\"; end\r\n    def cat.speak; puts
+  \"meow\"; end\r\n    dog.speak\r\n    cat.speak\r\n    puts \"dog is a #{dog.class}\"\r\n\r\nThis
+  will print `woof` and `meow` as before, and the last line will print something like
+  `dog is a #<Class:0x129dd0c>`.  Normally the last statement would print `dog is
+  a Animal`, but a class doesn't get a name assigned to it until you assign the class
+  to a constant. \r\n\r\nSo class methods are really just instance specific behavior
+  defined on the class object.  Class methods are defined in the method table of the
+  singleton class of the class, not in the class's own method table.  There is a difference
+  between the way the singleton class of any Ruby object is handled and the way a
+  singleton class of a class is handled.  Because of this difference, Patrick refers
+  to the singleton class of a class as a metaclass, although there is much debate
+  about that particular nomenclature.  [Ola Bini says Ruby doesn't have metaclasses
+  at all][bini], whereas [Why The Lucky Stiff refers to all singleton classes as metaclasses][why].
+  \ Personally, I think Patrick's definition makes the most sense and I'm going to
+  use his definition throughout the rest of the article.  Also, the metaclass of a
+  class is notated by prefixing it with a single quote, so `Dog`'s metaclass is `'Dog`.\r\n\r\nThe
+  difference between a metaclass and singleton class has to do with the super pointer.
+  \ Let's say for example, we define a `Dog` class that is a child class of `Animal`
+  and we put a class method on each:\r\n\r\n    class Animal\r\n      def self.foo\r\n
+  \       puts \"foo\"\r\n      end\r\n    end\r\n    class Dog < Animal\r\n      def
+  self.bar\r\n        puts \"bar\"\r\n      end\r\n    end\r\n    puts \"#{Dog.foo}
+  #{Dog.bar}\"\r\n\r\nBoth `Dog` and `Animal` are instances of `Class`.  Their class
+  pointers both point to each of their metaclasses, and those metaclasses class pointers
+  point to `Class` (there are actually a few other things in the chain, but for the
+  purpose of this discussion, it's enough to say that they point to `Class`).  `foo`
+  is defined in `'Animal`'s method table and `bar` is defined in `'Dog`'s method table.
+  \ What we want and what happens is that the class methods are inherited.  But that
+  wouldn't work by the rules of method dispatch as I've already covered.\r\n\r\nWhen
+  you send the message `foo` to `Dog`, Ruby would check its class pointer, which is
+  pointing at it's metaclass.  The method table of `'Dog` has no `foo` method.  So
+  then Ruby checks `'Dog`'s super pointer, which points at `Class`.  `Class`'s method
+  table has no `foo`, so you would get a method missing error.\r\n\r\nBut that's not
+  what happens, what does happen is that the `foo` method defined in `'Animal` gets
+  call.  The rule that makes this happen is:\r\n\r\n<a href=\"http://www.itsunfortunate.com/baea89ac540941bb79882b6d60ed7767\"
+  target=\"_blank\" title=\"The super of your metaclass is the metaclass of your super\"><img
+  src=\"http://img.skitch.com/20080530-1m6xh66cqewx92d7m4285q55hk.jpg\" alt=\"The
+  super of your metaclass is the metaclass of your super\"/></a>\r\n\r\nNormally when
+  a singleton class is created for any object, the super of the singleton class points
+  to the class of the object, but when it is a metaclass (the singleton of an object
+  that is a class), the super gets pointed to the metaclass of the object's super.
+  \ So as the fortune cookie says, \"The super of your metaclass is the metaclass
+  of your super\".\r\n\r\nOne last wrinkle in method dispatching are Modules.  Modules,
+  or mixins, as they are sometimes referred to, provide a way of adding methods to
+  a class in a way that provides the benefits of multiple inheritance without actually
+  doing multiple inheritance.\r\n\r\nA module is just like a class, it has a super
+  pointer and a method table, in fact in Ruby, `Class` inherits from `Module`.  When
+  you include a module in a class, effectively what happens is that the module inserts
+  itself in the inheritance chain of that object, much like how the singleton class
+  works.  But the problem is that in order to do that, you would have to change the
+  module's super pointer, and since the same module can be included in difference
+  classes, that can't work.  \r\n\r\nSo the way Ruby deals with this is that when
+  a module is included, a virtual class is created.  That virtual class doesn't have
+  a method table of it's own, instead it has a pointer to the method table in the
+  module.  This makes it so that if you have a module that is included in multiple
+  classes, if the module is changed, all classes see that change.  The virtual class's
+  super pointer points at the next class up in the inheritance chain for the object,
+  so now each object has a virtual class for each module it includes, and method dispatching
+  can continue to work as it does in all other cases. \r\n\r\n[farley]: http://www.workingwithrails.com/person/6742-patrick-farley\r\n[farley-talk]:
+  http://mwrc2008.confreaks.com/11farley.html\r\n[farley-rc]: http://en.oreilly.com/rails2008/public/schedule/detail/1948\r\n[mwrc]:
+  http://mtnwestrubyconf.org/\r\n[bini]: http://ola-bini.blogspot.com/2008/05/ruby-doesnt-have-meta-classes.html\r\n[why]:
+  http://whytheluckystiff.net/articles/seeingMetaclassesClearly.html"
+format: Markdown
+guid: 9e5bcfce-dc6e-4c9a-9c4b-37a16adc41a9
+comments_count: 2

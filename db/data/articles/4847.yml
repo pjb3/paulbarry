@@ -1,0 +1,47 @@
+---
+id: 4847
+slug: evolutions-migrations-for-model-centric-apps
+created_at: 2007-11-24 10:44:44.000000000 Z
+published_at: 2007-11-24 11:20:42.000000000 Z
+title: Evolutions - Migrations for Model-Centric Apps
+body: "There is a project for Django called [Evolution][ev], which is conceptually
+  similar to Rails' Migrations.  There are some differences between Evolutions and
+  Migrations, mainly due to the fact that Django is model-centric, meaning that you
+  define the attributes of your models in the code and generate the database from
+  that.  Rails, or I guess ActiveRecord more specifically, as you probably know, is
+  the opposite, where you define your database tables and an object model is generated
+  at runtime from the database metadata.  So I guess you would call that a database-centric
+  ORM.  Here's their take on the differences:  \r\n\r\n    Isn't this just ActiveRecord::Migration
+  in Python?\r\n\r\n    Superficially, yes, but not really.\r\n\r\n    There is a
+  degree of similarity - the Django Evolution syntax is\r\n    a DSL for describing
+  the changes that have been made to a model.\r\n\r\n    However, there are also some
+  significant differences. In addition to\r\n    ActiveRecord::Migration, Django Evolution
+  provides:\r\n\r\n        1. An audit trail - a permanent archive in the database
+  of the\r\n           changes that have been applied, and when.\r\n        2. An
+  automated hinting scheme. If you don't want to write the\r\n           migrations
+  yourself, you don't have to.\r\n        3. Validation that an evolution script will
+  leave the database\r\n           in a state consistent with the current model definition.\r\n\r\n
+  \   These differences are largely afforded by the model-centric design of\r\n    Django
+  itself. Whereas a Ruby on Rails model is a description of a\r\n    database that
+  has been created by hand, Django uses the Python model\r\n    to creates the database.
+  As a result, the model definition is canonical\r\n    - not the database.\r\n\r\n
+  \   This means that audit, hinting, and verification schemes can use the\r\n    Django
+  model as a point of reference. A Django Evolution script is\r\n    much more than
+  just an alternate syntax for SQL ALTER statements - it\r\n    is an evolution scheme
+  that is bound to the canonical model definition.\r\n\r\nThe [DataMapper][dm] project
+  is a model-centric ORM for Ruby apps and as that project continues to grow, their
+  could be some ideas borrowed from Django Evolution, although they do already have
+  their own thing going on with [Auto-Migration][dmd]. \r\n\r\nBut I'm a Ruby guy,
+  so I've got to take one shot at them here :).  They say \"the Django Evolution syntax
+  is a DSL\".  Really?\r\n\r\n    MUTATIONS = [\r\n         AddField('Author', 'location',
+  models.CharField, max_length=100, null=True)\r\n    ]\r\n\r\nI'm sorry, but if that's
+  a DSL, then what isn't a DSL?  In my opinion, there is too much Python syntax to
+  call that a DSL.  It's a subtle difference but this is a DSL:\r\n\r\n    add_column
+  :authors, :location, :limit => 100\r\n\r\nThe question when is it a language specific
+  library and when it is a DSL?  Would you call this a DSL?\r\n\r\n    Mutation m
+  = new AddField(\"Author\", \"location\", CharField.class);\r\n    m.setMaxLength(100);\r\n
+  \   m.setAllowNulls(false);\r\n    Mutations.add(m);\r\n\r\n[ev]: http://code.google.com/p/django-evolution\r\n[dm]:
+  http://datamapper.org/\r\n[dmd]: http://datamapper.rubyforge.org/"
+format: Markdown
+guid: 160daddd-2a0d-4046-b673-1571c7c297cf
+comments_count: 0

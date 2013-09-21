@@ -1,0 +1,18 @@
+---
+id: 5086
+article_id: 4838
+created_at: 2008-01-15 10:43:38.000000000 Z
+url: 
+email: 
+author: Peter
+ip: 38.99.162.187
+body: "@Paul\r\n\r\nIn order to delete dependencies, shouldn't the membership model
+  look more like this:\r\n\r\n#app/models/user.rb\r\nclass User < ActiveRecord::Base\r\n
+  \ <!-- next line is different from original -->\r\n  has_many :memberships, :dependent
+  => :destroy\r\n  has_many :groups, :through => :memberships\r\n\r\n  attr_accessor
+  :group_ids\r\n  after_save :update_groups\r\n\r\n  #after_save callback to handle
+  group_ids\r\n  def update_groups\r\n    unless group_ids.nil?\r\n      self.memberships.each
+  do |m|\r\n        m.destroy unless group_ids.include?(m.group_id.to_s)\r\n        group_ids.delete(m.group_id.to_s)\r\n
+  \     end \r\n      group_ids.each do |g|\r\n        self.memberships.create(:group_id
+  => g) unless g.blank?\r\n      end\r\n      reload\r\n    end\r\n  end\r\nend\r\n"
+guid: 524d0484-dc46-47ed-b808-35771f9e7398

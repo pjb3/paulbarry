@@ -1,0 +1,55 @@
+---
+id: 122
+slug: python-is-weird
+created_at: 2006-09-20 22:09:14.000000000 Z
+published_at: 2006-09-20 22:09:14.000000000 Z
+title: Python is Weird
+body: "I've heard some good things about the <a href=\"http://www.djangoproject.com/\">Django
+  framework</a>.  One thing that as me interested in Django is that the way it works
+  in general is you define your domain model in code, in Python objects, and Django
+  figures out how to build a database for you.  Conceptually, I like this idea better
+  than <a href=\"http://www.rubyonrails.org/\">Ruby on Rails</a>, where you define
+  your domain model in the database, and then rails generates objects for you at runtime
+  based on the database metadata.  Also, you run it my installing mod_python in apache.
+  \ Again, compared to rails with apache, FCGI/SCGI, lighttpd, mongrel, etc..., I
+  don't know, let's just say I have found the process of setting up a rails production
+  web/app server challenging.  I haven't done it for Django yet, we'll see.  Should
+  be a small memory footprint too, making it easy to run multiple apps in my 192MB
+  virtual server webhost.\r\n\r\nBut one thing I want to comment on now is that I
+  find Python to be weird.  Maybe this is because I have done most of my programming
+  in Java, but when I started to learn Ruby, everything in Ruby just made sense, without
+  Java's stupidity, such as NullPointerExceptions and primatives.  I've soured on
+  rails recently, but I miss Ruby.  The language is succinct and powerful, it almost
+  feels like writing psuedo code, except that it actually works.\r\n\r\nAnyway, let
+  me just give a few examples of python weirdness.  But before I do, let me say this.
+  \ I don't know python well at all.  Consider these statements to be my first impressions
+  of Python.  I'm in no way stating that python is poor language due to these oddities,
+  they just strike me as odd and I feel the need to express it.  So, on with the weirdness:\r\n\r\nSo
+  to get started, I started reading the <a href=\"http://www.djangoproject.com/documentation/install/\">Django
+  install guide</a>.  I noticed I needed python 2.3 or higher.  Fair enough, so python
+  2.5 is the latest, so I installed that.\r\n\r\nThe next requirement is for MySQLdb.
+  \ It says it works with python 2.3-2.4, doesn't say anything about 2.5.  I decide
+  to install python 2.4 to be safe.  So just deciding which version of python to use
+  is a little bit of a struggle.\r\n\r\nSo now I have python 2.4 and MySQLdb.  I want
+  to try and do something simple to verify it is working.  I find an example in the
+  docs:\r\n\r\n<pre>import MySQLdb\r\ndb=MySQLdb.connect(passwd=\"moonpie\",db=\"thangs\")\r\n\r\nc=db.cursor()\r\nmax_price=5\r\nc.execute(\"\"\"SELECT
+  spam, eggs, sausage FROM breakfast\r\n          WHERE price < %s\"\"\", (max_price,))</pre>\r\n\r\nWhat's
+  with the 3 quotes?  Anyway, let's give it a try.  First, I add c:python24\bin to
+  my path, fire up a command prompt, and enter \"python\" in hopes of getting an interactive
+  shell.  Python isn't found.  Why not, because the python executables aren't in c:python24\bin,
+  they are in c:python24.  Ok fine, I fix my path, but I decide to use the IDLE GUI
+  instead. I try to enter a query, but I make a typo.  I press the up arrow, but it
+  doesn't bring up my previous command.  I re-type it and get it right this time.
+  \ The query is:\r\n\r\n<code>select count(*) from users</code>\r\n\r\nThis returns
+  9 when I execute the query in mysql.  What does Python return?\r\n\r\n<code>1L</code>\r\n\r\n1L?
+  \ What is that?  Again, I am naive when it comes to python, this is not a fair criticism
+  of Python, I have done very little to learn the language at this point, I just trying
+  to illustrate a point.  I know Java well.  When I started learning Ruby, from the
+  start, everything just worked as you expected it would.  As I look into Python,
+  I find one oddity after another.  I'm sure if you know Python well you will consider
+  many of the things in Java odd, so I'm just going to consider all of these things
+  first impressions and move on to learn more about the language and give it a fair
+  chance.  But Python is still Weird.\r\n"
+format: Markdown
+guid: 82df2b68-704b-4958-869f-039347425b7f
+comments_count: 13

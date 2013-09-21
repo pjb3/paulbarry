@@ -1,0 +1,15 @@
+---
+id: 5080
+article_id: 4838
+created_at: 2007-12-04 14:19:59.000000000 Z
+url: http://socialtech.ca/ade/
+email: adrianduyzer@gmail.com
+author: Ade
+ip: 216.221.90.34
+body: |-
+  This works brilliantly.  A word to anyone who is trying to understand this if you're not actually dealing with users, groups and memberships: it makes things a lot easier if you just cut and paste this entire post into a text editor, then search and replace the terms 'user', 'group', and 'membership' with the actual entities from your system.
+
+  Plus, then the code will work in your application with minimal adjustment.
+
+  Thanks for the help Paul.
+guid: 79936a5c-db05-4860-868f-231efcd8a68e

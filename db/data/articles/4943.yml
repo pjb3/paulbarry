@@ -1,0 +1,132 @@
+---
+id: 4943
+slug: emulating-haskells-maybe-in-java-with-checked-exceptions
+created_at: 2009-07-17 02:29:03.000000000 Z
+published_at: 2009-07-17 02:49:10.000000000 Z
+title: Emulating Haskell's Maybe in Java with Checked Exceptions
+body: "[Haskell][haskell] is one of the interesting languages that I've been looking
+  into off and on for a while now.  I think the type system is really interesting
+  and if you don't know Haskell, you should check it out.  I've found that the best
+  introduction to the language is [Learn You A Haskell][lyah].  Once you've got the
+  basics down, you should tackle [Real World Haskell][rwh], which is a much more in-depth
+  book.  I'm still working through it when I have some spare time.\r\n\r\nOne interesting
+  concept in Haskell is the [Maybe type][maybe].  The purpose of the Maybe type is
+  to declare in the type signature of a function that a function might return a value
+  or it might return nothing.  In [Java][java], the return type of method can't indicate
+  that.  For example, if you have a method with this signature:\r\n\r\n    Object
+  lookup(String key)\r\n    \r\nYou have no idea if that will actually give you an
+  object or not.  The lookup method may or may not be implemented in such a way that
+  prevents it from returning null.  If the method does return null, you are risking
+  the possibility of encountering the dreaded `NullPointerException`.\r\n\r\nHaskell
+  doesn't have this problem because it doesn't treat null in the same way that Java
+  treats null.  As we just implied in the previous paragraph, this is a valid implementation
+  of the lookup method from the Java compiler's perspective:\r\n\r\n    Object lookup(String
+  key) {\r\n      return null;\r\n    }\r\n\r\nHaskell's equivalent to `null` is called
+  `Nothing`, but the difference is that `Nothing` cannot stand in for all other types,
+  as it can in Java.  So if you actually had a type called `Object` in Haskell, a
+  function that returns an `Object` cannot return `Nothing`.\r\n\r\nA practical example
+  of this would be looking up a value in a Map.  When you try to retrieve the value
+  for a key in a map, you might get a value or you might not find one.  Here is an
+  invalid Haskell program that tries to do that:\r\n\r\n    import Prelude hiding
+  (lookup)\r\n    import Data.Map\r\n\r\n    zipToCityMap = fromList([(\"21230\",
+  \"Baltimore\"), (\"21046\", \"Columbia\")])\r\n\r\n    main = do\r\n      putStrLn
+  \"What is your zip code?\"\r\n      zip <- getLine\r\n      putStrLn $ \"You live
+  in \" ++ (lookup zip zipToCityMap)\r\n\r\nIf you try to run this (which you can
+  do on a mac by first installing ghc through macports with the command `sudo port
+  install ghc`, then saving the contents above to `city.hs` and running the command
+  `runghc city.hs`), you will get this compilation error:\r\n\r\n    city.hs:9:32:\r\n
+  \       Couldn't match expected type `[Char]'\r\n               against inferred
+  type `Maybe [Char]'\r\n        In the second argument of `(++)', namely\r\n            `(lookup
+  zip zipToCityMap)'\r\n        In the second argument of `($)', namely\r\n            `\"You
+  live in \" ++ (lookup zip zipToCityMap)'\r\n        In the expression:\r\n              putStrLn
+  $ \"You live in \" ++ (lookup zip zipToCityMap)\r\n\r\nWhat the compiler is trying
+  to say is that the `lookup` function returns a `Maybe [Char]`, not a `[Char]`.  `[Char]`
+  is a type that is a list of characters.  In Haskell, the type `String` is just an
+  alias for `[Char]`.  By wrapping the `[Char]` in a Maybe, the `lookup` function
+  requires it's callers to unravel the value out of the Maybe in order to use it as
+  well as explicitly handle the case that no value was found.  If we modify our program
+  to look like this:\r\n\r\n    import Prelude hiding (lookup)\r\n    import Data.Map\r\n\r\n
+  \   zipToCityMap = fromList([(\"21230\", \"Baltimore\"), (\"21046\", \"Columbia\")])\r\n\r\n
+  \   main = do\r\n      putStrLn \"What is your zip code?\"\r\n      zip <- getLine\r\n
+  \     case lookup zip zipToCityMap of\r\n        Nothing -> putStrLn \"I don't know
+  where you live\"\r\n        Just city -> putStrLn $ \"You live in \" ++ city\r\n\r\nThis
+  will compile and run.  The program will ask you for your zip code and it will print
+  the city you live in, but if it can't find it in its \"database\", it prints a friendly
+  response rather than blowing up.  Now here's a Java version of this program:\r\n\r\n
+  \   import java.util.Scanner;\r\n    import java.util.Map;\r\n    import java.util.HashMap;\r\n\r\n
+  \   class City {\r\n\r\n      String name;\r\n      String state;\r\n\r\n      public
+  City(String name, String state) {\r\n        this.name = name;\r\n        this.state
+  = state;\r\n      }\r\n\r\n      public static City lookup(String zip) {\r\n        Map
+  zipToCityMap = new HashMap();\r\n        zipToCityMap.put(\"21230\", new City(\"Baltimore\",
+  \"MD\"));\r\n        zipToCityMap.put(\"21046\", new City(\"Columbia\", \"MD\"));\r\n
+  \       return (City)zipToCityMap.get(zip);\r\n      }\r\n\r\n      public static
+  void main(String[] args) {\r\n        System.out.println(\"What is your zip code?\");\r\n
+  \       Scanner in = new Scanner(System.in);\r\n        String zip = in.nextLine();\r\n
+  \       System.out.println(\"You live in \"+lookup(zip).name);\r\n      }\r\n  \r\n
+  \   }\r\n\r\nIf you compile and run this, if you enter one of the chosen zip codes,
+  it will tell you what city you live in.  But if you enter an incorrect zip code,
+  you will get the dreaded NullPointerException:\r\n\r\n    $ javac City.java\r\n
+  \   Note: City.java uses unchecked or unsafe operations.\r\n    Note: Recompile
+  with -Xlint:unchecked for details.\r\n    $ java City\r\n    What is your zip code?\r\n
+  \   21230\r\n    You live in Baltimore\r\n    $ java City\r\n    What is your zip
+  code?\r\n    90210\r\n    Exception in thread \"main\" java.lang.NullPointerException\r\n
+  \           at City.main(City.java:26)\r\n\r\nNow to get around this you would normally
+  just check to see if the city is null and then print an alternative method if it
+  is:\r\n\r\n    City city = lookup(zip);\r\n    if(city != null) {\r\n      System.out.println(\"You
+  live in \"+.name);  \r\n    } else {\r\n      System.out.println(\"I don't know
+  where you live\");\r\n    }\r\n\r\nWe know to do this only because we know the lookup
+  method might return null.  It would be nice if when defining the lookup method we
+  could make it explicit to the callers of the method that the method might return
+  null and have the compiler generate an error if the caller does not explicit check
+  for the condition of a null result.  If this were the case, a NullPointerException
+  would be impossible.  This is exactly what Haskell's Maybe type does.\r\n\r\nA [few][morris]
+  [other][harold] [people][iry] have attempted to define a class in Java that mimics
+  the Haskell Maybe type.  That appears to work somewhat, but actually seems fairly
+  convoluted to me.  Another way to achieve the same goal would be to use a checked
+  exception.  To do this, put this in a file called `MaybeNullException`:\r\n\r\n
+  \   public class MaybeNullException extends Exception {}\r\n\r\nThen add `throws
+  MaybeNullException` to the end of the method signature for the `lookup` method.
+  \ With just those changes, you will get a compilation error:\r\n\r\n    City.java:26:
+  unreported exception MaybeNullException; must be caught or declared to be thrown\r\n
+  \       System.out.println(\"You live in \"+lookup(zip).name);\r\n\r\nWhich is exactly
+  what we want.  We have indicated in the method signature of our `lookup` method
+  that it might return null, therefore the caller of our method is required to do
+  something about it.  \r\n\r\nTo get this to work, first we need to make the `lookup`
+  method actually throw the exception if the city isn't found.  This is semantically
+  equivalent to returning `Nothing` in the Haskell version:\r\n\r\n    City city =
+  (City)zipToCityMap.get(zip);\r\n    if(city == null) {\r\n      throw new MaybeNullException();\r\n
+  \   } else {\r\n      return city;\r\n    }\r\n\r\nAnd then in the method where
+  we call `lookup`, we need to check for the Exception:\r\n\r\n    try {\r\n      System.out.println(\"You
+  live in \"+lookup(zip).name);  \r\n    } catch(MaybeNullException e) {\r\n      System.out.println(\"I
+  don't know where you live\");  \r\n    }\r\n\r\nNow we get the desired behavior:\r\n\r\n
+  \   $ javac -cp . City.java\r\n    Note: City.java uses unchecked or unsafe operations.\r\n
+  \   Note: Recompile with -Xlint:unchecked for details.\r\n    $ java City\r\n    What
+  is your zip code?\r\n    21230\r\n    You live in Baltimore\r\n    $ java City\r\n
+  \   What is your zip code?\r\n    90210\r\n    I don't know where you live\r\n\r\nThe
+  problem with this solution, at least from a Java perspective, is that [many][checked1]
+  [people][checked2], myself included, consider checked exceptions to be a failed
+  experiment.  Making use of checked exceptions all over your code results in having
+  to add a lot more boilerplate and try/catch statements.  But is this a small price
+  to pay for eliminating the NullPointerException?  Or does the Maybe type impose
+  too much overhead in Haskell, making it doomed to fall out of favor the same way
+  checked exceptions did in Java?  My thought is no, that packing as much information
+  as possible into the type of functions is the essence of Haskell.  Also in Java,
+  checked exceptions are something programmers learned to essentially get rid of by
+  wrapping them in unchecked exceptions, where Nothing is very core to the way Haskell
+  works.  Nevertheless I thought this was an interesting thought experiment and might
+  serve as a good analogy for Java programmers learning Haskell.\r\n\r\nI should point
+  out one more thing on this topic which is that the Maybe type is definitely more
+  powerful in Haskell because it is a [Monad][maybe-monad].  Because of this you can
+  chain function calls together without having to deal with the possibility of something
+  like a null pointer exception.  The Java Checked Exception doesn't provide us a
+  similar mechanism. \r\n \r\n[haskell]: http://haskell.org\r\n[java]: http://java.sun.com
+  \r\n \r\n[lyah]: http://learnyouahaskell.com\r\n[rwh]: http://book.realworldhaskell.com
+  \ \r\n\r\n[maybe]: http://en.wikibooks.org/wiki/Haskell/Hierarchical_libraries/Maybe\r\n\r\n[morris]:
+  http://dibblego.wordpress.com/2006/12/18/maybe-monad-in-java/\r\n[harold]: http://cafe.elharo.com/programming/imagine-theres-no-null/\r\n[iry]:
+  http://james-iry.blogspot.com/2007/08/martians-vs-monads-null-considered.html\r\n\r\n[checked1]:
+  http://radio.weblogs.com/0122027/stories/2003/04/01/JavasCheckedExceptionsWereAMistake.html\r\n[checked2]:
+  http://www.alittlemadness.com/2008/03/12/checked-exceptions-failed-experiment/\r\n\r\n[maybe-monad]:
+  http://www.haskell.org/all_about_monads/html/maybemonad.html"
+format: Markdown
+guid: 6404a8e1-30fd-4f60-b7ae-9873d4bc26fd
+comments_count: 9

@@ -1,0 +1,13 @@
+---
+id: 5192
+article_id: 4915
+created_at: 2008-09-09 08:05:55.000000000 Z
+url: http://beans.seartipy.com/
+email: tabrez,iqbal@gmail.com
+author: tabrez
+ip: 121.246.152.159
+body: "RESTful routing in Ruby on Rails breaks:\na)Convention over Configuration principle
+  and\nb)Don't Repeat Yourself principle. \n\nRESTful URLs are good but someone needs
+  to come up with a smarter routing implementation that uses route mapping conventions.\n\nCurrent
+  implementation of RESTful routing is particularly severe on beginner Rails programmers."
+guid: 32433d3b-6f3e-4657-b5c3-677c5299a713

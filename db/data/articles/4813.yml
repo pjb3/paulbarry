@@ -1,0 +1,29 @@
+---
+id: 4813
+slug: ajax-with-prototype
+created_at: 2007-04-10 21:51:20.000000000 Z
+published_at: 2007-04-10 22:09:38.000000000 Z
+title: AJAX with Prototype
+body: "I just got back from the [B'More on Rails][bmore] meeting in which Chris Strom
+  gave a presentation on [AJAX with Protoype][bor].  It was a great presentation,
+  job well done Chris.  I thought I would point out a few things that I learned.\r\n\r\nFirst
+  of all, prototype has a [$$ method][$$] that I didn't know about.  It allows you
+  to select multiple elements using a CSS selector and then do stuff to them using
+  an iterator.  For example, if you are playing along at home and you have [Firebug][fb]
+  installed, open the [Firebug console][fb-cl] on this page and enter this javascript:\r\n\r\n
+  \   $$('a').each(function(a){a.hide()})\r\n\r\nHey, where did all the links go?
+  \ You can probably figure out how to make them re-appear.  The cool thing about
+  this is that the value you pass to the `$$` method is a CSS selector.  So for example,
+  want to make all those tags in the sidebar go away?\r\n\r\n    $$('.sidebar-node
+  p span').each(function(s){s.hide()})\r\n\r\nAnother interesting thing I learned
+  is that [using DOM to create content in a page is a lot slower than innerHTML][qm].
+  \ For that reason, you will see a lot of JavaScript that creates new content on
+  a page written like this:\r\n\r\n    var html = [\r\n      \"<div>\",\r\n      \"<p>Hello
+  There, I'm a new paragraph</p>\",\r\n      \"</div>\"\r\n    ]\r\n    $('some-div').innerHTML
+  += html.join(\"\");\r\n\r\nBecause it is faster.\r\n\r\n[bmore]: http://www.bmoreonrails.org/\r\n[bor]:
+  http://ruby.meetup.com/85/calendar/5500378/\r\n[$$]: http://prototypejs.org/api/utility#method-$$\r\n[fb]:
+  http://www.getfirebug.com/\r\n[fb-cl]: http://www.getfirebug.com/cl.html\r\n[qm]:
+  http://www.quirksmode.org/dom/innerhtml.html"
+format: Markdown
+guid: c66d52a9-5db8-401d-9465-163f18bc520e
+comments_count: 2

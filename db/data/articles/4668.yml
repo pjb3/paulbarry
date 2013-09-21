@@ -1,0 +1,88 @@
+---
+id: 4668
+slug: typo-problems-new-site-coming-soon-hopefully
+created_at: 2006-12-13 10:40:20.000000000 Z
+published_at: 2006-12-13 10:40:20.000000000 Z
+title: Typo problems, new site coming soon (hopefully)
+body: "This site is currently using [Typo][typo], which is blog software written using
+  [Ruby on Rails(RoR)][ror].  It uses [Mongrel][mongrel] to run RoR.  Apache is the
+  actual web server, it passes requests intended for RoR to mongrel, which then serves
+  the request.\r\n\r\nI originally started this site with [WordPress][wp], which is
+  [PHP][php]-based blog software.  I'm not a big fan of developing with PHP, and I
+  was hoping to start doing some custom things with my site, so I switched to Typo,
+  so that my site would be running RoR, and I could make my own extensions using RoR.\r\n\r\nSince
+  then, I've discovered a few major design flaws with RoR, so I'm not writing any
+  code in RoR now.  First of all, and this isn't really a design flaw, but more of
+  a bug, is that some combination of Typo, Mongrel and Rails is causing a serious
+  memory leak.  Typo has caused my entire VPS instance hosted at [VPSLand][vpsland]
+  to become unreachable.  This has caused this site to be down over the past few days.
+  \ I've never had that kind of problem with a Java app.\r\n\r\nAside form the memory
+  leak issues, and general difficult of setting up a stable rails site, the biggest
+  thing I don't like about RoR is that your application model is inferred from the
+  database at runtime.  I'd much prefer it the other way around, where I write a domain
+  model in code, and then the framework generates the database for me.  \r\n\r\nThe
+  reason why it isn't like this in RoR is because Ruby isn't a statically typed language.
+  \ There has been a lot of hype around dynamically typed languages, but I think they
+  have disadvantages as well.  Since I can't create a class in Ruby and declare what
+  type each property is, there is no way to automatically generate a database based
+  on the model.\r\n\r\nThis is what got me interested in [Django][django].  Django
+  is another web framework, but based on Python instead of Ruby.  Python and Ruby
+  are both dynamically typed languages, similar in a lot of ways, but they also have
+  their differences.  With the Django project, they chose to create pseudo-typing
+  within Python, where you define the type of property of an object in a way that
+  the framework understands it, but not the Python language itself.\r\n\r\nI like
+  Python and Django, but I always thought to myself, wouldn't it be nice if the language
+  was optionally typed, to that you could declare the type if you want to, so that
+  the type could be used as metadata by a framework?\r\n\r\nI do most of my programming
+  in Java, so I came to the realization that there are great things about Python,
+  Django, Ruby and Rails, but Java, Stripes, Hibernate and friends have advantages
+  too.  I decided that although Python/Django and RoR (less so RoR, in my opinion)
+  certainly seem like great ways to build web apps, I don't think there's an order
+  of magnitude increase in productivity over Java, as [some have claimed][tate].\r\n\r\nBut
+  when turning back to Java, one thing I realized I missed was the true object oriented-ness
+  that dynamic langauges allow.  For example, in dynamic languages, to store a user
+  object in the database, you use `user.save`, whereas in Java, you do something like
+  `userDao.save(user)`.  Also, the succinctness of the dynamic languages are great,
+  whereas Java verbosity can be almost ridiculous at times.  Try this one on for size:\r\n\r\n
+  \   private static final List<Map<String, Date>> DAYS =\r\n        new ArrayList<Map<String,Date>>();\r\n
+  \   static {\r\n        try {\r\n            Map<String,Date> map = new HashMap<String,Date>();\r\n
+  \           map.put(\"Pearl Harbor\",\r\n                new SimpleDateFormat(\"MM/dd/yyyy\").parse(\"12/07/1941\"));\r\n
+  \           DAYS.add(map);\r\n            map = new HashMap<String,Date>();\r\n
+  \           map.put(\"Iwo Jima\",\r\n                new SimpleDateFormat(\"MM/dd/yyyy\").parse(\"02/19/1945\"));\r\n
+  \           DAYS.add(map);\r\n        } catch(ParseException ex) {\r\n            ex.printStackTrace();\r\n
+  \       }\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        for(Map<String,Date>
+  day: DAYS) {\r\n            for(Map.Entry<String,Date> e: day.entrySet()) {\r\n
+  \               System.out.println(e.getKey()+\", \"+e.getValue());\r\n            }\r\n
+  \       }\r\n    }\r\n\r\nAnd then in a yet-to-be-discussed dynamic language:\r\n\r\n
+  \   def days = [ \r\n      'Pearl Harbor' : new java.util.Date('12/7/1941'),\r\n
+  \     'Iwo Jima' : new java.util.Date('2/19/1945')\r\n    ]\r\n    days.each { key,
+  value -> println \"$key, $value\" }\r\n\r\nSo, wouldn't it be nice if there was
+  a dynamic, optionally typed language that would allow us to build a really great,
+  object-oriented web application framework with a syntax as succinct as the syntax
+  of fully dynamically typed languages?  Well, there is, and it is [Grails][grails].\r\n\r\nGrails
+  is a web-framework based on [Groovy][groovy].  Groovy is a scripting language that
+  runs in the Java VM.  It complies to Java bytecode.  This is nice because you can
+  build web apps using Groovy on Grails (GoG?), and then deploy to a regular Java
+  application server, such as my personal favorite, [Resin][caucho].  \r\n\r\nThe
+  other nice thing about Grails is that it leverages all the existing Java frameworks,
+  such as [Spring][spring] and [Hibernate][hibernate].  It puts a nice domain specific
+  language on top of hibernate to make using Hibernate even easier.  \r\n\r\nI'm just
+  getting my feet wet learning Grails, and the best move I've made so far is to purchase
+  the e-book version of [The Definitive Guide to Grails][grailsbook].  I've found
+  the documentation on the grails site to be ok, but the book is great.  It's a must
+  read for anyone looking into Grails.  My only criticism of the book so far is that
+  they may have published it a little to early, because for example if states that
+  Grails doesn't support many-to-many relationships, when in fact it does as of version
+  0.3.\r\n\r\nSo the point of this long technical discussion is that from what I've
+  read about Grails so far, it looks interesting.  I'm going to try to get a new version
+  of this site developed with Grails, and I'll try to make posts here of my progress,
+  assuming Typo doesn't bring down my site again.\r\n\r\n[typo]: http://www.typosphere.org/\r\n[ror]:
+  http://www.rubyonrails.org/\r\n[mongrel]: http://mongrel.rubyforge.org/\r\n[wp]:
+  http://wordpress.org/\r\n[php]: http://php.net/\r\n[django]: http://www.djangoproject.com/\r\n[tate]:
+  http://weblogs.java.net/blog/batate/\r\n[grails]: http://grails.codehaus.org/\r\n[groovy]:
+  http://groovy.codehaus.org/\r\n[caucho]: http://www.caucho.com/\r\n[spring]: http://www.springframework.org/\r\n[hibernate]:
+  http://www.hibernate.org/\r\n[grailsbook]: http://www.apress.com/book/bookDisplay.html?bID=10205\r\n[vpsland]:
+  http://vpsland.com/\r\n"
+format: Markdown
+guid: e47323ac-b583-4da9-9cbc-758428a72217
+comments_count: 1

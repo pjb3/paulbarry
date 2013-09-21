@@ -1,0 +1,59 @@
+---
+id: 4803
+slug: the-power-of-dynamic-methods
+created_at: 2007-02-14 12:30:10.000000000 Z
+published_at: 2007-02-14 21:59:11.000000000 Z
+title: The Power of Dynamic Methods
+body: "Today I was writing some Java code and needed to make methods like this:\r\n\r\n
+  \   @Transient\r\n    public String getThingsAsString() {\r\n        if(things !=
+  null) {\r\n            StringBuilder sb = new StringBuilder();\r\n            boolean
+  first = true;\r\n            for(Thing t: things) {\r\n                if(!first)
+  {\r\n                    sb.append(\", \");\r\n                } else {\r\n                    first
+  = false;\r\n                }\r\n                sb.append(t.getName());\r\n            }\r\n
+  \           return sb.toString();\r\n        }\r\n        return null;\r\n    }\r\n\r\nBasically,
+  I have an object that has a Collection of Things objects, and I need to print the
+  name of each Thing in a comma-separated list.  I have several different Collections
+  and so I need to repeat this for each one.  I could \"simplify\" this by creating
+  an interface that all of my different objects like Thing implement, for example
+  calling it NamedEntity.  This means that each one of these objects are guaranteed
+  to have a getName() method.  After creating that interface and modifying all the
+  object so that they implement it, I would write a utility method to print a NamedEntity
+  as a String.  So then each above method would look like:\r\n\r\n    public String
+  getThingAsString() {\r\n        return NamedEntityUtil.getNamedEntitiesAsString(things);\r\n
+  \   }\r\n\r\nBut this still means that I have to create a getXXXAsStringMethod for
+  each collection.  I could just call the utility method when I need the string, but
+  the problem is that I need this string within JSP pages, and you can't call the
+  static methods from a JSP without resorting to scriplets.  This is especially a
+  pain because it is difficult to mix JSTL and scriptlets.\r\n\r\nSo what could you
+  do if you need to do this in Rails?  Well for starters, you can use one line of
+  Ruby code to do it:\r\n\r\n    things.collect {|t| t.name}.join(\", \")\r\n\r\nYou
+  could also create one view helper to make the syntax a little cleaner, and then
+  re-use it.  Ths view helper method would be:\r\n\r\n    def join_names(things, sep=\",
+  \")\r\n      things.collect {|t| t.name}.join(sep)\r\n    end\r\n\r\nAnd look at
+  that, we easily can now optionally pass a different separator.  But that's not the
+  point I want to illustrate in this post.  Let's say for some reason in Rails we
+  really needed to create various method to print the various collections as strings.
+  \ Well that would be easy too.  We would just put this inside of our class that
+  has a Collection of things:\r\n\r\n    [\"things\", \"other_things\"].each do |name|\r\n
+  \     define_method(\"#{name}_as_string\") do self.join_names(self.send(name)) end\r\n
+  \   end\r\n\r\nWhat this ruby magic does is dynamically create methods for each
+  collection.  It allows you call methods like this:\r\n\r\n    whatever.things_as_string\r\n
+  \   whatever.other_things_as_string\r\n\r\nLike I said, you probably wouldn't really
+  do this for this example, but the point here is that with Ruby, you can write code
+  that writes code, and that can be very powerful.\r\n\r\nI first heard of this concept
+  in the book [Hackers and Painters][hp] by [Paul Graham][pg].  This is the best book
+  on programming I have ever read, and if you haven't read it, go out and buy it and
+  read it.  It actually isn't very technical.  It doesn't teach you any specific programming
+  techniques, but it's just a great book.  My favorite chapter is [Why Nerds Are Unpopular][wnau].\r\n\r\nIn
+  a chapter called [Beating the Averages][bta], for which the full text is available
+  on Paul Graham's website, like many of the chapters of the book, he talks about
+  how Lisp macros are programs that write programs, and at the time, it sounded like
+  a great idea, but I just didn't get it.  He said:\r\n\r\n> Programs that write programs?
+  When would you ever want to do that? Not very often, if you think in Cobol. All
+  the time, if you think in Lisp.\r\n\r\nCode that writes code?  When would you ever
+  want to do that?  Not very often, if you think in Java.  All the time, if you think
+  in Ruby. \r\n\r\n[pg]: http://www.paulgraham.com\r\n[hp]: http://www.amazon.com/gp/product/0596006624\r\n[bta]:
+  http://www.paulgraham.com/avg.html\r\n[wnau]: http://www.paulgraham.com/nerds.html\r\n\r\n"
+format: Markdown
+guid: dac1cb5d-fc71-4d86-a594-bff4295e67fb
+comments_count: 0

@@ -1,0 +1,18 @@
+---
+id: 5335
+article_id: 4949
+created_at: 2009-09-08 10:24:36.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 151.196.62.163
+body: "@Dave\n\nClojure supports mutual recursion via another function called trampoline.
+  \ This will overflow:\n\n(declare bar) \n\n(defn foo [n] \n  (if (pos? n) \n    (bar
+  (dec n)) \n    :done-foo)) \n\n(defn bar [n] \n  (if (pos? n) \n    (foo (dec n))
+  \n    :done-bar)) \n\n(foo 1000000) \n-> java.lang.StackOverflowError \n\nTo convert
+  to a trampoline, simply return closures over your tail \ncalls, rather than direct
+  calls. This is as simple as prepending # \n\n(declare bar) \n\n(defn foo [n] \n
+  \ (if (pos? n) \n    #(bar (dec n)) \n    :done-foo)) \n\n(defn bar [n] \n  (if
+  (pos? n) \n    #(foo (dec n)) \n    :done-bar)) \n\nThen make the top-level call
+  via trampoline: \n(trampoline foo 1000000) \n-> :done-foo "
+guid: 244adbe2-b361-48a5-b7c0-bb21f2bef72d

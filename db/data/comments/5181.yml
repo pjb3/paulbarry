@@ -1,0 +1,21 @@
+---
+id: 5181
+article_id: 4915
+created_at: 2008-09-06 04:02:18.000000000 Z
+url: http://www.storytotell.org
+email: fusion@storytotell.org
+author: Daniel Lyons
+ip: 68.35.161.147
+body: |-
+  In February I was busy trying to understand and convert a coworker of mine to RESTful Rails, because I wanted to stay at the top of the curve and keep track of these things. And besides, RESTful Rails seemed to provide a number of important benefits.
+
+  I became familiar with make_resourceful and started using that in my projects. I was really pleased, because I could replace ~100 line controllers with ~20 line controllers, nevermind that I always wound up overriding current_objects and certain other methods to get it to do what I want.
+
+  This past week I found myself working on an old Rails 1.2 project, maintaining some things and I needed to add an RSS feed. I started putting all that RESTful stuff into the controller and the routing and then I thought, what the hell, I'll just make a little method and a little template. Twenty minutes later, it's completely done and linked to from the main template. How cool was that! And then I sat there thinking, wait a second, have I ever really *used* the fact that my RESTful methods could handle different "types" of responses? Or have I only ever used it to handle HTML this whole time?
+
+  So I think the one case where it would really have been handy to have been using REST came and left. I used respond_to inside a regular method and there still are no resources in this application. Reading this blog entry certainly makes me wonder. I had been thinking about how I need to spend some time modernizing this application, how I should go through and stick make_resourceful inside all of the controllers and really fatten up that routing. And yeah, it's probably a savings to remove 80 lines of code from 10 or 12 controllers and add 50 to the routing. But what about all those links? My app is going to have deeply nested resources. Already in another app, I had things like edit_admin_user_role_permission_path. Is that really cleaner than :controller => '/permissions'?
+
+  So your article really resonates with me. REST is great if you're building an API, but aren't we mostly still building websites? How much more work should we be willing to do? And why do we do things that are "correct" when they make other things so much worse?
+
+  I had been investigating the other Ruby frameworks and discounting some of them because of a general lack of REST, but maybe REST isn't what I need. And I had encountered an error relating to REST (I had an ID with a period in the name and it wanted to break that into an :id and a :format parameter). Maybe I'll just scrap REST for the time being and forget about the pretty URLs. Or make the pretty URLs without using map.resource.
+guid: e4640d41-13a3-43cb-82bd-aee214f17f22

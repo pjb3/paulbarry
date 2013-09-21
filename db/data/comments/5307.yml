@@ -1,0 +1,22 @@
+---
+id: 5307
+article_id: 4943
+created_at: 2009-07-17 15:28:25.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 76.100.98.185
+body: "@Mike Tomasello/@rtperson,\n\nGood point about Maybe being a Monad.  I've updated
+  the wording to make that more clear.\n\nRelated to this though, I'm not quite clear
+  exactly how to use the monad to navigate through a data structure and avoid null
+  pointer exceptions.  I think that you can do something similar to the Null Object
+  Pattern in groovy:\n\nhttp://groovy.codehaus.org/Null+Object+Pattern\n\nIn Groovy,
+  say you have a reference to a Person object p, which has a Job object that the job
+  method returns, and that has a salary method which returns the person's salary.
+  \ So if you try to do:\n\n    p.job.salary\n\nIf the person has no job, job will
+  return null, so you will get a null pointer when you try to call salary on null.
+  \ If you use what they call the \"safe-dereference operator\" in Groovy, you can
+  do this:\n\n    p.job?.salary\n\nWhich will return null if the person has no job
+  or if the person's job has no salary.  \n\nCan the Maybe Monad be used in a similar
+  way?\n\n"
+guid: 2bacd747-178c-41c6-9489-a3b660382c58

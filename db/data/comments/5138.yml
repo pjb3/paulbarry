@@ -1,0 +1,14 @@
+---
+id: 5138
+article_id: 4889
+created_at: 2008-05-15 09:17:04.000000000 Z
+url: http://blog.grayproductions.net/
+email: james@grayproductions.net
+author: James Edward Gray II
+ip: 68.97.89.187
+body: 'I do feel it''s worth pointing out the major downside of this approach:  the
+  entire image is loaded into a Ruby String anytime you are working with that model
+  (by default).  This can get to be a significant burden on a large traffic site with
+  serving many images.  I had a database teacher who always use to remind us, "File
+  data belongs in a file system."'
+guid: 2f60a942-2142-4668-b3c5-33e35606ddc5

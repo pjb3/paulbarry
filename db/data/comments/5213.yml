@@ -1,0 +1,19 @@
+---
+id: 5213
+article_id: 4838
+created_at: 2008-10-13 05:34:00.000000000 Z
+url: www.paulyoungdesign.com
+email: paulyoungonline@googlemail.com
+author: Paul
+ip: 90.199.183.2
+body: |+
+  Could someone explain how to do this with a select box instead of checkboxes? With the user only being allowed in one group?
+
+  e.g. In the create new user view:
+
+  • Choose group from select box showing groups
+  • Enter name
+
+  Thanks
+
+guid: d8717d01-b4e3-41d0-93ef-74259dbf5479

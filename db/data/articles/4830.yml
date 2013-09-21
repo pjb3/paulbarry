@@ -1,0 +1,41 @@
+---
+id: 4830
+slug: the-importance-of-a-common-development-philosophy-for-a-team
+created_at: 2007-09-25 16:50:51.000000000 Z
+published_at: 2007-09-25 17:21:02.000000000 Z
+title: The Importance of a Common Development Philosophy for a Team
+body: "I try to stay out of language wars, because they just aren't productive.  One
+  thing I have found interesting is that a year ago or so, it seemed to be the Ruby
+  guys picking fights with the Java guys saying \"Ruby is better than Java, Rails
+  is better than J2EE\".  Lately, it's [Java guys saying][king] \"Java is better than
+  Ruby, JEE/Seam/Struts 2.0/RIFE/Wicket/Some yet to be invented Java framework is
+  better than Rails\".  I get the sense that most Rails guys have just moved on from
+  arguing with Java guys about this, although [some still have a hard time resisting
+  the temptation][obie].  It's a hard temptation to resist, because I hate to see
+  people say things about Ruby that I disagree with, and I'd hate to see more people
+  believing the anti-dynamic languages, anti-Ruby FUD.  Maybe FUD is a little harsh,
+  but I'm sure other people consider my support of Ruby to be FUD.\r\n\r\nI really
+  liked [Dion Almaer's response][almaer] to another \"[Java is better than Ruby][beust]\"
+  post:\r\n\r\n> Quite frankly, at this stage of the game all I care about is having
+  a small team of developers that I respect and enjoy working with.\r\n\r\nThat's
+  where I'm at too.  It's more important to be on a team with developers that you
+  respect.  But it's more than respect really, it's more like sharing a common development
+  philosophy.  I can envision a scenario where there is a Java developer that I respect,
+  but that same developer just hates Ruby.  In that case, we're not likely to be on
+  the same page in terms of the way we think a certain solution should be architected,
+  and that being the case, it's not likely to be a productive situation for either
+  of us.  I think for anyone involved in a position of hiring developers, this is
+  a key factor to try to be able to evaluate.  First, what is the philosophy of my
+  development team, and then when interviewing candidates, will this developer fit
+  in with the team well.  I'm sure there are a lot of factors that contribute to this,
+  but here's a few I can think of:\r\n\r\n - What is your preferred development platform?\r\n
+  - What is your preferred method of unit testing?\r\n - What are some of your favorite
+  features of language x?\r\n - What are some of your favorite features of framework
+  x?\r\n - Which database platforms have you worked with, and which do you prefer?\r\n\r\nI
+  think anytime you can put together a team of good developers who are on the same
+  page with most of these answers, that team is going to be productive.\r\n\r\n\r\n[king]:
+  http://in.relation.to/Bloggers/MoreXMLThanCode\r\n[obie]: http://www.jroller.com/obie/entry/top_10_reasons_why_java\r\n[beust]:
+  http://beust.com/weblog/archives/000462.html\r\n[almaer]: http://www.almaer.com/blog/archives/001590.html"
+format: Markdown
+guid: 19a9cd67-2b0e-48ca-934c-f5142086aba3
+comments_count: 0

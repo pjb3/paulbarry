@@ -1,0 +1,17 @@
+---
+id: 5064
+article_id: 4818
+created_at: 2007-09-04 18:15:23.000000000 Z
+url: http://foursongs.blogspot.com
+email: arnihr@gmail.com
+author: Arni Hermann Reynisson
+ip: 157.157.176.39
+body: |-
+  In my experience you can almost always avoid eval() in javascript so here are my 2 cents:
+
+  function create(className) {
+    return new this[className];
+  }
+
+  There are, of course, other ways of doing that depending on what you need...
+guid: 069de957-a159-43b0-a37b-5f174145e354

@@ -1,0 +1,61 @@
+---
+id: 4921
+slug: named-scope-to-lambda-or-not-to-lambda-that-is-the-question
+created_at: 2008-12-18 17:18:46.000000000 Z
+published_at: 2008-12-18 17:24:40.000000000 Z
+title: 'Named Scope: To Lambda or Not To Lambda, That Is The Question'
+body: "One feature that was [added to Rails in 2.1][rails21] is [named scope][named-scope].
+  \ This is a really nice way to provide a flexible API for your controllers to query
+  different types of data without resorting to a conditions hash or even worse, SQL.
+  \ Here's how it works.  Say we have a blog with an Article model, which has a boolean
+  field for published.  We could get all published articles like this:\r\n\r\n    Article.all(:conditions
+  => {:published => true})\r\n\r\nBut with named scope, we can do this:\r\n\r\n    Article.published.all\r\n
+  \   \r\nThis is a small example so it doesn't seem like much, but this really starts
+  to pay of in terms of readability and encapsulation as things get more complicated.
+  \ To set up the above named scope, we add this to your Article model:\r\n\r\n    named_scope
+  :published, :conditions => {:published => true}\r\n\r\nBy doing this, we have abstracted
+  away the implementation of what it means to be published from the controller and
+  into the model.  The advantage is that the code in the controller becomes more \"intent
+  revealing\" and also if the logic for what it means to be published changes, we
+  just change it in one place.  For example, if we decide we need to keep track of
+  when an article was published, we could change our published column from a boolean
+  to a published_at datetime column and just change our named scope like this:\r\n\r\n
+  \   named_scope :published, :conditions => [\"published_at is not null\"]\r\n\r\nIf
+  you need to further refine our query, we can chain the calls to multiple scopes
+  together.  For example, let's say we add this to our model:\r\n\r\n    named_scope
+  :featured, :conditions => {:featured => true}\r\n\r\nWhich allows us to do this
+  in our controllers:\r\n\r\n    Article.published.featured.all\r\n    \r\nNow let's
+  say we want to create a named scope for all articles published before a given date.
+  \ Ok, so we just add this to our model:\r\n\r\n    named_scope :published_before,
+  :conditions => [\"published_at < ?\", ?????]\r\n    \r\nOops.  When we are defining
+  the named scope, we don't know what the date will be.  So what do we do?  That's
+  where lambda comes into play.\r\n\r\nBefore we do that, WTF is lambda?  Lambda is
+  a name for an anonymous function.  The name comes from Lisp.  The powerful thing
+  about lambdas is that they are stored in an object and can be passed around as a
+  variable and called at a later time.  So here's a very simple lambda:\r\n\r\n    >>
+  double = lambda{|x| x * 2}\r\n    => #<Proc:0x010dc4b4@(irb):1>\r\n    >> double.call
+  21\r\n    => 42    \r\n\r\nWe create a lambda that takes one argument and multiplies
+  it by two.  We can also call a lambda using the `[]` method.  So in our previous
+  example, we could have done `double[21]`.  I prefer `call` over `[]`, because mentally
+  the first thing I think of when I see those `[]` is an Array or Hash, so the call
+  is a little more explicit as to what is going on.  To each his own, but it's good
+  to know both ways, because you will come across both ways when reading Ruby code
+  written by others.\r\n\r\nThis is [a very powerful feature which Ruby has and many
+  other mainstream languages lack or make it difficult to do][accgen].  All functional
+  languages that are gaining popularity now, such as [Clojure][clojure], [Erlang][erlang],
+  [Scala][scala], and [Haskell][haskell], also make this kind of thing easy to do.\r\n\r\nSo
+  now that we know what lambda is, we can see how we can use it with named scope.
+  \ Since we don't know the value of the date we are trying to compare with to do
+  our `published_before` named scope, we will instead give named scope a lambda that
+  it will use at the time the SQL query is constructed:\r\n\r\n    named_scope :published_before,
+  lambda{|date| {:conditions => [\"published_at < ?\", date] } }\r\n\r\nSo there we
+  go.  This is a lambda that takes the data as a parameter and returns a Hash used
+  for the conditions of the SQL query.  Now if we need last year's featured articles,
+  we can now do this:\r\n\r\n    Article.published_before(Time.now.beginning_of_year).featured.all\r\n\r\n[rails21]:
+  http://weblog.rubyonrails.org/2008/6/1/rails-2-1-time-zones-dirty-caching-gem-dependencies-caching-etc\r\n[named-scope]:
+  http://ryandaigle.com/articles/2008/3/24/what-s-new-in-edge-rails-has-finder-functionality\r\n[accgen]:
+  http://www.paulgraham.com/accgen.html\r\n\r\n[clojure]: http://clojure.org\r\n[erlang]:
+  http://erlang.org\r\n[scala]: http://www.scala-lang.org\r\n[haskell]: http://www.haskell.org\r\n"
+format: Markdown
+guid: 2e102eca-15c0-4b92-b8c8-f35f248e0f21
+comments_count: 9

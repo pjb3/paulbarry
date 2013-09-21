@@ -1,0 +1,13 @@
+---
+id: 5267
+article_id: 4838
+created_at: 2009-02-13 01:34:39.000000000 Z
+url: 
+email: 
+author: Robert
+ip: 71.202.150.186
+body: |-
+  Paul, in your <a href="http://paulbarry.com/articles/2007/08/03/habtm-checkboxes">earlier blog entry</a> on this topic, you mentioned use of hidden_field_tag to workaround a limitation in HTML form checkbox. In that case, group_ids can never be nil, right? And therefore the unless check in this example seems redundant?
+
+  Thanks for the excellent explanations!
+guid: 035c9977-3bbc-4957-bc8d-4868f7d9142a

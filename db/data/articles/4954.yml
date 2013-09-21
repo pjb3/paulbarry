@@ -1,0 +1,34 @@
+---
+id: 4954
+slug: performance-testing-with-httperf
+created_at: 2009-11-10 11:41:38.000000000 Z
+published_at: 2009-11-10 11:56:27.000000000 Z
+title: Performance Testing with Httperf
+body: "If you need to do some performance testing of your web app, one tool that is
+  pretty easy to use is [httperf][httperf].  I recommend watching the [Peepcode screencast
+  on httperf][peepcode] to get some good tips on how to doing performance testing.
+  \ There is also some [reading material on httperf created by Ted Bullock][bullock]
+  available.  These are great resources, but here's the quick and dirty on how to
+  get httperf going.\r\n\r\nFirst, to install httperf, if you are using [Macports][macports],
+  you can simply do `sudo port install httperf`, which is what I did.  Alternatively,
+  you can get httperf from the [httperf download page][httperf-dl].\r\n\r\nOnce you've
+  got it installed, make sure the site you are testing on is running with all the
+  production settings turned on.  The Peepcode screencast goes into detail about how
+  to do that for a Rails app.  Then, if you are trying to test the `/profile` page
+  on `myfancysocialnetwork.com`, you would run a command like this:\r\n\r\n    httperf
+  --server myfancysocialnetwork.com --port 80 --uri /profile --num-conns 100\r\n\r\nThis
+  will hit the profile page 100 times and report back with statistics like the minimum
+  response time, maximum response time and the average response time, including standard
+  deviation.  You will certainly want to adjust the `--num-conns` option based on
+  the page you are testing.  If it's a pretty slow page with response times over a
+  second or two, then 100 is probably ok.  If it's a more well behaved page that renders
+  in a few hundred milliseconds, then a large number like 10000 might be better.  The
+  goal is to make sure that it runs long enough to generate enough samples to make
+  the results statistically relevant.  You'll also want to read the documentation/watch
+  the screencast to get info on other options like `rate` to create different kinds
+  of test scenarios.\r\n\r\n[httperf]: http://www.hpl.hp.com/research/linux/httperf/\r\n[peepcode]:
+  http://peepcode.com/products/benchmarking-with-httperf\r\n[bullock]: http://httperf.comlore.com/\r\n[macports]:
+  http://www.macports.org\r\n[httperf-dl]: http://www.hpl.hp.com/research/linux/httperf/download.php"
+format: Markdown
+guid: 0d0e71ea-c0ce-401a-a661-72048f44eda2
+comments_count: 1

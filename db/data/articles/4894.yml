@@ -1,0 +1,16 @@
+---
+id: 4894
+slug: displaying-error-messages-in-rspec-failures
+created_at: 2008-04-23 18:29:33.000000000 Z
+published_at: 2008-04-23 18:30:13.000000000 Z
+title: Displaying error messages in RSpec failures
+body: "The [suggested way of checking if an ActiveRecord model has errors with RSpec][rspec]
+  is:\r\n\r\n    @something.errors.should be_empty  \r\n    \r\nWhen that fails, you
+  get a report that says:\r\n\r\n    expected empty? to return true, got false\r\n\r\nThat's
+  not very helpful because it doesn't tell you what the errors are.  If you do this:\r\n\r\n
+  \   @something.errors.full_messages.should == []      \r\n\r\nYou get a more informative
+  failure message:\r\n\r\n    expected: [],\r\n    got: [\"Whatever can't be blank\"]
+  (using ==)\r\n\r\n[rspec]: http://rspec.info/documentation/rails/writing/models.html"
+format: Markdown
+guid: ba6d0a95-0525-4bd6-9f44-d5663e6fde88
+comments_count: 3

@@ -1,0 +1,56 @@
+---
+id: 4952
+slug: aint-nothing-but-a-g-thang
+created_at: 2009-10-09 00:40:34.000000000 Z
+published_at: 2009-10-09 01:05:52.000000000 Z
+title: Ain't Nothing But A G Thang
+body: "You've probably seen more than a few articles on the web showing how to build
+  a [Rack][rack] app.  If not, here's [a good one to start with][lifo].  You'll quickly
+  see that building a Rack app is really simple, which is why Rack is awesome, because
+  it's simple.  But what about writing a Rack-compliant server?  Well it turns out
+  that is pretty easy as well.\r\n\r\nI just pushed [a little Rack-compliant HTTP
+  Server][g_thang] that I wrote using [GServer][gserver] to github.  The whole thing
+  is less than 200 lines of code.  The core of it is short enough that I can explain
+  how it works here.\r\n\r\nFirst, GServer.  GServer, which is short for \"Generic
+  Server\" makes it pretty simple to create a multithreaded TCP Server.  Taking out
+  some error handling code, here's what the GServer looks like for our Rack HTTP Server:\r\n\r\n
+  \   module GThang\r\n      class HttpServer < GServer\r\n\r\n        attr_reader
+  :port, :rack_app\r\n\r\n        def initialize(options={})\r\n          @port =
+  options[:Port] || 8080\r\n          @rack_app = options[:rack_app]\r\n          super(@port)\r\n
+  \       end\r\n\r\n        def serve(socket)\r\n          RackHandler.new(socket,
+  rack_app, port).handle_request\r\n        end\r\n    \r\n      end\r\n    end\r\n\r\nSo
+  all there is to a GServer is basically a `serve` method.  This will be called each
+  time a client connects to the server.  The argument to the method is the client
+  socket connection.  You read and write data from the socket as you see fit for your
+  application.  As you can see here, we just pass the socket, along with the rack
+  app and the port to the RackHandler initializer and then call `handle_request` on
+  that.  We'll look at how you setup the rack app in a minute, but first let's take
+  a look at the meat of what the RackHandler does.  The `handle_request` method looks
+  like this:\r\n\r\n    def handle_request\r\n      return unless add_rack_variables_to_env\r\n
+  \     return unless add_connection_info_to_env\r\n      return unless add_request_line_info_to_env\r\n
+  \     return unless add_headers_to_env\r\n      send_response(app.call(env))\r\n
+  \   end\r\n\r\nSo what happens is the various `add_` methods build up the [rack
+  environment][env].  Once the environment is ready, we call the rack app.  The rack
+  app responds with the standard 3 element array, which we pass off to the send_response
+  method, which writes the actual http response to the client.  Take a look at the
+  full code for this on github for the details.\r\n\r\nNow the fun part is that we
+  now have a fully functional HTTP server that is capable of acting as a file server
+  or serving a Rails app.  All we have to do is give the `HttpServer` the correct
+  Rails app.  If you look in the examples, you see this for the file server:\r\n\r\n
+  \   GThang::HttpServer.run(\r\n      Rack::CommonLogger.new(\r\n        Rack::Lint.new(\r\n
+  \         Rack::Directory.new(root, Rack::File.new(root)))),\r\n      :Port => 8080)\r\n\r\nNow
+  I choose to write it this way to make it clear what is actually happening.  You
+  will normally see the builder DSL used to configure a rack app, which would look
+  like this:\r\n\r\n    use Rack::CommonLogger.new\r\n    use Rack::Lint.new\r\n    use
+  Rack::Directory.new(root)\r\n    run Rack::File.new(root)\r\n\r\nThis is obviously
+  a lot cleaner, but to understand how Rack works, you have to realize that all this
+  is doing is what we see in the first example.  A Rack app with Rack middleware is
+  simple a chain of apps that call the next app in the chain, possibly modifying the
+  environment or response before or after the rest of the chain is called. \r\n\r\nSo
+  there you have it, beauty in simplicity.\r\n\r\n[rack]: http://rack.rubyforge.org\r\n[lifo]:
+  http://m.onkey.org/2008/11/17/ruby-on-rack-1\r\n[g_thang]: http://github.com/pjb3/g_thang\r\n[gserver]:
+  http://www.ruby-doc.org/stdlib/libdoc/gserver/rdoc/classes/GServer.html\r\n[env]:
+  http://rack.rubyforge.org/doc/SPEC.html"
+format: Markdown
+guid: 0e87f392-abef-4844-8067-c2deb55c0408
+comments_count: 4

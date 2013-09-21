@@ -1,0 +1,16 @@
+---
+id: 4948
+slug: active-record-random
+created_at: 2009-08-30 22:27:07.000000000 Z
+published_at: 2009-08-30 22:28:21.000000000 Z
+title: Active Record Random
+body: "Are you looking for a way to select a random record that plays nice with named
+  scope in your Rails app?  Throw this into `config/initializers/active_record_random.rb`:\r\n\r\n
+  \   class ActiveRecord::Base\r\n      def self.random\r\n        if (c = count)
+  > 0\r\n          first(:offset => rand(c)) \r\n        end\r\n      end\r\n    end\r\n\r\nNow
+  you can call `random` the same way you would call `first` or `all`.  That means
+  you can do `Widget.random` to get a random widget or `Widget.fancy.random`, to get
+  a random fancy widget, assuming you have defined the fancy named scope for `Widget`."
+format: Markdown
+guid: 3bf18d31-98be-4983-b9d2-8cdab1974697
+comments_count: 3

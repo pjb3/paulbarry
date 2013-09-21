@@ -1,0 +1,21 @@
+---
+id: 4860
+slug: gittin-with-the-times
+created_at: 2008-02-06 15:07:13.000000000 Z
+published_at: 2008-02-06 15:14:46.000000000 Z
+title: Gittin' with the times
+body: "Anyone who keeps up with Rails in blogiverse knows by know that [Git][git]
+  is the new hotness.  Once you've got a [peepcode][gitpeep], well, that's it, you've
+  got the ultimate endorsement from the Rails community.  I know nothing about Git
+  and I have resisted the change up to now, but I ran across [Dr. Nic's new Rails
+  2.0 Textmate Bundle][drnic] and figured it was time to git with the times (pun intended).\r\n\r\nSo
+  like any good hacker, I google Git, found the download page, downloaded the [latest
+  source tarball (1.5.4 as of now)][gittar], decided against reading any documentation
+  or instructions and just ran `./configure`, `make`, `make install`.  Even thing
+  worked as planed and after following Dr. Nic's instructions, I've got the latest
+  Rails 2.0 Textmate bundle.\r\n\r\n[git]: http://git.or.cz\r\n[gitpeep]: http://peepcode.com/products/git\r\n[drnic]:
+  http://drnicwilliams.com/2008/01/31/get-ready-for-the-textmate-trundle-to-rails-20-bundle/\r\n[gittar]:
+  http://www.kernel.org/pub/software/scm/git/git-1.5.4.tar.gz"
+format: Markdown
+guid: da9361d0-96bd-4309-b140-4e15dddc9ec1
+comments_count: 2

@@ -1,0 +1,16 @@
+---
+id: 139
+article_id: 122
+created_at: 2006-09-25 08:52:36.000000000 Z
+url: ''
+email: l.czyzykowski-no-spam@avservis.pl
+author: Lukasz
+ip: 80.50.82.122
+body: |-
+  `c.execute(..)` returns 1L which is number of rows returned by SQL statement (this is specific for MySQLdb library). If You would like to get value of SQL `count(*)` You must use:
+
+          row = c.fetchone()
+          count = row[0]
+
+  (This value is handy, i
+guid: dc23f4b2-187a-45ce-97b9-93795461b8d0

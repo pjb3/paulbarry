@@ -1,0 +1,30 @@
+---
+id: 5219
+article_id: 4913
+created_at: 2008-10-28 22:14:00.000000000 Z
+url: 
+email: 
+author: Erik Petersen
+ip: 99.253.58.80
+body: "As much as I love a good Internet argument...\n\nThis is an interesting idea
+  for covering up a bad design with a tube of lipstick. A user is a thing. Authentication
+  is a behaviour. A user authenticates:\n\nclass User < ActiveRecord::Base\n authenticates\nend\n\nmodule
+  Authenticates\n def self.included(base)\n  base.extend ClassMethods\n  base.send
+  :include, InstanceMethods\n end\n\n module ClassMethods\n  def authenticates(options
+  = {})\n   ...\n  end\n  ...\n end\n\n module InstanceMethods\n  ...\n end\nend\n\nIt's
+  not a rails v. ruby thing. This is a pattern that is repeated over and over in rails
+  and there is already a place where these things go: vendor/plugins\n\nIf you find
+  yourself extending or changing the platform, especially one as well thought out
+  and rich as rails, you should first assume that the problem lies with your design
+  and not with some deficiency in the platform.\n\nIf you refactor your design, not
+  just for authentication but for any sort of behaviour, you not only get code which
+  is easy to understand, easy to test and easy to reuse. If you load your models down
+  with all sorts of implied behaviour then you get fat code which can't be easily
+  tested and which can't be easy reused. That is what skinny models means. Its why
+  we have: acts_as_list, will_paginate and thousands of other behavioural plugins.
+  You might even find you don't need to write any code at all because there may be
+  a plugin to do it already. \n\nWhat if you wanted to authenticate both robots and
+  users? Authenticate with OpenID. Authenticate with XML for an API? If you implement
+  it as a behaviour then everything that uses that plugin gets this capability for
+  free, fully tested and free of known bugs.\n\n"
+guid: 6adae84b-bd56-4f24-8d98-944240e8c1dd

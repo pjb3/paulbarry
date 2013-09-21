@@ -1,0 +1,15 @@
+---
+id: 5266
+article_id: 4929
+created_at: 2009-02-09 05:51:01.000000000 Z
+url: http://stephenviles.com/
+email: geeks@stephen.viles.geek.nz
+author: Stephen Viles
+ip: 118.93.58.144
+body: |-
+  Agree. Clojure's Java integration certainly provides the "support for threads, filesystem access, processes and IPC, operating system interoperability, a GUI, Unicode, and the long list of other features missing from the latest hyperspec" that Steve Yegge mentions in "Problem 2".
+
+  Towards the end of his <a href="http://steve-yegge.blogspot.com/2006/04/lisp-is-not-acceptable-lisp.html?showComment=1145178300000#c114517831148492970"> first comment</a> Steve says "I want a language with Python's succinctness, Lisp's extensibility, C's performance, Erlang's parallelism, Java's tools ..." Clojure shows definite promise for all of these.
+
+  He also mentions "Io's orthogonality, and apparently Qi's type system". We might have to ask the man himself to find out how well Clojure satisfies these.
+guid: 9ad501be-bdd0-4e7c-a00a-17ba87d2ded1

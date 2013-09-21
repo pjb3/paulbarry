@@ -1,0 +1,14 @@
+---
+id: 5045
+article_id: 4806
+created_at: 2007-03-18 09:38:58.000000000 Z
+url: 
+email: 
+author: FrancisM
+ip: 219.77.153.57
+body: "\"Any idea of how FooDispatcher look like if FooController uses constructor
+  injection instead of setter injection?\"\n\npublic class FooDispatcher {\n\n    public
+  static void main(String[] args) {\n       \n        Injector injector = Guice.createInjector(new
+  FooModule());\n        injector.getInstance(FooController.class); // this line is
+  for Constructor Injection\n\n    }\n}"
+guid: c7729982-7647-432e-82ec-c41c700c08d2

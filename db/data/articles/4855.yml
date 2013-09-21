@@ -1,0 +1,28 @@
+---
+id: 4855
+slug: correlated-subqueries
+created_at: 2008-01-06 20:52:17.000000000 Z
+published_at: 2008-01-06 20:58:56.000000000 Z
+title: Correlated Subqueries
+body: "The Rails' ORM ActiveRecord has support for counter caches.  Say you have a
+  blog, like this one, which has articles, and each article has many comments.  If
+  you are going to show a list of articles with the number of comments each article
+  has, without a counter cache, you will end up with N+1 SQL queries.  One query to
+  get the articles, and one `select count(*) from comments where article_id = ?` query
+  for each article.  \r\n\r\nTo avoid the N+1 select, you can add a column in the
+  articles table that contains the number of comments the article has.  With some
+  ORM frameworks, this becomes somewhat of a pain, because you have to keep that count
+  column updated, but ActiveRecord makes it easy.  If you just create a table called
+  `<table_name>_count` on a parent table, it will keep the total of the records that
+  belong to that record in that column.  So then when you call `article.comments_count`,
+  there is no SQL query executed.\r\n\r\nThis is nice, but what happens if you have
+  a site in production and you want to add a counter cache column?  You've got to
+  create the column and then get the count updated.  You can do this in a migration,
+  but you can also do it in SQL using a [correlated subquery][cor-sub].  Using MySQL,
+  you can do it like this:\r\n\r\n    alter table articles add column comments_count
+  int(11) default 0;\r\n    update articles set articles.comments_count = \r\n      (select
+  count(comments.id) from comments where articles.id = comments.article_id);\r\n\r\n[cor-sub]:
+  http://dev.mysql.com/doc/refman/4.1/en/correlated-subqueries.html"
+format: Markdown
+guid: f4cc9a01-2727-40f6-b281-0fb770de696b
+comments_count: 0

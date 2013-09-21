@@ -1,0 +1,19 @@
+---
+id: 5297
+article_id: 4838
+created_at: 2009-06-28 18:32:38.000000000 Z
+url: 
+email: johan.pretorius@gmail.com
+author: Johan
+ip: 41.17.141.124
+body: |-
+  Thanks for the great writeup, I'm running into a weird problem (Rails 2.2):
+
+  Using your associations (groups, memberships, users):
+
+  Existing memberships for the specified user are all deleted, then inserted again (the effect at this point is still correct), but for some reason or the other the memberships for the user are then all deleted again.
+
+  I could also not make use of "self.membership.create", but rather mbs = Membership.new, mbs.group_id = g, mbs.save
+
+  Any ideas would be appreciated, thanks!
+guid: 31923cd2-43f1-45e3-9d3f-2fd8c53c536f

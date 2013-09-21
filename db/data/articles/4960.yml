@@ -1,0 +1,35 @@
+---
+id: 4960
+slug: installing-dbslayer-on-mac-os-x-snow-leopard
+created_at: 2010-02-02 21:50:52.000000000 Z
+published_at: 2010-02-02 21:51:01.000000000 Z
+title: Installing DBSlayer on Mac OS X Snow Leopard
+body: "[DBSlayer][dbslayer] is a tool that will wrap your MySQL database with an HTTP
+  REST/JSON API.  Here's how to get it installed on Snow Leopard using Macports.  First,
+  make sure you have all the dependencies install via [Macports][macports]:\r\n\r\n
+  \   $ sudo port install db46\r\n    $ sudo port install apr\r\n    $ sudo port install
+  apr-util\r\n    $ sudo port install mysql5-server\r\n\r\nThen, if you try to download
+  the source and install it:\r\n\r\n    $ cd ~/src\r\n    $ wget http://code.nytimes.com/downloads/dbslayer-beta-12.tgz\r\n
+  \   $ tar xzf\r\n    $ cd dbslayer\r\n    $ ./configure\r\n    $ make\r\n    $ make
+  install\r\n\r\nYou'll run into this error:\r\n\r\n    ld: library not found for
+  -ldb-4.6\r\n    collect2: ld returned 1 exit status\r\n    make[1]: *** [dbslayer]
+  Error 1\r\n    make: *** [all-recursive] Error 1\r\n\r\nInstead, pass these options
+  to configure:\r\n\r\n    $ ./configure CFLAGS=\"-L/opt/local/lib/db46\" \\\r\n    --with-apr-1-config=/opt/local/bin/apr-1-config
+  \\\r\n    --with-apu-1-config=/opt/local/bin/apu-1-config \\\r\n    --with-mysql-config=/opt/local/lib/mysql5/bin/mysql_config\r\n\r\nNow
+  try to install again:\r\n\r\n    $ make clean\r\n    $ make\r\n    $ sudo make install\r\n
+  \   \r\nNext, create the config file, which at it's most basic, should look something
+  like this:\r\n\r\n    [my_db]\r\n    database=my_db\r\n    host=localhost\r\n    user=root\r\n\r\nNow
+  when you start dbslayer, make sure to give it the full path to the config file:\r\n\r\n
+  \   $ dbslayer -c ~/stuff/my_db.cnf -s my_db\r\n\r\ndbslayer starts in the background,
+  so to restart it, you have to find the process and kill it manually.  It also doesn't
+  say whether it worked or not, it just backgrounds with no output.  Here's a little
+  Ruby script to try it out:\r\n\r\n    require 'open-uri'\r\n    require 'rubygems'\r\n
+  \   require 'json'\r\n    require 'pp'\r\n\r\n    def query_url(sql)\r\n      query_hash
+  = { \"SQL\" => sql }\r\n      url_args = URI.encode(query_hash.to_json)\r\n      \"http://localhost:9090/db?#{url_args}\"\r\n
+  \   end\r\n\r\n    def exec_query(sql)\r\n      url = query_url(sql)\r\n      open(url)
+  do |f|\r\n        yield JSON.parse(f.read)\r\n      end\r\n    end\r\n\r\n    exec_query
+  \"select * from stuff limit 1\" do |res|\r\n      pp res\r\n    end\r\n\r\n[dbslayer]:
+  http://code.nytimes.com/projects/dbslayer/wiki\r\n[macports]: http://www.macports.org/"
+format: Markdown
+guid: 35656ee5-e73a-46ab-a97c-9029c3935c1a
+comments_count: 3

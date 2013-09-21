@@ -1,0 +1,13 @@
+---
+id: 5125
+article_id: 4838
+created_at: 2008-04-29 12:38:49.000000000 Z
+url: 
+email: 
+author: sw0rdfish
+ip: 68.179.14.113
+body: |-
+  The problem was related to RESTful Authentication... I had to add the role_ids to the "attr_accessible" in the user model... major DUH there on my part...
+
+  I love wasting a day on stuff like that...
+guid: 361ebd6b-62bf-44b7-ac3c-97475ac35451

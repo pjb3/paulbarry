@@ -1,0 +1,15 @@
+---
+id: 5099
+article_id: 4844
+created_at: 2008-02-25 10:38:01.000000000 Z
+url: http://nucc.bteam.hu
+email: 
+author: Nucc
+ip: 78.92.40.158
+body: |-
+  Hi!
+
+  Nice post! I've a question. I have a User model, and a User controller. In rails the controllers get a Controller suffix for avoid name collision. In merb my controller and model get the same class name, and the server stops at boot. Are there any solutions for this problem, or use different name for controller, for example UserManager?
+
+  Thanks
+guid: d4d9b07b-e8ce-474c-883a-9b45e8028734

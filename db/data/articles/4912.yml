@@ -1,0 +1,70 @@
+---
+id: 4912
+slug: my-guest-appearance-on-a-hashrocket-3-2-1-project
+created_at: 2008-08-15 14:02:27.000000000 Z
+published_at: 2008-08-15 14:08:19.000000000 Z
+title: My Guest Appearance on a Hashrocket 3-2-1 Project
+body: "This week I took a brief hiatus from my normal job at [BrowserMedia][browsermedia]
+  to spend a week on a 3-2-1 project with [Hashrocket][hashrocket] with fellow guest
+  stars [Hampton Catlin][hampton] and [Matthew Bass][matthew].  It was a great experience
+  for many reasons.\r\n\r\nOne of the key factors that made this 3-2-1 possible is
+  that not only do we all use good tools, but we all use the _same_ good tools.  All
+  of us use Macs, Textmate, Git, Rails, RSpec, Restful Authentication and Haml.  This
+  allowed us to hit the ground running.  All the basic infrastructure needed for building
+  a web app was in place, so were able to get going and focus on the core functionality
+  of the app.\r\n\r\n[Pair programming][pair], at least to the degree that it is done
+  at Hashrocket, was a new experience for me.  Every developer works in a pair programming
+  setup, with a laptop hooked up to a [30-inch display][apple30] and two [keyboards][applekey]
+  and [two mice][mighty].  Having a large monitor, two keyboards and two mice may
+  seem like a luxury, but it really helps you get into the flow of pair programming.\r\n\r\nAnother
+  core philosophy at the heart of the Hashrocket methodology is test-driven development
+  (TDD).  TDD is something that most agile development shops strive to do, but sometimes
+  fall short.  I believe that two of the main reasons many teams struggle getting
+  TDD right are tight deadlines and lack of developer expertise and discipline.  All
+  developers who try to do TDD have experienced this at some point.  You've got a
+  feature that needs to be cranked out ASAP, you're not exactly sure how test it,
+  so you just dive into the code and pound it out.  My experience at Hashrocket has
+  taught me that that all too common scenario can be avoided by practicing pair programming
+  and TDD together.\r\n\r\nOne pair programming technique that makes TDD easier is
+  ping pong pair programming.  When doing ping pong pair programming, when you sit
+  down to build a feature, the first person in the pair writes the test.  Next, the
+  second person in the pair writes the code to make the test pass.  Then the second
+  person writes a test for the next feature, and the first person in the pair implements
+  it.  By repeating this process throughout day, you have several benefits.  First
+  of all, it avoids the scenario where one developer does most of the work and the
+  other developer just zones out and gets distracted by something else, because you
+  are constantly switching back and forth.  Also, like two people who go on a diet
+  together to help each other stick to it, one developer doesn't let the other developer
+  get lazy and skimp out on the tests for a specific feature.  That doesn't apply
+  just to the test.  As long as you have a pair of two experienced programmers, one
+  of them it's going to let the other get away with writing a nasty piece of code.
+  \ It's like a real-time code review.\r\n\r\nMy favorite aspect of the 3-2-1 experience
+  was having the time to spend with other good software developers and just discuss
+  the process of software development.  TDD was a topic of conversation all week.
+  \ Some believe in a strict adherence to TDD, \"[Test all the fucking time][bryan]\",
+  if you will.  Others believe TDD can be a warm blanket.  It's easy to fall into
+  a mentality that the tests pass, therefore the code works.  Human testing can be
+  a more effective process for discovering bugs in software, but human testing gets
+  much less emphasis than TDD.  I believe there is a lot of value in functional testing
+  with tools like Selenium and I would like to see more emphasis on functional testing
+  in the community.  For my next project, I'm considering just specing the models
+  and testing the rest of it with Selenium.  If you are following the best practice
+  of [SCFM][scfm], you controllers should be mostly glue code anyway, so you get more
+  out of testing from the browser via an automated, repeatable test than unit testing
+  your controllers.  It was a healthy debate and great to have a chance to be part
+  of it.\r\n\r\nI suggest all developers, whether you are an independent developer
+  or a full-time employee for an organization, find an opportunity to participate
+  in a 3-2-1.  The amount of knowledge sharing that goes on is invaluable, exceeding
+  what you get out of attending any conference.  You spend the entire day pair programming
+  with other top-notch developers and the evenings discussing all aspects of software
+  development.  This is the type of environment [Evan Light][evan] envisions for [DCamp][dcamp].
+  \ Developers working together, one-on-one, sharing knowledge and trading best practices.
+  \ \r\n\r\n[browsermedia]: http://browsermedia.com\r\n[hashrocket]: http://hashrocket.com\r\n[hampton]:
+  http://hamptoncatlin.com\r\n[matthew]: http://matthewbass.com\r\n[pair]: http://blog.obiefernandez.com/content/2008/08/the-hashrocket-way-pair-programming.html\r\n[apple30]:
+  http://www.apple.com/displays\r\n[applekey]: http://www.apple.com/keyboard\r\n[mighty]:
+  http://www.apple.com/mightymouse\r\n[bryan]: http://smartic.us/2008/8/5/smarticus-rubynation-slides\r\n[scfm]:
+  http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model\r\n[evan]: http://evan.tiggerpalace.com\r\n[dcamp]:
+  http://rubydcamp.org"
+format: Markdown
+guid: c62be0e6-1752-4508-969b-5684bca096f0
+comments_count: 4

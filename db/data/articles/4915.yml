@@ -1,0 +1,61 @@
+---
+id: 4915
+slug: ruby-on-struts
+created_at: 2008-09-06 00:21:15.000000000 Z
+published_at: 2008-09-06 00:37:24.000000000 Z
+title: Ruby on Struts
+body: "Once upon a time, there was a web MVC framework called [Struts][struts].  Struts
+  was one of the original catalysts of web frameworks based on the [MVC pattern][mvc],
+  but it was written in [Java][java] and required copious amounts of [XML][xml] to
+  configure your application.  One of the many things defined in the XML were the
+  \"[Action Mappings][action-mappings]\".  An Action Mapping essentially mapped a
+  specific URL pattern to a specific Java class that would be responsible for handling
+  that request.\r\n\r\nThen came [Ruby on Rails][ror], which eliminated the need for
+  these XML configuration files by using [Convention Over Configuration][coc].  The
+  way this works in Rails is that if a request is sent to the url `/users/new`, Rails
+  will call the `new` method of the `UsersController` class to handle the request.
+  \ Rails has a feature called routing that is used to map unconventional url patterns
+  to specific controller actions.  Then came RESTful Rails and the convention over
+  configuration was gone.\r\n\r\nWith RESTful Rails, the request path simply represents
+  what you want to perform an operation on, the Resource, and the HTTP method specifies
+  what you want to do.  This all makes sense, but one problem is that RESTful urls
+  do not conform to the url convention.  This means every action must be defined in
+  the routing.  A shortcut was added to the routing to allow one expression to define
+  the 7 typical methods the controller for a resource will have, but any additional
+  actions must be explicitly defined.\r\n\r\nI've been recently working with an experienced
+  Java developer with some familiarity Rails.  He was confused by the way RESTful
+  routing works and what paths the named route methods would generate.  When he asked
+  what benefits all this provides over the original `/controller/action/id` pattern,
+  where only non-standard routes had to be mapped, I struggled to find any.  I realized
+  that I was doing this just because it was now the \"Rails Way\".  He said this reminds
+  him of Struts, and after some arguing and thinking about it, I realized he was right.\r\n\r\nSo
+  it seemed unbelievably coincidental that we both found ourselves together today
+  in a talk titled [Unconvental Wisdom by Bruce Tate][uw].  In today's talk, Bruce
+  pointed out that RESTful Rails adds complexity to Rails, which makes it harder to
+  explain how Rails works to newcomers to Rails.  I'm very interested to see how this
+  talk is received by the Rails community, so if you weren't at the talk today, look
+  for it on [Confreaks][confreaks] in the next few weeks.\r\n\r\nSo looking back on
+  RESTful Rails applications that I've developed, if they reach even a level of medium
+  complexity, you end up with 50 lines or so in the `routes.rb`, with at least a handful
+  of nested and custom routes, in addition to all of the resources.  Imagine this
+  as the admin interface for a simple blog:\r\n\r\n    map.namespace(:admin) do |admin|
+  \r\n      admin.resources :articles, :has_many => :comments, :member => { :publish
+  => :post }\r\n      admin.resources :categories, :has_many => :articles\r\n      admin.resources
+  :comments, :belongs_to => :article\r\n      admin.resources :tags, :has_many =>
+  :articles\r\n    end\r\n\r\nIf you are an experienced Rails developer, you can decipher
+  this right away.  But is this really easy understand?  Or wouldn't convention over
+  configuration be easier:\r\n\r\n    map.connect \"/admin/:controller/:action/:id\"\r\n\r\nAnd
+  what about named routes like `new_admin_article_comment_path(@article)`?  Is that
+  really more clear than `admin_path(\"/comments/new\", :article_id => @article)\"`?
+  \ Do you really care if the urls are `/comments/new?article_id=1` or `/articles/1/comments`?
+  \ Maybe I missing something, but I'm starting to like the sound of idea of having
+  almost nothing in my routes and not calling dynamically generated methods everywhere
+  to just to build simple paths.  After all, no code is faster than no code. \r\n\r\n[struts]:
+  http://struts.apache.org\r\n[mvc]: http://en.wikipedia.org/wiki/Model-view-controller\r\n[action-mappings]:
+  http://struts.apache.org/1.x/userGuide/building_controller.html#actionmapping\r\n[ror]:
+  http://rubyonrails.com\r\n[ruby]: http://www.ruby-lang.org\r\n[java]: http://java.sun.com\r\n[xml]:
+  http://en.wikipedia.org/wiki/XML\r\n[coc]: http://en.wikipedia.org/wiki/Convention_over_Configuration\r\n[uw]:
+  http://lonestarrubyconf.com/speakers.html#uw\r\n[confreaks]: http://confreaks.com"
+format: Markdown
+guid: 15a5b377-2821-402e-a764-0d0f6e4387b7
+comments_count: 14

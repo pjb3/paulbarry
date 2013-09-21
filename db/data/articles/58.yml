@@ -1,0 +1,43 @@
+---
+id: 58
+slug: stripes-is-the-new-rails
+created_at: 2006-07-11 13:55:00.000000000 Z
+published_at: 2006-07-11 13:55:00.000000000 Z
+title: Stripes is the new Rails
+body: "I've have recently discovered [Stripes](http://mc4j.org/confluence/display/stripes/Home),
+  a Java web MVC framework.  I know what you're thinking, yet another Java web framework?
+  \ Struts, Webwork, Tapestry, Wicket, RIFE, do we really need another framework?
+  \ I think the answer is yes.  From my experiences with the Stripes framework, it
+  seems like it has the simplicity and flexibility of Rails, without the limitations.
+  \ What are the limitations of rails you ask?  There are two that I can think of
+  off hand:\r\n\r\n<ol>\r\n  <li>Indexed Properties<br/>\r\n  <p>It is very difficult
+  to work with index and nested properties in Rails.  In simple terms what I mean
+  by indexed and nested properties is being able to have a form field called bugs[0].watchers[3].name,
+  which means you have a list of bugs, and each bug has a list of watchers, and each
+  watcher has a name, and you want to get/set the name property of bug #1, watcher
+  #4 (the indexed are zero-based, like arrays).  Stripes makes this <a href=\"http://mc4j.org/confluence/display/stripes/Indexed+Properties\">easy</a>,
+  it seems to be much more difficult in Rails.</p></li>\r\n  <li>Dealing with non-AR
+  model objects<br/>\r\n  <p>Rails lacks the concept of a data binder.  In Java, Spring
+  MVC, Webwork and Stripes all have this.  In the Java frameworks, if your form contains
+  a field called user.firstname, it assumes you must have an object called user that
+  has a property called firstname that you want to bind that value to.  You bind the
+  values to Plain Old Java Objects (POJOs), and they you can do whatever you want
+  with the object.</p>\r\n<p>In Rails, the controller stores the request parameters
+  into a data structure that is a Hash of Hashes, so the request parameter user[firstname]
+  becomes { \"user\" => { \"firstname\" => \"whatever\" } }.  Then, the base ActiveRecord
+  class has a constructor that takes that hash as a parameter and sets the properties
+  of the object based on the hash.  But there are two problems with that.  First,
+  if your model objects don't subclass ActiveRecord, then you don't have that functionality.
+  \ Second, if you have nested objects, it can't create them as necessary, you have
+  to do that.</p></li>\r\n</ol>\r\n\r\nThe Stripes framework is very easy to pickup
+  and I found the author of the framework to be very helpful on the mailing list.
+  \ Stripes gains most of its simplicity by relying on Annotations and conventions
+  to limit the amount of configuration necessary.  You only add a few things to your
+  web.xml and then everything else is handled by annotations, there is no stripes.xml
+  or whatever, as almost all other frameworks have.\r\n\r\nI think there are a lot
+  of similarities between [Webwork](http://opensymphony.com/webwork/) and Stripes
+  and I'm sure there will be even more similarities between Stripes and [Struts 2.0](http://struts.apache.org/2.0/index.html),
+  once it is available. \r\n  "
+format: Markdown
+guid: 127afe87-a411-40fa-858f-9b21a9a16f9c
+comments_count: 0

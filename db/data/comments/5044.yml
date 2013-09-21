@@ -1,0 +1,11 @@
+---
+id: 5044
+article_id: 4806
+created_at: 2007-03-16 10:06:35.000000000 Z
+url: 
+email: wesslan@wesslan.se
+author: Wesslan
+ip: 85.224.42.81
+body: Any idea of how FooDispatcher look like if FooController uses constructor injection
+  instead of setter injection?
+guid: ab409cba-1183-4729-af65-3b3807f1689d

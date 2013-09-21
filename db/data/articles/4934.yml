@@ -1,0 +1,33 @@
+---
+id: 4934
+slug: implicit-conversions-scalas-type-safe-answer-to-rubys-open-class
+created_at: 2009-04-17 00:12:36.000000000 Z
+published_at: 2009-04-17 00:14:10.000000000 Z
+title: 'Implicit Conversions: Scala''s Type Safe Answer To Ruby''s Open Class'
+body: "Let's say that you are writing an application that squares things often, so
+  you would like to be able to do this:\r\n\r\n    >> 4.squared\r\n    => 16\r\n\r\nIn
+  Ruby, that's easy-peasy:\r\n\r\n    class Integer\r\n      def squared\r\n        self
+  * self\r\n      end\r\n    end\r\n    \r\n    \r\nWham.  Done.  Open it right up,
+  shove your method in there and you are bending the language to your will.  But what
+  if you couldn't modify existing classes?  Maybe you would do this:\r\n\r\n    class
+  IntegerWrapper\r\n      def initialize(value)\r\n        @value = value\r\n      end\r\n
+  \     def squared\r\n        @value * @value\r\n      end\r\n    end\r\n\r\nCool.
+  \ Now you haven't modified Integer, but you get the same effect.  So you just use
+  it like this:\r\n\r\n    >> IntegerWrapper.new(4).squared\r\n    => 16\r\n    \r\nWOAH!
+  \ WTF?  That is a lot of extra syntax.  Having all to call wrapper classes like
+  this really makes it too verbose.  So now we shift gears into Scala mode:\r\n\r\n
+  \   scala> class IntegerWrapper(val value : Int) { def squared = value * value }\r\n
+  \   defined class IntegerWrapper\r\n\r\n    scala> new IntegerWrapper(4).squared\r\n
+  \   res0: Int = 16\r\n\r\nAs you can see on the first line, we define the same IntegerWrapper
+  class.  Then we use it just the same way we do in Ruby.  But now we throw in an
+  implicit conversion to make the syntactic magic happen:\r\n\r\n    scala> implicit
+  def wrapInt(i:Int) = new IntegerWrapper(i)\r\n    wrapInt: (Int)IntegerWrapper\r\n\r\n
+  \   scala> 4.squared\r\n    res1: Int = 16\r\n    \r\nThe `implicit def` defines
+  an implicit conversion from an Int to an IntegerWrapper.  This is our way to tell
+  scala that if we try to call `squared` on an Int, use this function to convert the
+  Int to an IntegerWrapper for me.  Now as you can see, we can call `squared` on what
+  appears to be a Int, and get the same syntactic advantage of adding methods to existing
+  classes, without really modifying existing classes.\r\n"
+format: Markdown
+guid: 2804679d-0fc6-4033-99e8-baa332cd5ff2
+comments_count: 3

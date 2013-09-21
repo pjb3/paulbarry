@@ -1,0 +1,19 @@
+---
+id: 5137
+article_id: 4888
+created_at: 2008-05-15 09:09:59.000000000 Z
+url: http://blog.grayproductions.net/
+email: james@grayproductions.net
+author: James Edward Gray II
+ip: 68.97.89.187
+body: |-
+  I write import scripts a lot for Rails, but I do it very differently.  First, I defined them as Rake tasks.
+
+  I usually just create a data.rake file in lib/tasks.  Any task defined this way can load the whole Rails environment by adding a dependency on the environment task Rails ships with (just add => :environment after your task name).  You can pass data into your tasks, which file to import for example, using environment variables.
+
+  Finally, I would just use FasterCSV (or the standard CSV library) to handle the parsing.  It has all of the features demoed here and much more.
+
+  In short, I feel this is just a little too much boilerplate code.  You are going through too much effort to recreate tools Rails ships with or that are easily downloaded.
+
+  Also, the environment.rb file included with Rails loads boot.rb first thing, so that step in unneeded.  Have a peek at the code.
+guid: 054caf2b-fd57-474d-8de4-47ee0d065017

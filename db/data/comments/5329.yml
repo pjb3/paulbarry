@@ -1,0 +1,20 @@
+---
+id: 5329
+article_id: 4949
+created_at: 2009-09-03 22:02:55.000000000 Z
+url: https://trac.parrot.org
+email: christoph_tailcall@mksig.org
+author: Christoph Otto
+ip: 74.61.2.46
+body: |+
+  The Parrot VM also supports explicit tailcalls, so any language written on it can (theoretically) take advantage of them.
+
+  $ cat tc.pir
+  .sub main :main
+      .tailcall 'main' ()
+  .end
+  $ parrot tc.pir #runs forever
+
+
+
+guid: 2d11b3b3-bba9-4308-88c7-23fedbf6e727

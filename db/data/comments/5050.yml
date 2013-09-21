@@ -1,0 +1,13 @@
+---
+id: 5050
+article_id: 4813
+created_at: 2007-04-11 14:56:55.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul
+ip: 68.167.146.250
+body: "Yes, jQuery has also been developed around the idea of performing a function
+  on a collection of elements, so it's syntax is a bit cleaner.  The example from
+  above could be done in jQuery like this:\n\n    $('.sidebar-node p span').hide()
+  \ "
+guid: be0f110c-c4d2-4ad5-836f-eb56743b1b97

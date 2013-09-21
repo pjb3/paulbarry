@@ -1,0 +1,23 @@
+---
+id: 4951
+slug: extjs-on-rails
+created_at: 2009-09-23 23:03:16.000000000 Z
+published_at: 2009-09-23 23:09:41.000000000 Z
+title: ExtJS On Rails
+body: "If you are looking to give [ExtJS][extjs] a spin, I've created a [Rails Application
+  Template][ror-tmp] to setup a [Rails][ror] app with ExtJS installed.  To use it,
+  just do:\r\n\r\n    rails -m http://tinyurl.com/extjs-rb my-extjs-app\r\n\r\nTo
+  see a sample of this in use, take a look at this [Rails app][app].  It is a port
+  of Chapter 1 of [ExtJS In Action][garcia] to Rails.  Assuming you have Rails 2.3.2
+  installed, you should be able to download the Rails app from that git repo, run
+  `script/server` and then try out the app at http://localhost:3000.\r\n\r\n__UPDATE:__
+  This code actually refers to the code in the sample chapter on the [Manning website][garcia].
+  \ Chapter 1 in the latest version of the book has actually been completely re-written,
+  so I've included the [sample chapter in the git repo][sample].  Also be sure to
+  check out the author's blog which covers the development of the book.\r\n\r\n[garcia]:
+  http://manning.com/garcia/\r\n[extjs]: http://extjs.com\r\n[ror]: http://rubyonrails.org\r\n[ror-tmp]:
+  http://railscasts.com/episodes/148-app-templates-in-rails-2-3\r\n[app]: http://github.com/pjb3/extjs_in_action_rails_chapter_1\r\n[extjsinaction]:
+  http://extjsinaction.com\r\n[sample]: http://github.com/pjb3/extjs_in_action_rails_chapter_1/raw/master/ExtJSinActionCh01.pdf"
+format: Markdown
+guid: de4b6e57-b7bd-47b6-9812-4a6bddd9da33
+comments_count: 0

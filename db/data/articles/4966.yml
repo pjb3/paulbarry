@@ -1,0 +1,33 @@
+---
+id: 4966
+slug: zipping-arrays
+created_at: 2010-08-23 21:03:51.000000000 Z
+published_at: 2010-08-23 21:06:12.000000000 Z
+title: Zipping Arrays
+body: "When programming in any language, you are sure to be in a situation at some
+  point where you have two or more arrays that match up by index.  For example, say
+  you have this:\r\n\r\n    cities = %w[Baltimore Washington Pittsburgh]\r\n    teams
+  = %w[Ravens Redskins Steelers]\r\n\r\nSo the in this case, the name of the team
+  in the nth city is the nth team.  In languages like Java and JavaScript, a common
+  method for doing this would be to use a for loop and pull each value out of the
+  array using the index:\r\n\r\n    for i in (0...cities.size)\r\n      puts \"%s
+  %s\" % [cities[i], teams[i]]\r\n    end\r\n\r\nAs you can see, this works in Ruby
+  as well.  The output of that will be:\r\n      \r\n    Baltimore Ravens\r\n    Washington
+  Redskins\r\n    Pittsburgh Steelers\r\n\r\nBut Ruby's enumerable class has a built-in
+  method for handling this that you might not know about.  On any Enumerable, you
+  can call zip and pass in another array and it will return a two-dimensional array
+  with each of the values paired up:\r\n\r\n    p cities.zip(teams) \r\n    # => [[\"Baltimore\",
+  \"Ravens\"], [\"Washington\", \"Redskins\"], [\"Pittsburgh\", \"Steelers\"]]\r\n\r\nConveniently,
+  Ruby's each method also allows you to assign each value of the sub-array to a variable
+  in the block.  So we can perform the for loop from above like this:\r\n\r\n    cities.zip(teams).each
+  do |city, team|\r\n      puts \"%s %s\" % [city, team]\r\n    end\r\n\r\nWhich outputs:\r\n\r\n
+  \   Baltimore Ravens\r\n    Washington Redskins\r\n    Pittsburgh Steelers\r\n\r\nNo
+  indexes to keep track of.  Also, the zip method can take multiple arrays, so you
+  can zip up more than one array and iterate through them in a similar fashion:\r\n\r\n
+  \   qbs = %w[Flacco McNabb Roethlisberger]\r\n    \r\n    cities.zip(teams, qbs).each
+  do |city, team, qb|\r\n      puts \"%s %s %s\" % [city, team, qb]\r\n    end\r\n
+  \   \r\nWhich outputs:\r\n    \r\n    Baltimore Ravens Flacco\r\n    Washington
+  Redskins McNabb\r\n    Pittsburgh Steelers Roethlisberger\r\n"
+format: Markdown
+guid: 96048f2a-6ef3-4b3e-b389-8ef6515b3f40
+comments_count: 3

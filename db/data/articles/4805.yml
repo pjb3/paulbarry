@@ -1,0 +1,28 @@
+---
+id: 4805
+slug: stopping-spam-with-ajax
+created_at: 2007-02-28 21:06:54.000000000 Z
+published_at: 2007-02-28 21:08:02.000000000 Z
+title: Stopping spam with Ajax
+body: "Over the last week or so I've started to get a lot of spam comments.  I get
+  about 25-50 per day.  Luckily I have a decent interface on the backend for removing
+  it.  First of all, I have the [RSS feed for my comments][rss], so I find out in
+  google reader when I get spam.  Then, I have a page in the admin interface where
+  it lists all comments of all articles, showing the most recent first.  This allows
+  me to find the recent spam comments easily.  It sounds simple, but [Typo][typo]
+  didn't have it, which made it very difficult to delete spam via the admin interface.\r\n\r\nEven
+  with that, it's still annoying and I've been wondering if I can find some way to
+  reduce the spam.  I want to avoid things that require users to do anything, such
+  as captcha or logging in.  So what I've done is make it so that the request must
+  be an XmlHttpRequest in order to allow the comment to be posted.  Any real person
+  trying to leave a comment is going to be using a modern browser with JavaScript
+  enabled, so the comment will go through.  My hope is that spam bots will won't know
+  to do that and less spam will get through.  I'm also hoping that the people who
+  spam my blog don't actually read it, otherwise they'll now know how to defeat this.
+  \ This probably isn't going to be very effective, but its better than nothing.  If
+  you have any problems leaving a comment, let me know by sending an email to \"mail\"
+  at this domain.\r\n\r\n[rss]: http://paulbarry.com/articles/2007/01/31/rss-feed-for-comments\r\n[typo]:
+  http://trac.typosphere.org/"
+format: Markdown
+guid: 3d180759-753f-463e-bc53-6db844d9dba2
+comments_count: 0

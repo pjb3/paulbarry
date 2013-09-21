@@ -1,0 +1,21 @@
+---
+id: 5102
+article_id: 4844
+created_at: 2008-02-25 16:39:37.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.16.21.170
+body: "I do think Merb can be a strong competitor of Rails on one of the main reasons
+  is hosting.  You get more bang for your buck, so to speak with Merb.  People say
+  Rails doesn't scale, which isn't true, but it does use more RAM and CPU to scale,
+  which has some cost.  Merb will handle requests fast, and more importantly, more
+  concurrent requests with less RAM and CPU than Rails, because it is a framework
+  designed to be lean and fast.  One of the ways it will be able to do this is because
+  it is threadsafe, which Rails is not.\n\nAlso, the Merb team is working on a mod_rubinius,
+  which would be an apache module to allow you to setup Merb apps just as easily as
+  your can set up PHP.\n\nMerb and DataMapper both have a long way to go to be bug
+  free and feature complete with Rails, but that gap is closing everyday.  By this
+  time next year, I expect Merb+DataMapper to be being used in a lot of production
+  Ruby web application instead of Rails. "
+guid: 0bd1af51-3e6b-43d8-ba6f-3a801543a776

@@ -1,0 +1,14 @@
+---
+id: 5154
+article_id: 4838
+created_at: 2008-07-01 13:14:28.000000000 Z
+url: 
+email: birgit@westhawk.co.uk
+author: Birgit Arkesteijn
+ip: 192.67.4.56
+body: |-
+  Never mind, I found the problem.
+  I used plurals in my "belongs_to" statement in
+  my model for area_codes_markets (AreaCodesMarket).
+  I've wasted many a day chasing problems due to the wrong plural or singular.
+guid: d8a8cb93-a094-4728-aa38-769350fcdb1f

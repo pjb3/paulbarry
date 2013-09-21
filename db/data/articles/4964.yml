@@ -1,0 +1,97 @@
+---
+id: 4964
+slug: fibers-in-ruby-1-9
+created_at: 2010-04-01 03:41:35.000000000 Z
+published_at: 2010-04-01 03:43:10.000000000 Z
+title: Fibers in Ruby 1.9
+body: "One of the new features in [Ruby 1.9 is Fibers][fibers].  In order to understand
+  how Fibers work, we need to first understand how threads work.\r\n\r\nA thread is
+  an execution context.  When a ruby programs starts, there is a main thread, which
+  you can access by calling `Thread.current`.  You can create new threads within your
+  program.  Here's an example of creating a thread:\r\n\r\n    Thread.new do\r\n      puts
+  \"start\"\r\n      sleep 5\r\n      puts \"finish\"\r\n    end\r\n    Thread.list.each
+  do |t|\r\n      p t\r\n    end\r\n\r\nThe first thing this program does is create
+  a new thread.  What the thread should run is passed in via a block.  Remember that
+  in Ruby, the block is a Proc which does not execute when it is created, only when
+  it is called.  Next we call `Thread.list` to iterate each of the threads that exists
+  in our program.  Unlike `Thread.new`, the `each` method does call it's block immediately,
+  so we see each thread printed out.  What you actually see when you run this program
+  is hard to say.  When running in 1.9, you might see this:\r\n\r\n    #<Thread:0x000001008648e0
+  run>\r\n    #<Thread:0x00000101031010 run>\r\n\r\nWhat we can see is that we have
+  a couple of threads and they are both ready to be run.  We don't see the `puts \"start\"`
+  from the thread we created because in this case, the program exited before our thread
+  got a chance to run.  You might see this:\r\n\r\n    #<Thread:0x000001008648e0 run>\r\n
+  \   start#<Thread:0x00000101003a08 sleep>\r\n\r\nIn this case, we can see that while
+  were iterating over the thread list, after we printed the main thread and before
+  we printed the second thread, the second thread started executing.  Now also notice
+  that the status of the second thread is sleep.  This doesn't just mean the thread
+  is sleeping, a thread could have a state of sleep if it's waiting on IO.\r\n\r\nWhat
+  is happening in this code is that we have multiple threads and a thread scheduler
+  is deciding when each thread should execute.  In Ruby 1.8 MRI the thread scheduler
+  is part of the ruby interpreter process and in Ruby 1.9 YARV, the thread scheduling
+  is being handled by the operating system, but in either case what is happening is
+  conceptually similar.\r\n\r\nThe thread scheduler allows each thread to run for
+  a short period of time, like 10ms.  Once that time runs out or when the thread's
+  status changes to sleep, the thread scheduler finds the next thread that isn't sleeping
+  and let's that thread run for 10ms.  This continues throughout the life of the program.
+  \ It's actually more complicated than this, but at the heart of if, this is what
+  happens.\r\n\r\nEvery time the thread scheduler switches from one thread to the
+  next, it has to switch the execution context to allow the next to run.  There is
+  some overhead with this that can add up if your program has to do a lot of context
+  switching.  More importantly, there is no way of knowing ahead of time when the
+  context switching will occur.  So not only is this inefficient, it's also dangerous,
+  because the outcome of your program can change based on circumstances out of your
+  control.  In order to achieve parallelism in your program though, ruby has to switch
+  from one thread to the next as some point, so the thread scheduler has to just guess.
+  \ But what if you could indicate in your code exactly when you want a context switch
+  to occur?\r\n\r\nEnter fibers in Ruby 1.9.  The easiest way to understand fibers
+  is to think about them as being very similar to threads.  When your program starts,
+  there is a current fiber.  You can create more fibers as your program runs.  Each
+  fiber defines some code to run.  Here's our example from above:\r\n\r\n    fibers
+  = [Fiber.current]\r\n    fibers << Fiber.new do\r\n      puts \"start\"\r\n      sleep
+  3\r\n      puts \"finish\"\r\n    end\r\n    fibers.each do |f|\r\n      p f\r\n
+  \   end\r\n\r\nIn the case, the output of our program is more determinate.  It will
+  be something like this: (the only thing indeterminate about it is what the ids of
+  the objects will be)\r\n\r\n    #<Fiber:0x0000010109cdc8>\r\n    #<Fiber:0x0000010109cd58>\r\n\r\nUnlike
+  threads, fibers don't have a state that can be runnable or sleeping.  This is because
+  with fibers, only one fiber in the process can be running at once.  This is true
+  of threads as well, there can only be one thread running at once within one Ruby
+  process.  The difference is that a fiber gets to decide how long it wants to run
+  for, unlike threads, which get preempted by the thread scheduler.\r\n\r\nIn our
+  example above, our second fiber never executed because the main fiber never started
+  it.  In this case, the main fiber ran until the end of the program.  If we want
+  to run the fiber, we have to call `resume` on it:\r\n\r\n    require 'fiber'\r\n
+  \   fibers = [Fiber.current]\r\n    fibers << Fiber.new do\r\n      puts \"start\"\r\n
+  \     sleep 3\r\n      puts \"finish\"\r\n    end\r\n    fibers.each do |f|\r\n
+  \     p f\r\n    end\r\n    fibers.last.resume\r\n\r\nNow we will see the fibers
+  printed out as before, but then since we call `resume` on our second fiber, then
+  it will execute, print start, then after 3 seconds, print finish:\r\n\r\n    #<Fiber:0x0000010101f030>\r\n
+  \   #<Fiber:0x0000010101efc0>\r\n    start\r\n    finish\r\n\r\nWhere things actual
+  get interesting with fibers is that once a fiber is started, it can then yield back
+  to the fiber that started it.  Then, you can call `resume` on the fiber and it will
+  pick up executing where it left off.  Take a look at this example:\r\n\r\n    require
+  'fiber'\r\n    you = Fiber.new do\r\n      Fiber.yield \"potato\"\r\n      Fiber.yield
+  \"tomato\"\r\n    end\r\n    puts \"I say potato\"\r\n    puts \"You say #{you.resume}\"\r\n
+  \   puts \"I say tomato\"\r\n    puts \"You say #{you.resume}\"\r\n\r\nThe output
+  of this will be:\r\n\r\n    I say potato\r\n    You say potato\r\n    I say tomato\r\n
+  \   You say tomato\r\n\r\nWhat happens here is when the second `puts` is called,
+  it calls `you.resume`.  This means start executing `you`, which is a fiber.  The
+  return value of the call to `resume` will be the argument to `Fiber.yield`.  A good
+  mental model for thinking about fibers is a stack.  When you call `resume` on a
+  fiber, that fiber gets pushed on to the stack and starts executing.  It executes
+  until it's finished or until it calls `Fiber.yield`.  `Fiber.yield` means pop the
+  current fiber of the stack, keep track of where that fiber was, and resume executing
+  the fiber that's at the top of the stack now.  This is why in our example above,
+  when we call `resume` on `you` the second time, `Fiber.yield \"potato\"` doesn't
+  happen because the fiber is already past that point, so `Fiber.yield \"tomato\"`
+  is executed.\r\n\r\nFibers have some powerful uses in the context of code that does
+  asynchronous IO.  [Mike Perham gave a talk at Austin on Rails which covers using
+  Fibers with Event Machine][perham], which I highly recommend.  For more detail on
+  threads and thread scheduling, I recommend the [\"Scaling Ruby\" envycast, which
+  is available at peepcode][peepcode].  Also checkout [this post on Ruby Inside, which
+  has a list of 8 other articles on Fibers][rubyinside].\r\n\r\n[fibers]: http://ruby-doc.org/core-1.9/classes/Fiber.html\r\n[peepcode]:
+  http://peepcode.com/products/scaling-ruby\r\n[rubyinside]: http://www.rubyinside.com/ruby-fibers-8-useful-reads-on-rubys-new-concurrency-feature-1769.html\r\n[perham]:
+  http://www.mikeperham.com/2010/01/27/scalable-ruby-processing-with-eventmachine/"
+format: Markdown
+guid: 889c21fe-daed-4671-a752-b33e202eaf38
+comments_count: 3

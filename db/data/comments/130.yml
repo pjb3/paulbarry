@@ -1,0 +1,13 @@
+---
+id: 130
+article_id: 122
+created_at: 2006-09-21 12:49:28.000000000 Z
+url: ''
+email: ''
+author: David Sissitka
+ip: 24.28.18.244
+body: I wasn't very clear about the whole Django models thing. There really isn't
+  a one to one conversion, but if you piece together a few of the features present
+  in Rails you can get pretty close. I'm new to Python myself, but it looks like 1L
+  is a boolean val
+guid: 58967615-18e4-4a87-8dcc-c0a6f00abfbd

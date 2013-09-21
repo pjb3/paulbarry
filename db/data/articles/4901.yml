@@ -1,0 +1,24 @@
+---
+id: 4901
+slug: a-ruby-test-framework-in-one-line
+created_at: 2008-05-23 11:16:44.000000000 Z
+published_at: 2008-05-23 11:17:48.000000000 Z
+title: A Ruby Test Framework in One Line
+body: "Time for a little Friday fun with Ruby.  I love Ruby for things like this.
+  \ I realize this has little practical usage, but the fact that it's possible says
+  a lot about the language.  You can build a test \"framework\" in one line of code
+  in Ruby.  Let's say we are going to write a method that take 0 to n arguments and
+  adds them up.  So following TDD, we write the tests first: \r\n\r\n    tests = {\r\n
+  \     \"sum\" => 0,\r\n      \"sum(7)\" => 7,\r\n      \"sum(2, 3)\" => 5,\r\n      \"sum(2,
+  3, 5)\" => 10\r\n    }\r\n\r\nThe tests are defined in a hash where the key is the
+  code to be tested in a string and the value is the expected result.  Next we write
+  our implementation:\r\n\r\n    def sum(*args)\r\n      (args || 0).inject(0){|s,e|
+  s+e}\r\n    end\r\n\r\nAnd finally, we create and execute our test framework in
+  one line of code:\r\n\r\n    tests.each{|e,v| puts((r=eval(e))==v ? \". #{e}\" :
+  \"! #{e} was '#{r}', expected '#{v}'\")}\r\n\r\nThe output looks like this:\r\n\r\n
+  \   . sum\r\n    . sum(2, 3, 5)\r\n    . sum(7)\r\n    . sum(2, 3)\r\n\r\nIf we
+  change one of our tests to show a failure, you get this:\r\n\r\n    . sum\r\n    .
+  sum(2, 3, 5)\r\n    . sum(7)\r\n    ! sum(2, 3) was '5', expected '8'\r\n"
+format: Markdown
+guid: 8ecccd7b-ccd8-428a-8528-ced8a518175a
+comments_count: 6

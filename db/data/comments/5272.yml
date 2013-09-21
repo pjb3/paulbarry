@@ -1,0 +1,11 @@
+---
+id: 5272
+article_id: 4928
+created_at: 2009-03-03 14:04:25.000000000 Z
+url: 
+email: matt@greatenough.com
+author: Matt Scilipoti
+ip: 207.155.216.130
+body: 'rsync (and temp dirs) is an answer to your .svn dilemma.  See an example here:
+  http://bjhess.com/blog/2008/03/03/howto-commit-an-incremental-rails-upgrade-to-svn/'
+guid: babe0b02-025f-4e00-854e-125c30cc9870

@@ -1,0 +1,14 @@
+---
+id: 5331
+article_id: 4949
+created_at: 2009-09-04 04:20:57.000000000 Z
+url: 
+email: 
+author: Falko
+ip: 80.187.108.162
+body: |-
+  Tail call in Scala is a bit similar to the Clojure one, as described by Dave. The JVM has none, so it has to be emulated. As described in Oderskys book "Programming In Scala", Chap 8.9 Tail recursion, at the end it describes the limits: Scala too only tail calls if the calling function calls itself.
+  (And I'm rather angry about that. The request for tail call recursion in JVMs is in the request list for many years now.)
+
+  I'm very impressed by your Haskell findings. I knew these guys are cool, but THAT cool?
+guid: f10d599e-d18c-4dee-bdca-4a880f50e440

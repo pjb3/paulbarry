@@ -1,0 +1,16 @@
+---
+id: 4869
+slug: its-the-little-things
+created_at: 2008-03-17 12:32:59.000000000 Z
+published_at: 2008-03-17 12:33:20.000000000 Z
+title: It's the little things
+body: "When programming in Ruby, not a day goes by that I don't have one of those
+  I Love Ruby moments.  You know, when you are trying to do something, and you are
+  wondering if it work the way you want, and then you fire up IRB to try it out, and
+  it does work like you expected.  Nothing earth shattering like monads or macros,
+  just little things, like this:\r\n    \r\n    >> [['a', 1],['b', 2]].each_with_index{|(x,y),i|
+  puts \"#{i}: #{x} => #{y}\"}\r\n    0: a => 1\r\n    1: b => 2\r\n\r\nThey add up
+  :)\r\n\r\n"
+format: Markdown
+guid: 0b45c2d3-7cdc-4d81-a411-356240193891
+comments_count: 0

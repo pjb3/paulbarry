@@ -1,0 +1,12 @@
+---
+id: 5113
+article_id: 4894
+created_at: 2008-04-25 06:58:31.000000000 Z
+url: http://smartic.us
+email: iam@smartic.us
+author: bryanl
+ip: 24.35.111.61
+body: "Or you just give up on rspec and its spaghetti mess of code and start using
+  shoulda.  \n\nshould_not_allow_values_for :email, \"blah\", \"b lah\" \nshould_allow_values_for
+  :email, \"a@b.com\", \"asdf@asdf.com\" \n"
+guid: 589247b1-9f61-442c-a984-889fcc2f289f

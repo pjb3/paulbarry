@@ -1,0 +1,17 @@
+---
+id: 5359
+article_id: 4947
+created_at: 2009-11-24 14:18:25.000000000 Z
+url: 
+email: jeremy@formcollective.com
+author: Jeremy
+ip: 74.65.58.107
+body: |-
+  I'll preface this by saying I am no expert on this, but this conflicts a bit with how I understood all of this. My understanding is that the first example is, indeed, imperative and iterative. The second example is functional and recursive. And the third example is functional and iterative.
+
+  My understanding of a tail call is when a function is called in a tail position of a function. (ie, the last line of a function, or branch...a terminal expression) The tail call can be calling the same function but it does not need to be. Tail call optimization is then a run-time (or compile-time) optimization where the tail call shares a stack frame with the original calling function.
+
+  I don't mean that this contradicts what you are saying, but runtime differences between the two functional examples have more to do with the first being recursive and the second being iterative. Tail call optimization would make this more efficient still, but I don't think that is what is being demonstrated.
+
+  I fully realize that I could be wrong on this, but I would think that transparently changing from a recursive to iterative logic would not be reliably feasible. Well, at least doing so is not what I understood TCO to be. Am I way off on this?
+guid: 49e4f0dd-05fb-41e5-bfe0-bb192049de2f

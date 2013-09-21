@@ -1,0 +1,13 @@
+---
+id: 5196
+article_id: 4915
+created_at: 2008-09-12 07:09:44.000000000 Z
+url: http://smartic.us
+email: iam@smartic.us
+author: bryanl
+ip: 24.35.111.61
+body: "I like REST and RESTful routing.  You can't shoe horn every problem on top
+  of if it, so you can choose where you want to me.\n\nAs for admin_path(\"/comments/new\",
+  :article_id => @article)... this isn't very clear.  And worse you now have a hard
+  coded path in your application.  "
+guid: f218322f-6e88-427f-9915-8e828be172c8

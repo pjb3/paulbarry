@@ -1,0 +1,42 @@
+---
+id: 4950
+slug: why-rails-3-will-require-ruby-1-8-7
+created_at: 2009-09-14 19:49:49.000000000 Z
+published_at: 2009-09-14 19:50:21.000000000 Z
+title: Why Rails 3 Will Require Ruby 1.8.7
+body: "This past weekend I attended the [Windy City Rails][wcr] conference.  It was
+  in a great location in the heart of downtown Chicago and seemed to have a pretty
+  good turn out.  There were many great talks but this blog post will be focusing
+  on a specific talk, and more precisely, part of a talk.  [Yehuda Katz][katz] gave
+  a talk on the status of Rails 3.  One of the things that he mentioned, which you
+  may have already heard, is that Rails 3 will require Ruby 1.8.7 or higher, dropping
+  support for Ruby 1.8.6.  He also mentioned why they are doing this and I found the
+  reason to be interesting.  It's not that the Rails core team wants to try to take
+  advantage of any specific new features, it's that Ruby 1.8.6 has a bug which has
+  been fixed in 1.8.7.\r\n\r\nTo see the bug in action, I recommend that you install
+  [Ruby Version Manager (rvm)][rvm].  Once you have installed rvm, install Ruby 1.8.6
+  and Ruby 1.8.7.  \r\n\r\nThe bug is that in Ruby 1.8.6, the `hash` method for `Hash`
+  doesn't generate the same hash code for different hashes with the same values:\r\n\r\n
+  \   $ rvm use 1.8.6\r\n    $ irb\r\n    ruby-1.8.6-p383 > {:x => 1}.hash\r\n     =>
+  1313270 \r\n    ruby-1.8.6-p383 > {:x => 1}.hash\r\n     => 1307060 \r\n    ruby-1.8.6-p383
+  > {:x => 1}.hash\r\n     => 1296440 \r\n    ruby-1.8.6-p383 > {:x => 1} == {:x =>
+  1}\r\n     => true\r\n    ruby-1.8.6-p383 > h = {{:x => 1} => \"foo\"}\r\n     =>
+  {{:x=>1}=>\"foo\"} \r\n    ruby-1.8.6-p383 > h[{:x => 1}]\r\n     => nil\r\n     \r\nSo
+  despite the fact that two hashes have the same values and are equal, you can't use
+  a hash as a key in a hash, because that depends on the hash codes of the values
+  being equal, which they aren't.  This is fixed in Ruby 1.8.7:\r\n\r\n    $ rvm use
+  1.8.7\r\n    $ irb\r\n    ruby-1.8.7-p174 > {:x => 1}.hash\r\n     => 327875 \r\n
+  \   ruby-1.8.7-p174 > {:x => 1}.hash\r\n     => 327875 \r\n    ruby-1.8.7-p174 >
+  {:x => 1}.hash\r\n     => 327875 \r\n    ruby-1.8.7-p174 > {:x => 1} == {:x => 1}\r\n
+  \    => true \r\n    ruby-1.8.7-p174 > h = {{:x => 1} => \"foo\"}\r\n     => {{:x=>1}=>\"foo\"}
+  \r\n    ruby-1.8.7-p174 > h[{:x => 1}]\r\n     => \"foo\" \r\n\r\nThis is important
+  because you could use a hash cache calls to a method that expects a hash, but only
+  if you can use a hash as the key.  This is one of the main reasons Rails 3 is going
+  to require 1.8.7.  They could make it worth for both 1.8.6 and 1.8.7 and higher,
+  but why?  It simplifies things to just require that you upgrade to Ruby 1.8.7 to
+  use Rails 3.  If you are using 1.8.6, this is probably a gotcha that you should
+  be aware of.\r\n\r\n\r\n[katz]: http://yehudakatz.com\r\n[wcr]: http://windycityrails.org\r\n[rvm]:
+  http://rvm.beginrescueend.com"
+format: Markdown
+guid: 82a3a695-8c2f-45ea-8332-a65b8dcc9ea9
+comments_count: 0

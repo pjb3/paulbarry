@@ -1,0 +1,24 @@
+---
+id: 4798
+slug: prototype-toggle-gotcha
+created_at: 2007-02-13 15:45:46.000000000 Z
+published_at: 2007-02-13 15:46:29.000000000 Z
+title: Prototype toggle gotcha
+body: "I've been using the [Prototype JavaScript Library][prototype] lately, because
+  it simplifies your JavaScript syntax and gives you a simple mechanism for AJAX requests.
+  \ I ran into one gotcha, and I'm not sure if this is a bug, or if this is just the
+  way things are.  I had the following code:\r\n\r\n    <a href=\"#\" onclick=\"Element.toggle('foo');
+  return false;\">Foo</a>\r\n    <p id=\"foo\" class=\"bar\">\r\n      ...\r\n    </p>\r\n\r\nIn
+  an external stylesheet, I set the display for bar to none.  So, you would think
+  that when the page loads, the p would not be visable and when you click on the link,
+  it would become visable.  It didn't work.  I resorted to `document.getElementById('foo').style.display=''`
+  for the onclick on the link, which also didn't work.  This is what makes me think
+  it is a DOM thing and not something prototype can deal with.  I took the `display:
+  none` out of the CSS for bar and then changed the HTML to this:\r\n\r\n    <a href=\"#\"
+  onclick=\"Element.toggle('foo'); return false;\">Foo</a>\r\n    <p id=\"foo\" class=\"bar\"
+  style=\"display: none\">\r\n      ...\r\n    </p>\r\n\r\nAnd now it works.  So I
+  guess you can't use toggle where the CSS has set the element to `display:none` to
+  start with.\r\n\r\n[prototype]: http://www.prototypejs.org/"
+format: Markdown
+guid: 09ae40b0-0d56-478a-a661-d392c7677e28
+comments_count: 0

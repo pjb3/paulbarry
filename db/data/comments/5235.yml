@@ -1,0 +1,15 @@
+---
+id: 5235
+article_id: 4921
+created_at: 2008-12-19 16:01:46.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 76.100.88.51
+body: |-
+  @Henrik N
+
+  The intent of published_before is to be able to pass in any date, not have it be always the beginning of the year.
+
+  But you bring up a good point.  Even if you wanted to define a "published_last_year" scope, you might think you don't need lambda, because you don't need any arguments.  But as you said, doing it without the lambda would make the value of beginning of the year be calculated only once, thus the value would never change, creating a nasty bug that you wouldn't find until the year after you deploy your app. :)
+guid: b4547e90-f15c-4697-a30b-392c60ca735e

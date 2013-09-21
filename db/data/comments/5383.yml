@@ -1,0 +1,23 @@
+---
+id: 5383
+article_id: 4960
+created_at: 2010-03-06 06:31:26.000000000 Z
+url: ''
+email: matt.pardee@gmail.com
+author: Matt
+ip: 71.159.229.9
+body: |-
+  Hi Paul,
+
+  Thank you for this guide for setting up DBSlayer on OS X. I've got 10.6 on a Mac Pro and have tried setting up DBSlayer two ways: the traditional way by downloading and installing all the dependencies myself, and the second time around I tried Macports.
+
+  Both times however I get the following error printed out at the "end" of the make process;
+
+  make[1]: Nothing to be done for `all-am'.
+
+  I set up the configuration process with all the options you supplied, and by all appearances the config process completes successfully. Attempting to run "make install" after the error in "make" just spits out a bunch of errors, so I imagine that squashing the original error above is the key to getting this set up successfully.
+
+  I also attempted to install beta-10 of DBSlayer with the same problem. After a little bit of research it looks like that error above is a little too generic to pinpoint the problem, however I'm a noob when it comes to UNIX work so I don't know where to start. If you could point me in the right direction I would be much obliged. Additionally, if it would help to see the full output from the make process, I'd be happy to supply that.
+
+  Thanks for your help!
+guid: 9fffbe59-748e-42c8-bd09-13a7a248c4bb

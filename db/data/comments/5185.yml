@@ -1,0 +1,18 @@
+---
+id: 5185
+article_id: 4915
+created_at: 2008-09-06 11:30:23.000000000 Z
+url: http://codeclimber.blogspot.com
+email: ethan.vizitei@gmail.com
+author: Ethan Vizitei
+ip: 69.29.74.159
+body: I'll admit that using RESTful controllers does fatten up your routing a bit,
+  but I think that ultimately this makes the entire app come closer to "convention
+  over configuration", not farther away from, because in all your controllers you
+  have (mostly) the same set of methods and you can depend on them all to do the same
+  thing to the resources they are in charge of.  Maybe there is a bit more of a learning
+  curve (in fact, I know there is), and I'm not saying you want to use it for everything
+  (I have several ajax-y actions in my app that I don't think really relate to resources,
+  and so I use a traditional rails route for them), but ultimately I think the extra
+  layer is a net gain.
+guid: 57e06399-1d52-4b14-a5c0-19baa3ed95a5

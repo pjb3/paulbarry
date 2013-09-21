@@ -1,0 +1,23 @@
+---
+id: 5107
+article_id: 4838
+created_at: 2008-03-25 09:46:55.000000000 Z
+url: 
+email: chaitali.patil123@gmail.com
+author: Ruby_New
+ip: 202.189.254.18
+body: "\r\n\r\nHi,\r\n\r\nI want to implement the many to many relation,using the
+  HMT appproach,by defining the _ids method.\r\n\r\nI have 3 tables companies,groups,titles.The
+  companies & members table have many to many mapping,usinh has_many :through,titles
+  being the join model.\r\n   In the Views file(.html.erb) I have,used following code:\r\n\r\n<select
+  name=\"title[company_id]\" >\r\n\t-----------------\r\n        --------------------\r\n
+  \       </select> \r\n\r\nThis causes only one value,being added to the database.\r\n\r\nIf
+  I add the following code to the model file,(member.rb),\r\n\r\ndef companies_ids=(companies_ids)\r\n
+  \    titles.each do |tit|\r\n         tit.destroy unless company_ids.include? tit.company_id\r\n
+  \      end  \r\n       company_ids.each do |company_id|\r\n         self.titles.create(:company_id
+  => company_id) unless titles.any? { |d| d.company_id == company_id }    \r\n end
+  \ \r\nend\r\nend\r\n\r\n\r\n\r\n& use the following in the views file(.html.erb):\r\n\r\n<select
+  name=\"title[company_ids]\" >\r\n\t---------------------------\r\n        ---------------------------\r\n
+  \       </select> \r\n\r\nThis does not populate the database for all values.\r\n\r\nPlease
+  reply, as to where am I going wrong.\r\n\r\n\r\n\r\n"
+guid: ce432bae-3479-4a28-94cd-679382d81a8a

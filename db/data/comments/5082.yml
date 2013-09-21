@@ -1,0 +1,11 @@
+---
+id: 5082
+article_id: 4838
+created_at: 2007-12-27 13:14:56.000000000 Z
+url: http://www.evenflow.nl
+email: rails@evenflow.nl
+author: xinit
+ip: 84.245.31.247
+body: Great solution! The only thing I miss is that the selection isn't remembered
+  when the model doesn't validate. In the habtm solution, this still works..
+guid: 58a447c4-7718-4176-b0e1-e8950421cbe7

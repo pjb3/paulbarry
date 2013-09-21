@@ -1,0 +1,15 @@
+---
+id: 5056
+article_id: 4802
+created_at: 2007-04-14 19:34:53.000000000 Z
+url: http://richardstanford.com/
+email: richard@richardstanford.com
+author: Richard
+ip: 66.90.166.27
+body: "Hibernate also allows you to set a batch size, so that rather than N+1 selects
+  you have (N/batchSize)+1 selects.  Which often translates to 1+1 selects, which
+  is really not a problem.\r\n\r\nAlso, Seam (my preferred Java framework, although
+  there are many to choose from) does a fantastic job of persisting the database session
+  for the whole page rendering, so lazy loading is a thing of the past.  Other simple
+  techniques (threadLocals, et cetera) are also well known solutions to that problem."
+guid: b8d96c9e-c5a4-4fbd-8ec8-05bf8d5dac22

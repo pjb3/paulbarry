@@ -1,0 +1,15 @@
+---
+id: 5330
+article_id: 4949
+created_at: 2009-09-03 22:56:28.000000000 Z
+url: 
+email: 
+author: Dave
+ip: 216.113.168.148
+body: |
+  TCO isn't just about self-calling.  I think the following is expected to run forever in scheme (forgive my poor scheme) but has no equivalent in Clojure, hence Clojure doesn't really have TCO (which it freely admits).
+
+  (define (foo) (bar))
+  (define (bar) (foo))
+  (foo)
+guid: d1ae6328-3a21-48a5-b350-ab060933b164

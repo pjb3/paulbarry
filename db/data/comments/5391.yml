@@ -1,0 +1,22 @@
+---
+id: 5391
+article_id: 4906
+created_at: 2010-05-17 05:23:02.000000000 Z
+url: ''
+email: ''
+author: Adam
+ip: 68.254.25.54
+body: |+
+  Having trouble running this in Snow Leopard.  I can launch a repl, but trying to ctrl-x ctrl-e  on this s-expr:
+  (range 0 10)
+
+  gives this error:
+
+
+  Debugger entered--Lisp error: (void-function range)
+
+  It doesn't seem that it's running through clojure, but through elisp.
+
+
+
+guid: b2e3fadd-07d9-432c-8bb0-329fac79bcea

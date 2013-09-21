@@ -1,0 +1,76 @@
+---
+id: 4939
+slug: zip-code-proximity-search-with-rails
+created_at: 2009-06-27 02:07:26.000000000 Z
+published_at: 2009-06-27 02:17:37.000000000 Z
+title: Zip Code Proximity Search with Rails
+body: "So you're building the next big social networking website using [Rails][ror]
+  and like all the other hip kids you are going to need to allow your users to search
+  for other users near them.  The fancy term for this is \"Proximity Search\".  For
+  our search, we just want be able to find other people that are generally within
+  some radius, like 5, 10 or 25 miles.  For this, there is no need to geocode the
+  address for each user in our database, we'll just use their zip code.  So effectively,
+  in our system, every user's location is just the center point of their zip code.\r\n\r\nFor
+  starters we want to create a zip code model:\r\n\r\n    script/generate model zip
+  code:string city:string state:string lat:decimal lon:decimal\r\n\r\nThat will create
+  a model and a migration.  You need to alter the migration to specify the precision
+  and scale for the lat and the lon.\r\n\r\n    t.decimal :lat, :precision => 15,
+  :scale => 10\r\n    t.decimal :lon, :precision => 15, :scale => 10\r\n\r\nSo to
+  populate this database, luckily the good people over at the [US Census Bureau][census]
+  have the [data][census-data] readily available for us.  I've created a rake task
+  to download and load that data into your zips table.  Simply put the `load.rake`
+  file from [this gist][gist] into the `lib/tasks` directory of your Rails app.\r\n\r\nSo
+  now when you run `rake load:zip_codes` you should see something like:\r\n\r\n    ==
+  Loaded 29470 zip codes in ( 1m 40s) ========================================\r\n\r\nNext
+  we need a table for our users.  So let's generate a model and a migration:\r\n\r\n
+  \   script/generate model user\r\n    \r\n    \r\nI'll save you the hassle of typing
+  out all the fields at the command-line and just give them to you here.  Paste this
+  into the `create_users` migration that was generated:\r\n\r\n    t.string   :username\r\n
+  \   t.string   :email\r\n    t.string   :password\r\n    t.string   :password_confirmation\r\n
+  \   t.string   :first_name\r\n    t.string   :last_name\r\n    t.string   :address\r\n
+  \   t.string   :city\r\n    t.string   :state\r\n    t.integer  :zip_id    \r\n\r\nNext
+  you need to hook up the relationship between the zip and the user.  This is basic
+  stuff, the zip has many users and the user belongs to a zip.\r\n\r\nNow we need
+  some users to play with.  A great tool for this is [Mike Subelsky's][subelsky] [Random
+  Data][rd] gem.  I've already created a rake task that uses this gem to create some
+  test user accounts.  You call it like this:\r\n\r\n    rake load:random_users[10000]\r\n
+  \   \r\nThe 10000 is the number of users we want the rake task to generate for us.
+  \ Did you know you can pass command-line arguments to a rake task like that?  Pretty
+  spiffy.  10000 is a pretty good number because it gives us a fairly large dataset
+  to work with and is still able to load in a reasonable amount of time.  10000 users
+  finished in about 6 minutes and 30 seconds for me.\r\n\r\nNext we need to setup
+  our methods to do the querying.  For this I basically used [Josh Huckabee's Simple
+  Zip Code Perimeter Search][huck] method, but re-worked it a little so we can use
+  named scope with it.  You can grab the code for both `zip.rb` and `user.rb` from
+  [the gist][gist].           \r\n\r\nThere are a couple of things we get here.  First
+  is a named scope to easily find zip codes.  Looking at the output of the loading
+  of the random users, the last one for me was Mr. Steven Moore of Koloa, HI, 96756.
+  \ So let's see how many other people are in that zip code.  Start up `script/console`
+  and run this:\r\n\r\n    >> Zip.code(96756).users.count\r\n    => 1\r\n    \r\nHmm...I
+  guess it's lonely in Hawaii.  Let's find the zip code that randomly ended up with
+  the most inhabitants:\r\n\r\n    >> Zip.count_by_sql \"select zip_id, count(*) as
+  count \r\n    from users group by zip_id order by count desc limit 1\"\r\n    =>
+  18177\r\n    \r\nOk, so that's the id of the zip record, not to be confused with
+  the actual zip code.  So let's find the first person in this zip code:\r\n\r\n    >>
+  user = Zip.find(18177).users.first\r\n    => #<User id: 1267, username: \"cabel1266\",
+  ...>\r\n    \r\nI got Ms. Cheryl Abel of Bloomville, NY.  So now for the big moment.
+  \ What we really want to do is find everyone within 25 miles of Cheryl.\r\n\r\n
+  \   >> user.within_miles(25).count(:all)\r\n    49\r\n    \r\nLooks like Cheryl
+  has 49 people nearby.  Let's see who they are:    \r\n\r\n    >> user.within_miles(25).all.each{|u|\r\n
+  \   ?> puts \"%.2f %20s, %2s, %5s\" %\r\n    ?> [u.distance, u.city, u.state, u.zip.code]}\r\n
+  \   0.00           Bloomville, NY, 13739\r\n    0.00           Bloomville, NY, 13739\r\n
+  \   0.00           Bloomville, NY, 13739\r\n    0.00           Bloomville, NY, 13739\r\n
+  \   0.00           Bloomville, NY, 13739\r\n    7.04            Worcester, NY, 12197\r\n
+  \   7.04            Worcester, NY, 12197\r\n    7.43             Maryland, NY, 12116\r\n
+  \   8.09             Meredith, NY, 13753\r\n    8.54            De Lancey, NY, 13752\r\n
+  \   8.71     Livingston Manor, NY, 12758\r\n    9.11             Roseboom, NY, 13450\r\n
+  \   9.88          Jordanville, NY, 13361\r\n    ...\r\n\r\nSo there you have it!
+  \ I'm still trying to work out some kinks with this and get it to work with count
+  and will paginate, so if you have any suggestions, fork the gist, hack away and
+  leave a comment.  I'll update this post when I get count and pagination working.\r\n\r\n[ror]:
+  http://rubyonrails.org\r\n[census]: http://www.census.gov\r\n[census-data]: http://www.census.gov/tiger/tms/gazetteer/zips.txt\r\n[huck]:
+  http://joshhuckabee.com/simple-zip-code-perimeter-search-rails\r\n[gist]: http://bit.ly/rails-proximity-search\r\n[rd]:
+  http://random-data.rubyforge.org/\r\n[subelsky]: http://subelsky.com\r\n[wp]: http://wiki.github.com/mislav/will_paginate"
+format: Markdown
+guid: 48b2b36d-193c-41c9-98cc-b39e98b416d0
+comments_count: 1

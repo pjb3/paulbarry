@@ -1,0 +1,28 @@
+---
+id: 4895
+slug: simple-tweet-interface
+created_at: 2008-04-24 16:44:08.000000000 Z
+published_at: 2008-04-24 16:45:36.000000000 Z
+title: Simple Tweet Interface
+body: "Here's a request for a feature for [Twitter][twitter].  Hopefully they already
+  have this and someone will leave a comment explaining how you do it.  Say you have
+  a website, like a blog for example, and you want to make it dead simple 1-click
+  easy to tweet that you've just created something cool and you want to share with
+  the world.  Say the url for it is [http://paulbarry.com/foo][rickroll].  What I
+  want is to be able to have a link like:\r\n\r\n    <a href=\"http://twitter.com/home?tweet=http%3A%2F%2Fpaulbarry.com%2Ffoo\">Tweet
+  This!</a>\r\n\r\nAnd have that take me to the twitter home page.  Assuming I'm logged
+  into twitter, twitter would be smart enough to take the contents of that `tweet`
+  querystring parameter and pre-populate the \"What are your doing?\" box with that.
+  \ Then I would just click the update button and it would be tweeted.  I guess you
+  could call it a tweet-through link.\r\n\r\nSure, for a blog, I can just copy and
+  paste the URL into that text box, but I'm thinking more of a site that would have
+  lots of users and you would want to make it easy form them to just click on a link
+  and have the tweet all setup for them, so they would just have to press update.
+  \ This would elimate the need for the user to give me their twitter username/password,
+  which as far as I can tell would be required in order to accomplish this kind of
+  thing, but I think [asking an end user for their username/password to a 3rd party
+  site is ridiculous][passwd].\r\n\r\n[twitter]: http://twitter.com\r\n[rickroll]:
+  http://www.youtube.com/watch?v=eBGIQ7ZuuiU\r\n[passwd]: http://paulbarry.com/articles/2008/03/08/dont-ever-give-out-your-email-username-password"
+format: Markdown
+guid: 3423f2b8-398c-45e3-8207-3df06e46f07b
+comments_count: 0

@@ -1,0 +1,26 @@
+---
+id: 4905
+slug: means-of-abstraction
+created_at: 2008-06-25 13:50:32.000000000 Z
+published_at: 2008-06-25 13:54:30.000000000 Z
+title: Means of Abstraction
+body: "Today I was working on a Rails site where users have profiles that anyone can
+  view, but if you are viewing your own profile, there are links on the page to edit
+  various parts of the profile.  I want the links to show up if you are viewing your
+  own profile, but not be there if you are viewing someone else's profile.  To implement
+  this is trivial, as any Rails developer would tell you.  I simply added a helper
+  method:\r\n\r\n    def link_to_if_owner(title,url,options={})\r\n      if current_user
+  == @user\r\n        link_to title, url, options\r\n      end\r\n    end\r\n\r\nAnd
+  changed the occurrences of `<%= link_to \"Edit\", edit_something_path %>` to `<%=
+  link_to_if_owner \"Edit\", edit_something_path %>`.  This probably took 15 seconds,
+  and could not be more clear and succinct.  When I compare this to doing Java/J2EE
+  development, this task would probably have involved a custom JSP tag and would have
+  been a complicated solution with much ceremony.\r\n\r\nThis is what is referred
+  to as the means of abstraction in [SICP][sicp].  They assert that the power of a
+  programming language or framework should be measured by its means of abstraction.
+  \ The means of abstraction is how you take a set of operations and build a smaller
+  operation that you can build on top of.  This is just one example of many that shows
+  why Ruby/Rails is a more powerful combination than Java/J2EE.\r\n\r\n[sicp]: http://www.archive.org/details/mit_ocw_sicp\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+format: Markdown
+guid: a61c638f-a26d-4291-87f0-905bd9c7ae62
+comments_count: 0

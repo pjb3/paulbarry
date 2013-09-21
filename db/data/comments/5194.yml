@@ -1,0 +1,14 @@
+---
+id: 5194
+article_id: 4889
+created_at: 2008-09-11 08:38:42.000000000 Z
+url: http://ariejan.net
+email: ariejan@ariejan.net
+author: Ariejan de Vroom
+ip: 82.92.155.84
+body: "Storing files in a database is not really a problem, since most database servers
+  have great support for it.\n\nI use this approach to store small thumbnails in my
+  database. By using a has_many relation I can easily access my data without loading
+  all the Photo data. I only load it when I need it. In combination with the caching
+  feature, this is a very acceptable solution. "
+guid: b83ccabb-45c1-4f7a-ba59-de31aff02477

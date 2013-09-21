@@ -1,0 +1,19 @@
+---
+id: 5281
+article_id: 4934
+created_at: 2009-04-17 13:43:35.000000000 Z
+url: jonathanjulian.com
+email: 
+author: Jonathan Julian
+ip: 208.74.33.148
+body: |
+  Great explanation, Paul. The neat part is the lookup rules the parser uses to find implicit conversions. For example, you can define your implicits elsewhere, and then import them.
+
+  //somewhere else
+  object MyWrappers { implicit def Int2IntegerWrapper(i:Int) = new IntegerWrapper(i) }
+
+  //in this scope
+  import MyWrappers._
+
+  4.squared //works fine
+guid: 7accf767-4b18-49b0-94c2-6f4dcffe9a90

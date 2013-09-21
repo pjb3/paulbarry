@@ -1,0 +1,81 @@
+---
+id: 2625
+slug: why-to-use-getters-setters-instead-of-public-fields
+created_at: 2006-11-10 09:07:30.000000000 Z
+published_at: 2006-11-10 09:07:30.000000000 Z
+title: Why to use Getters/Setters instead of public fields
+body: "<div style=\"float: right; font-size: 10px; border: 1px solid black; text-align:
+  center; padding: 3px; margin-left: 10px\"><img src=\"/images/la-perspective-amoureuse.jpg\"><br/>\r\nRene
+  Magritte<br/>\r\n1898-1967<br/>\r\nLa Perspective Amoureuse<br/>\r\n3,000,000-4,000,000
+  USD<br/></div>\r\nThis past weekend, [Eileen](http://www.eileenwold.com) and I were
+  in New York City and one of the things we did was visit the auction preview at Sotheby's.
+  \ A few days before Sotheby's has an auction, they put all of the works on display
+  for the general public to see before they are auctions off.  My favorite was the
+  one shown to the right, Magritte's *La Perspective Amoureuse*, which went for $3,376,000.\r\n\r\nThe
+  labels for the paintings were similar to what I have shown here.  They have the
+  artist, the years the artist lived, the title of the work, and the amount of money
+  that they expect the work to sell for in the auction.  The price is listed as a
+  range.\r\n\r\nI was recently working with a data structure similar to this and I
+  came across a good example of why you use getters and setters instead of public
+  fields.\r\n\r\nA common idiom in Java, and in almost all objected-oriented programming
+  languages is the concept of getters and setters.  People call them different things,
+  I've gotten used to calling them getters and setters, most likely because I do most
+  of my programming in Java, and in Java getter and setters look like this:\r\n\r\n
+  \   private String range;\r\n\r\n    public String getRange() {\r\n        return
+  range;\r\n    }\r\n\r\n    public void setRange(String range) {\r\n        this.range
+  = range;\r\n    }\r\n\r\nThe syntax is a little verbose, but luckily all Java IDEs
+  allow you to auto-generate them based on the private fields.  This is one of the
+  many reasons why programming in Java is nearly impossible without a good IDE, but
+  I digress.  \r\n\r\nWhen you use this object in another object, you can't access
+  the private field range directly, so you call `work.getRange()`.  The JSTL EL language
+  simplifies this even more, so that when you use `work.range`, it calls work.getRange()
+  for you.  This alone has made this pattern almost unavoidable, but every once in
+  a while I'll see someone suggesting that the getters and setters are unnecessary,
+  they lead to more lines of code and make the code harder to maintain.  They'll say,
+  why can't I just do this:\r\n\r\n    public String range;\r\n\r\nAnd be done with,
+  it?  Object-Oriented purists will say that it provides encapsulation, and they are
+  right, but here's a real world example that shows how it helps.\r\n\r\nLet's say
+  you are using the getter in your code everywhere.  So you have lots of JSP pages
+  that have `${work.range}` to display the range of the work .  But then you decide
+  you need create a search page to search for your works.  That means you need to
+  store the min and max values as a numeric type such as Double.  So you can refactor
+  your code to look like this:\r\n\r\n    private Double minPrice;\r\n    private
+  Double maxPrice;\r\n    \r\n    public String getRange() {\r\n        return \"$\"+getMinPrice()+\"
+  - $\"+getMaxPrice();\r\n    }\r\n\r\nand you won't have to make any changes to your
+  code elsewhere.  There are a couple of more odds and ends to take care of, creating
+  the minPrice and maxPrice getters and setters, checking for null in the getRange
+  method, dealing with removing the setRange method, but you get the picture.\r\n\r\nRuby
+  makes this even easy.  Even though I'm still not sold on Rails, I gotta say I do
+  think Ruby is cool.  Here's how this works in Ruby.  First you create your class:\r\n\r\n
+  \   class Work\r\n        def initialize(range)\r\n            @range = range\r\n
+  \       end\r\n    end\r\n\r\ninitialize the constructor, and @range is an instance
+  variable, the equivalent of `private String range` in Java, except you don't explicitly
+  define it.  In ruby, all instance variables are private.  If you fire up irb, you
+  can see this in action:\r\n\r\n\tirb(main):001:0> require 'Work.rb'\r\n\t=> true\r\n\tirb(main):002:0>
+  work = Work.new \"$3,000,000 - $4,000,000\"\r\n\t=> #<Work:0x2c9a994 @range=\"$3,000,000
+  - $4,000,000\">\r\n\tirb(main):003:0> work.range\r\n\tNoMethodError: undefined method
+  `range' \r\n    for #<Work:0x2c9a994 @range=\"$3,000,000 - $4,000,000\">\r\n\t        from
+  (irb):3\r\n\r\nAs you can see, Ruby is looking for a method called \"range\".  In
+  Ruby, the getter is the same name as the field.  The setter is the name of the field
+  with an \"=\" appended to it.\r\n\r\n\tirb(main):004:0> work.range = \"\"\r\n\tNoMethodError:
+  undefined method `range=' \r\n    for #<Work:0x2c9a994 @range=\"$3,000,000 - $4,000,000\">\r\n\r\nBut
+  as you can see, you end up using it just like a normal variable assignment.  So
+  let's create the getters and setters:\r\n\r\n    class Work\r\n        attr_accessor
+  :range, :title\r\n    end\r\n\r\nattr_accessor is how you create getters and setters.
+  \ And you can see that you do more than one in one like  Here it is in action:\r\n\r\n
+  \   irb(main):001:0> require 'Work.rb'\r\n    => true\r\n    irb(main):002:0> work
+  = Work.new\r\n    => #<Work:0x2c9bbdc>\r\n    irb(main):003:0> work.range = \"$3,000,000
+  - $4,000,000\"\r\n    => \"$3,000,000 - $4,000,000\"\r\n    irb(main):004:0> work.range\r\n
+  \   => \"$3,000,000 - $4,000,000\"\r\n    irb(main):005:0> work.title = \"La Perspective
+  Amoureuse\"\r\n    => \"La Perspective Amoureuse\"\r\n    irb(main):006:0> work.title\r\n
+  \   => \"La Perspective Amoureuse\"\r\n    irb(main):007:0>\r\n\r\nSo here it is
+  with our new minPrice and maxPrice fields:\r\n\r\n    class Work\r\n        attr_accessor
+  :min_price, :max_price, :title\r\n        def range\r\n            \"$#{min_price}
+  - #{max_price}\"\r\n        end\r\n    end\r\n\r\nAnd in action:\r\n\r\n    irb(main):001:0>
+  require 'Work.rb'\r\n    => true\r\n    irb(main):002:0> work = Work.new\r\n    =>
+  #<Work:0x2c995f8>\r\n    irb(main):003:0> work.min_price = 3000000\r\n    => 3000000\r\n
+  \   irb(main):004:0> work.max_price = 4000000\r\n    => 4000000\r\n    irb(main):005:0>
+  work.range\r\n    => \"$3000000 - 4000000\"\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+format: Markdown
+guid: 337e592d-4634-419f-8c4d-62e229defc20
+comments_count: 2

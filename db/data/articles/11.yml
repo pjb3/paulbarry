@@ -1,0 +1,33 @@
+---
+id: 11
+slug: ubuntu-install-woes
+created_at: 2006-03-01 23:07:00.000000000 Z
+published_at: 2006-03-01 23:07:00.000000000 Z
+title: Ubuntu install woes
+body: "So, I tried installing Ubuntu, but didn't get very far.  The good news is that
+  once I Burn the ISO to a DVD (which was ridiculously easy with Nero, Burn from Disc
+  Image), I restarted and it booted fine.  Then, I noticed it was an install DVD as
+  well as a Live DVD.  So I figured I would check out the Live DVD.  It boot fine,
+  a little slwo, but what can you expect loading from a DVD.  Once loaded, it seemed
+  to be working great.  Each app started slowly, but once it was running, it was pretty
+  snappy.  I sent an email via gmail in firefox and opened an Excel spreadsheet using
+  open office, both worked great.\r\n\r\nI tried to play an mp3, which didn't work
+  with Totem Media Player (which was the default player) or Rhythm Box, didn't work
+  in either one.  I checked the help in Rhythm Box, didn't say anything about why
+  MP3s might not work and how to get them to work.  In fact, when I started Rhythm
+  Box, it said something about how it \"makes mp3s easy to play\".  I think the reason
+  it doesn't work is that you have to explictly install some extra plug-in to get
+  MP3s to work, due to licensing issues.  I understand that, but the help for Rhythm
+  Box should make it pretty clear what I need to do.  Totem has associated to mp3s
+  by default, yet it blew up when I tried to play an mp3 with an unhelpful message.
+  \ It should it least have something saying \"You must install XYZ in order to play
+  MP3s\".\r\n\r\nDespite that, the Live DVD was exciting.  This was the closest I
+  seen to having a Linux install that \"Just Works\".  But, I ran into some problems
+  when trying to actually install Ubuntu on one of my extra hard drives.  Rather than
+  just <a href=\"http://raibledesigns.com/page/rd?entry=opensuse_10_0_vs_ubuntu\">give
+  up</a>, I <a href=\"https://lists.ubuntu.com/archives/ubuntu-users/2006-March/068821.html\">posted
+  a message</a> to the Ubuntu mailing list, so this will be a good test to see how
+  helpful the community is."
+format: Markdown
+guid: bbe2a9af-e53f-42b4-bcfe-545bb97e28bd
+comments_count: 0

@@ -1,0 +1,20 @@
+---
+id: 4818
+slug: instantiating-a-object-from-a-string
+created_at: 2007-08-28 19:03:18.000000000 Z
+published_at: 2007-08-28 20:01:05.000000000 Z
+title: Instantiating a object from a string
+body: "Today, while doing some Ruby programming, I needed to create an instance of
+  a class (instantiate an object), but I didn't have the class name, just the class
+  name in a string.  Here's a Ruby method that takes the name of the class as a string
+  and returns an instance of that class:\r\n\r\n    def create(class_name)\r\n      Object.const_get(class_name).new\r\n
+  \   end\r\n\r\nSo if you do this:\r\n\r\n    create \"Array\"\r\n\r\nYou get an
+  instance of an Array, in other words, the equivalent of `Array.new`.  And in Rails,
+  you can do:\r\n\r\n    def create(class_name)\r\n      class_name.constantize.new\r\n
+  \   end\r\n\r\nThat's cool.  It got me thinking, how do you do this in other languages?
+  \ Here's what I came up with:\r\n\r\n    //JavaScript\r\n    function create(class_name)
+  {\r\n        return eval(\"new \"+class_name+\"()\")\r\n    }\r\n\r\n\r\nGot any
+  others? Perl? Python? Lisp? Erlang? PHP? C? Java?"
+format: Markdown
+guid: ca7c9a78-b124-4d9c-8b1f-c0a10dec97f0
+comments_count: 1

@@ -1,0 +1,17 @@
+---
+id: 5227
+article_id: 4910
+created_at: 2008-11-29 11:41:54.000000000 Z
+url: http://www.stripesbook.com
+email: fdaoud@proinbox.com
+author: Frederic Daoud
+ip: 70.80.230.8
+body: |+
+  Paul,
+
+  I agree with what you said. To answer your question, yes you can use Groovy with Stripes. As I said in my previous comment, I've used Groovy with Stripes myself with very nice results. Groovy supports annotations, so it's not a problem. As I'm sure you know, using Groovy allows you to get things done with less code and more concise syntax.
+
+  I don't know if Stripes would work with JRuby, haven't tried that out yet.
+
+
+guid: 62d90d41-f1ab-4087-ac25-ffdb6374fa98

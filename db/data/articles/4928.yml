@@ -1,0 +1,94 @@
+---
+id: 4928
+slug: my-git-workflow
+created_at: 2009-01-20 14:53:50.000000000 Z
+published_at: 2009-01-20 15:36:31.000000000 Z
+title: My Git Workflow
+body: "Inspired by [Michael Ivey's recent \"My Git Workflow\" article][ivey-git-workflow],
+  I've decided to write up one of my own.  Really this article should be titled \"My
+  Git SVN Workflow\", because that's how I use it most of the time.  At [BrowserMedia][bm],
+  we use [Subversion (SVN)][svn] for version control.  I'm not an advanced user of
+  Git by any stretch of the imagination, but here's my experience from switching from
+  SVN to [Git][git].\r\n\r\nFirst off, for small projects that I am doing on my own,
+  I use just straight git, and back it up to my own server as I described in the [Quick
+  and Dirty Git Repository][git-quick] article.  For stuff that I want to be publicly
+  visible, [I push it to github][github].  But for BrowserMedia internal projects,
+  here's what I do.\r\n\r\nAssuming it's a [rails][ror] project, I create the rails
+  app and import it using SVN:\r\n\r\n    $ rails myproject -d mysql\r\n    $ cd rails\r\n
+  \   $ svn import -m \"Initial Rails 2.2.2 App\" https://svn.browsermedia.com/myproject/trunk\r\n
+  \   $ cd ..\r\n    $ rm -rf myproject\r\n    $ svn co https://svn.browsermedia.com/myproject/trunk
+  myproject\r\n    $ svn remove log/*\r\n    $ svn commit -m \"removing all log files
+  from subversion\"\r\n    $ svn propset svn:ignore \"*.log\" log/\r\n    $ svn update
+  log/\r\n    $ svn commit -m \"Ignoring all files in /log/ ending in .log\"\r\n    $
+  svn remove tmp/*\r\n    $ svn propset svn:ignore \"*\" tmp/\r\n    $ svn update
+  tmp/\r\n    $ svn commit -m \"Ignoring all files in /tmp/\"\r\n    $ cd ..\r\n    $
+  rm -rf myproject\r\n\r\nMost of this you will recognize from the [Rails Wiki article
+  on How To Use Rails With Subversion][ror-svn].  So now the project is setup so that
+  anyone can use SVN to work on the project.  \r\n\r\nOne of the cool things about
+  Git is that you can use [Git SVN][git-svn] to work with git locally and push your
+  changes to the main SVN repository.  I've been using this for months now with no
+  problems.  So now let's start working on our project with git:\r\n\r\n    $ mkdir
+  myproject\r\n    $ cd myproject\r\n    $ git svn init -s https://svn.browsermedia.com/myproject\r\n\r\nCouple
+  of things to note here is that first you have to make the directory for your project
+  first, then change into the directory and run the git command from there.  Also,
+  the URL you use is the directory that contains `trunk` (and possibly `branches`
+  and `tags`, if you have created those).  The `-s` means you are using a standard
+  SVN layout.  Once you have done this, you run this command to sync up your local
+  repository with SVN:\r\n\r\n    $ git svn fetch\r\n\r\nIn this case, this is a fresh
+  project, so if should go pretty quick, but if you are doing this with an existing
+  larger project, this could take quite some time, because this is not just fetching
+  the latest version of the code, but the entire history of the repository.  \r\n\r\nTo
+  make working with git a little easier, I have some aliases defined to make things
+  go a bit quicker:\r\n\r\n    alias gs='git status'\r\n    alias ga='git add .'\r\n
+  \   alias pull='git pull'\r\n    alias push='git push'\r\n    alias gc='git commit
+  -m'\r\n    alias gca='git commit -a -m'\r\n    alias svnpull='git svn rebase'\r\n
+  \   alias svnpush='git svn dcommit'\r\n\r\nAnd then most of the projects I work
+  on are small teams, so I follow Michael's small team workflow pretty closely:\r\n\r\n
+  \   $ svnpull\r\n    Hack some stuff\r\n    $ gs\r\n    look at what's changed\r\n
+  \   $ git add .\r\n    $ gca \"hacked some stuff\"\r\n    $ svnpush\r\n\r\nSo the
+  first thing I usually do after `git svn fetch` is to add a `.gitignore` file to
+  the project that looks something like this:\r\n\r\n    .DS_Store\r\n    log/*.log\r\n
+  \   tmp/**/*\r\n    db/*.sqlite3\r\n    db/schema.rb\r\n\r\nOne nice thing I've
+  observed about using Git over SVN is the way it handles directories of files.  Git
+  puts one `.git` directory at the top level of your project, which is where it keeps
+  the info about the repository, including the local repository itself.  SVN puts
+  a `.svn` directory in every directory of your project.  This only has the info about
+  the repository, which files you have checked out, etc.  There is no local repository
+  of course, the repository is on the server.\r\n\r\nA case where this makes things
+  easier is managing external dependencies.  Let's say you have a gem that you can't
+  or don't want to install on your server.  For most gems I recommend installing them
+  on the server, but in some cases that doesn't always work.  So in that case, you
+  do `rake gems:unpack` to put the gem into the vendor directory.  Now let's say you
+  need to update that gem.  Again, this is not the normal case, but if you are creating
+  your own gems for your project, you might want to do this.  Here's what you can
+  do with git:\r\n\r\n    $ cd important_gem\r\n    $ rake install #installs version
+  1.0.0 of important_gem locally\r\n    $ cd ../myproject\r\n    $ rm -rf vendor/gems/important_gem-1.0.0\r\n
+  \   $ rake gems:unpack\r\n\r\nThe case here is that `myproject` already has a version
+  of `important_gem-1.0.0` checked in, but you've modified `important_gem-1.0.0`,
+  so you want to get those updates into `myproject`.  You only do this in a situation
+  where you haven't released version 1.0.0 of important_gem yet.\r\n\r\nNow if you
+  run `gs` (short for `git status`), you will see that git has just figured out what
+  happened.  Whether files were removed, renamed, added or modifed, git knows.  You
+  can just run `git add .` and then `gca \"updated important_gem\"` and all is well.
+  \ No need for SVN externals.  With SVN, if you wanted to manage your project like
+  that, you are kind of out of luck.  The reason is that when you did `rm -rf vendor/gems/important_gems-1.0.0`,
+  all of the `.svn` directories got destroyed.  After `rake gems:unpack`, the files
+  are back, but not the `.svn` directories, hence SVN is confused and frankly, I never
+  did figure out what you are supposed to do about this.    \r\n\r\nThere are other
+  cases where this is useful besides working on a gem.  For example, with [BrowserCMS][bcms]
+  were are using [FCKEditor][fck], which comes in a zip file that you just unpack
+  into `public/fckeditor`.  To put in a new version of FCKEditor, you can just do:\r\n\r\n
+  \   $ cd public\r\n    $ rm -rf fckeditor\r\n    $ mkdir fckeditor\r\n    $ cd fckeditor\r\n
+  \   $ unzip ~/Downloads/fckeditor-x-y-z.zip\r\n    $ cd ../..\r\n    $ gs\r\n    $
+  git add .\r\n    $ gca \"Upgraded to FCKeditor version x.y.z\"\r\n\r\nThere are
+  probably some errors or inefficiencies in this process and if so, let me know in
+  the comments, but I really like working with Git SVN, which allows me to have my
+  cake and eat it too. \r\n\r\n[ivey-git-workflow]: http://gweezlebur.com/2009/01/19/my-git-workflow.html\r\n[bm]:
+  http://browsermedia.com\r\n[svn]: http://subversion.tigris.org\r\n[git]: http://git-scm.com\r\n[git-quick]:
+  http://paulbarry.com/articles/2008/12/29/quick-and-dirty-git-repository\r\n[github]:
+  http://github.com/pjb3\r\n[ror]: http://rubyonrails.org\r\n[ror-svn]: http://wiki.rubyonrails.org/rails/pages/howtouserailswithsubversion\r\n[git-svn]:
+  http://www.kernel.org/pub/software/scm/git/docs/git-svn.html\r\n[bcms]: http://browsercms.org\r\n[fck]:
+  http://www.fckeditor.net\r\n"
+format: Markdown
+guid: a71319ab-70e7-4d12-885a-5e0c3ed16457
+comments_count: 1

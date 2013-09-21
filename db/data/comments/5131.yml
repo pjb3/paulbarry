@@ -1,0 +1,17 @@
+---
+id: 5131
+article_id: 4838
+created_at: 2008-05-01 17:02:06.000000000 Z
+url: http://cryhavok.org
+email: ikazuchi@cryhavok.org
+author: Ikazuchi
+ip: 152.133.7.197
+body: |-
+  I'm running into a weird error when I try to use the code above:
+
+  undefined method `role_ids=' for #<User:0x46a1c5c>
+
+  This happens during the update_attributes(params[:user]) part of the update method.
+
+  Any ideas as to what would be causing this?
+guid: 06bf9f26-4f6f-44ac-b624-7dde05c8b5a1

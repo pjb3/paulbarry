@@ -1,0 +1,13 @@
+---
+id: 5236
+article_id: 4922
+created_at: 2008-12-20 00:08:20.000000000 Z
+url: http://avdi.org
+email: avdi@avdi.org
+author: Avdi
+ip: 71.58.195.219
+body: |-
+  What static language people don't get about dynamic languages is that in dynamic languages you test what you *need* and ignore all the corner cases that a static language would catch but which don't matter because you're not going to hit them anyway.  Also, that unit tests go deeper, because they test typing and semantics at the same time.
+
+  What dynamic people don't get about static languages is that in a *good* static language the standard testing guideline "test your code, don't test the framework" can be extended so that much more of your code falls under the category of "the framework" and hence doesn't need to be tested.
+guid: 25caa336-daf9-4fb9-a6dd-9325ea88bed4

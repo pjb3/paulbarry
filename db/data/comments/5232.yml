@@ -1,0 +1,12 @@
+---
+id: 5232
+article_id: 4921
+created_at: 2008-12-19 14:47:32.000000000 Z
+url: http://henrik.nyh.se
+email: henrik@nyh.se
+author: Henrik N
+ip: 83.250.124.96
+body: With named scopes, you can do just Article.published, no need for Article.published.all
+  unless you want to narrow it down further, e.g. Article.published.all(:limit =>
+  2).
+guid: 1ffdc7a9-8989-49cc-9d7a-9c9342f2881d

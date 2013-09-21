@@ -1,0 +1,126 @@
+---
+id: 4849
+slug: practical-common-ruby-do-you-really-need-macros
+created_at: 2007-11-26 23:08:38.000000000 Z
+published_at: 2007-11-26 23:16:17.000000000 Z
+title: Practical Common Ruby - Do you really need macros?
+body: "[Chapter 9][chap9] of [Practical Common Lisp][pcl] has us diving deeper into
+  Lisp macros by creating a test framework, which I will of course, try to port to
+  Ruby.  The more I continue to work on this, the more I'm convinced this is a great
+  way to learn a new language.\r\n\r\nFirst off, you are forced to digest the examples
+  that you convert, because you have to think about what the code is doing and how
+  you would do it in the language that you know.  The bonus payoff is that you now
+  have code in both languages to compare, so you can evaluate the two languages side-by-side.
+  \ So on with the code.\r\n\r\nRight off bat we run into a small problem, which is
+  that you can't have \"+\" or \"*\" characters in the name of a method in Ruby.  That's
+  ok, we can work around that:\r\n\r\n    def test_plus\r\n      1 + 2 == 3 &&\r\n
+  \     1 + 2 + 3 == 6 &&\r\n      -1 + -3 == -4\r\n    end\r\n\r\nWhich works:\r\n\r\n
+  \   paulbarry@paulbarry: ~/projects/practical_common_ruby $ irb\r\n    irb(main):001:0>
+  load 'chap9.rb'\r\n    => true\r\n    irb(main):002:0> test_plus\r\n    => true\r\n\r\nNext
+  we tackle the version with test case info:\r\n\r\n    def test_plus\r\n      puts
+  \"#{eval(\"1 + 2 == 3\") ? 'pass' : 'FAIL'} ... 1 + 2 == 3\"\r\n      puts \"#{eval(\"1
+  + 2 + 3 == 6\") ? 'pass' : 'FAIL'} ... 1 + 2 + 3 == 6\"\r\n      puts \"#{eval(\"-1
+  + -3 == -4\") ? 'pass' : 'FAIL'} ... -1 + -3 == -4\"\r\n    end\r\n\r\nNow a little
+  refactoring by adding report_result:\r\n\r\n    def report_result(result, form)\r\n
+  \     puts \"#{result ? 'pass' : 'FAIL'} ... #{form}\"\r\n    end\r\n\r\n    def
+  test_plus\r\n      report_result(1 + 2 == 3, \"1 + 2 == 3\")\r\n      report_result(1
+  + 2 + 3 == 6, \"1 + 2 + 3 == 6\")\r\n      report_result(-1 + -3 == -4, \"-1 + -3
+  == -4\")\r\n    end\r\n\r\nThis isn't really very clean, first of all because of
+  the obvious duplication of the actual code and the name, but secondly, we have our
+  code as an argument to the `report_result` method.  This works in lisp, because
+  everything is just an expression, but in Ruby, once this method gets more complicated,
+  this is going to be ugly.  So I'm going to refactor `report_result` to allow for
+  two conditions.  The first just takes the code as a string and evals it, using the
+  code as the \"name\" of the test.  Second, the string is the \"name\" and the block
+  has the code.  I think this makes sense, because even in lisp, if the code is some
+  long, multiline expression, you aren't going to want that to be the name of the
+  test, you are going to want to supply a shorter, more descriptive name.\r\n\r\n
+  \   def report_result(test)\r\n      if block_given?\r\n        result = yield\r\n
+  \     else  \r\n        result = eval(test)\r\n      end\r\n      puts \"#{result
+  ? 'pass' : 'FAIL'} ... #{test}\"\r\n    end\r\n\r\n    def test_plus\r\n      report_result
+  \"1 + 2 == 3\"\r\n      report_result \"1 + 2 + 3 == 6\"\r\n      report_result
+  \"adding negative numbers\" do\r\n        -1 + -3 == -4\r\n      end\r\n    end\r\n\r\nThe
+  next refactoring is to define a check method that takes multiple \"tests\" and prints
+  the results of each one, mainly because the repeated calls to `report_result` is
+  considered unappealing.  I'm not sure there is a particularly cleaner version of
+  this in Ruby, but here's the best I've got:\r\n\r\n    def report_result(test)\r\n
+  \     if block_given?\r\n        result = yield\r\n      else  \r\n        result
+  = eval(test)\r\n      end\r\n      puts \"#{result ? 'pass' : 'FAIL'} ... #{test}\"\r\n
+  \   end\r\n\r\n    def check(*tests)\r\n      tests.each do |t|\r\n        if t.is_a?(Hash)\r\n
+  \         report_result t.keys.first, &t.values.first\r\n        else\r\n          report_result
+  t\r\n        end\r\n      end\r\n    end\r\n\r\n    def test_plus\r\n      check(\r\n
+  \       \"1 + 2 == 3\",\r\n        \"1 + 2 + 3 == 6\",\r\n        \"adding negative
+  numbers\" => lambda{ -1 + -3 == -4 }\r\n      )\r\n    end\r\n\r\nI found this [tutorial
+  on Ruby's Procs and Blocks][eli] to be helpful while working on this.  In reality,
+  I think most Ruby programmers would stick to the original version of `test_plus`
+  over this version that uses Hash and Lambdas, but I'll stick with this one because
+  it's closer to the actual code in the example.  A couple of small changes give us
+  the ability to track if the test has a failure:\r\n\r\n    def report_result(test)\r\n
+  \     if block_given?\r\n        result = yield\r\n      else  \r\n        result
+  = eval(test)\r\n      end\r\n      puts \"#{result ? 'pass' : 'FAIL'} ... #{test}\"\r\n
+  \     result\r\n    end\r\n\r\n    module Enumerable\r\n      def each?\r\n        result
+  = true\r\n        each do |i|\r\n          result = false unless yield(i)\r\n        end\r\n
+  \       result\r\n      end\r\n    end\r\n\r\n    def check(*tests)\r\n      tests.each?
+  do |t|\r\n        if t.is_a?(Hash)\r\n          report_result(t.keys.first, &t.values.first)\r\n
+  \       else\r\n          report_result(t)\r\n        end\r\n      end\r\n    end\r\n\r\nI
+  choose to implement the `combine_results` function from the example as an iterator
+  called `each?` mixed-in to Enumerable, so that we can call it in the idiomatic Ruby
+  way `tests.each?`.  `each?` is similar to the `all?` method that already exists
+  in Enumerable, except that `all?` short-circuits and stops iterating through over
+  the items once the block evaluates to false.  We want to always perform the block
+  on each item in the enumerable, and then return false if any are false.  I choose
+  to name it `each?` rather than `combine_results` because it's more descriptive,
+  more Rubyish.  I'm actually kind of surprised Ruby doesn't have a method like that.\r\n\r\nNow
+  this next bit require dynamic variables.  This is a new concept for me and I have
+  to say, it is pretty cool.  The bad news?  Ruby doesn't have dynamic variables :(.
+  \ The good news?  We can fake it.  Just download [this code][ruby-dy] and we are
+  ready to go.  We add in a line to define the variable:\r\n\r\n    Dynamic.variable
+  :test_name\r\n    \r\nThen we add it into our test method.  We also have to do a
+  little finagling to get them to still return the right value:\r\n\r\n    def test_plus\r\n
+  \     result = false\r\n      Dynamic.let :test_name => 'test_plus' do\r\n        result
+  = check(\r\n          \"1 + 2 == 3\",\r\n          \"1 + 2 + 33 == 6\",\r\n          \"adding
+  negative numbers\" => lambda{ -1 + -3 == -4 }\r\n        )\r\n      end\r\n      result\r\n
+  \   end\r\n\r\n    def test_times\r\n      result = false\r\n      Dynamic.let :test_name
+  => 'test_times' do\r\n        result = check(\r\n          \"2 * 2 == 4\",\r\n          \"3
+  * 5 == 15\"\r\n        )\r\n      end\r\n      result\r\n    end\r\n    \r\nLastly
+  we just add the dynamic variable to the print statement in report_result:\r\n\r\n
+  \   def report_result(test)\r\n      if block_given?\r\n        result = yield\r\n
+  \     else  \r\n        result = eval(test)\r\n      end\r\n      puts \"#{result
+  ? 'pass' : 'FAIL'} ... #{Dynamic.test_name}: #{test}\"\r\n      result\r\n    end
+  \   \r\n    \r\nSo now we want to clean up this redundant test code, but alas, Ruby
+  does not have macros.  Here we go again, coming pretty close.  Define a method we
+  will use to define tests:\r\n\r\n    def test(name)\r\n      test_name = \"test_#{name}\"\r\n
+  \     method = lambda do\r\n        result = false\r\n        Dynamic.let :test_name
+  => \"#{Dynamic.test_name} #{test_name}\" do\r\n          result = yield\r\n        end\r\n
+  \       result\r\n      end    \r\n      Object.send(:define_method, test_name,
+  method)\r\n    end\r\n      \r\nI'm not even going to try to explain how this code
+  works.  This is pretty dense.  I'm not sure if it is more or less dense than the
+  Lisp code.  Now that we have our Ruby \"macro\" created, we can define our tests
+  like this:\r\n\r\n    test \"plus\" do\r\n      check(\r\n        \"1 + 2 == 3\",\r\n
+  \       \"1 + 2 + 3 == 6\",\r\n        \"adding negative numbers\" => lambda{ -1
+  + -3 == -4 }\r\n      )\r\n    end\r\n\r\n    test \"times\" do \r\n      check(\r\n
+  \       \"2 * 2 == 4\",\r\n        \"3 * 5 == 15\"\r\n      )\r\n    end\r\n\r\n
+  \   test \"arithmetic\" do\r\n      %w{test_plus test_times}.each? do |t|\r\n        send
+  t\r\n      end\r\n    end\r\n\r\n    test \"math\" do\r\n      test_arithmetic\r\n
+  \   end      \r\n      \r\nAnd voila, we have a feature complete version of the
+  test framework in Ruby:\r\n\r\n    irb(main):096:0> test_math\r\n    pass ...  test_math
+  test_arithmetic test_plus: 1 + 2 == 3\r\n    pass ...  test_math test_arithmetic
+  test_plus: 1 + 2 + 3 == 6\r\n    pass ...  test_math test_arithmetic test_plus:
+  adding negative numbers\r\n    pass ...  test_math test_arithmetic test_times: 2
+  * 2 == 4\r\n    pass ...  test_math test_arithmetic test_times: 3 * 5 == 15\r\n
+  \   => true\r\n    irb(main):097:0> test_arithmetic\r\n    pass ...  test_arithmetic
+  test_plus: 1 + 2 == 3\r\n    pass ...  test_arithmetic test_plus: 1 + 2 + 3 == 6\r\n
+  \   pass ...  test_arithmetic test_plus: adding negative numbers\r\n    pass ...
+  \ test_arithmetic test_times: 2 * 2 == 4\r\n    pass ...  test_arithmetic test_times:
+  3 * 5 == 15\r\n    => true\r\n    irb(main):098:0> test_plus\r\n    pass ...  test_plus:
+  1 + 2 == 3\r\n    pass ...  test_plus: 1 + 2 + 3 == 6\r\n    pass ...  test_plus:
+  adding negative numbers\r\n    => true\r\n      \r\n      \r\nSo in conclusion,
+  macros are one feature of Lisp that have no direct equivalent in Ruby, but you can
+  define methods that define methods, which is pretty close to what macros do.  Given
+  Ruby's metaprogramming features like eval, send, and define_method, etc., Do you
+  really need macros?.  The search for the answer continues...\r\n\r\n[chap9]: http://www.gigamonkeys.com/book/practical-building-a-unit-test-framework.html\r\n[pcl]:
+  http://www.gigamonkeys.com/book\r\n[eli]: http://eli.thegreenplace.net/2006/04/18/understanding-ruby-blocks-procs-and-methods/\r\n[ruby-dy]:
+  http://chneukirchen.org/blog/archive/2005/04/dynamic-variables-in-ruby.html"
+format: Markdown
+guid: 432934cf-eabc-45c7-a238-e951ad3f7543
+comments_count: 0

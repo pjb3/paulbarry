@@ -1,0 +1,20 @@
+---
+id: 4929
+slug: is-clojure-an-acceptable-lisp
+created_at: 2009-02-05 14:53:06.000000000 Z
+published_at: 2009-02-05 14:53:34.000000000 Z
+title: Is Clojure An Acceptable Lisp?
+body: "Almost two years ago now, [Steve Yegge post an article articulating his problems
+  with Lisp][yegge].  He finished up the article with:\r\n\r\n> There is no acceptable
+  Lisp\r\n\r\n> This is a problem. It's not a little teeny one, either. The Lisp communities
+  (yeah, there are a bunch) are going to have to realize that if Lisp is ever going
+  to be massively successful, it needs an overhaul. Or maybe a revolution. Contrary
+  to what some might tell you, it doesn't need a committee, and it doesn't need a
+  bunch of money. Linux proved exactly the opposite. Lisp needs a benevolent dictator.
+  Lisp needs to ditch the name \"Lisp\", since it scares people. And Lisp needs to
+  learn from the lessons of the 45 years of languages that have followed it.\r\n\r\nSounds
+  a lot like [Clojure][clojure].  Do you agree?\r\n\r\n[yegge]: http://steve-yegge.blogspot.com/2006/04/lisp-is-not-acceptable-lisp.html\r\n[clojure]:
+  http://clojure.org"
+format: Markdown
+guid: 2318f33b-4453-49b2-9390-b18ee6a5a231
+comments_count: 2

@@ -1,0 +1,15 @@
+---
+id: 5195
+article_id: 4838
+created_at: 2008-09-11 19:25:47.000000000 Z
+url: http://jarrettcolby.com
+email: jarrett@uchicago.edu
+author: Jarrett
+ip: 128.135.160.12
+body: |-
+  Thank you for the tip. I've developed an alternate approach that works with form_for and preservers the selections after validation fails:
+
+  http://jarrettcolby.com/articles/2-virtual-attributes-for-many-to-many-checkboxes-in-ruby-on-rails
+
+  Your approach definitely has the advantage of simplicity. It would be really great if someone could invent a way to do these checkboxes that's simple, retains selections when validation fails, and works with many-to-many. Perhaps a plugin that uses method_missing and alias_method_chain.
+guid: 4d66d0d7-3db6-4860-a300-25d0fa5f3ec8

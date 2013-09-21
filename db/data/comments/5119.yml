@@ -1,0 +1,13 @@
+---
+id: 5119
+article_id: 4838
+created_at: 2008-04-28 16:11:59.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 66.92.166.158
+body: |-
+  @sw0rdfish
+
+  Are you sure group_ids is set to an array of strings?  If you set group_ids to array of integers, that will cause it to delete and re-add.  I would suggest just doing a little debugging in the method.  If it's deleting records it shouldn't be, group_ids.include?(m.group_id.to_s) must be false for some reason.
+guid: a6b5d898-40eb-4a46-8365-238a3727bd28

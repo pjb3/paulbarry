@@ -1,0 +1,52 @@
+---
+id: 4922
+slug: testing-in-a-statically-typed-language
+created_at: 2008-12-19 23:40:39.000000000 Z
+published_at: 2008-12-19 23:42:55.000000000 Z
+title: Testing in a statically-typed language
+body: "One of the many \"fringe\" languages that has been on my radar for some time
+  now is [Haskell][haskell].  Haskell has what looks to be a [pretty good book available
+  online][rwh] and [a local book club forming][rwhbc], which presents a great opportunity
+  to study it. What is interesting to me about Haskell is that it is a statically-typed
+  language, like Java, not a dynamically-typed language like Lisp, Ruby, Python, JavaScript,
+  etc.  I have really become fond of dynamic typing while programming in Ruby, but
+  I always like studying languages that challenge your fundamental beliefs about programming.\r\n\r\nIncidentally,
+  this is one of the reasons I have been really interested in [Clojure][clojure].
+  \ It challenges the validity of object-oriented project in a very serious way.  In
+  Clojure, you don't define new classes, instead your program is simply comprised
+  of functions that takes input, possibly call other functions, and return values.
+  \ Studying functional languages helps you to see the benefits and weaknesses of
+  object-oriented programming.  Read more about this idea of studying programming
+  in [Glenn Vanderburg's article about Koans][koan].\r\n\r\nSo anyway, back to Haskell,
+  and the paradigm here that is worth studying is static typing versus dynamic typing.
+  \ I must admit, after moving from Java (a statically-typed language) to Ruby (a
+  dynamically-typed language), I'm currently a big fan of dynamically-typed languages.
+  \ So I'm trying to keep an open mind in studying this, but this passage from Chapter
+  2 of [Real World Haskell][rwh] I have to object to:\r\n\r\n> Programs written in
+  dynamically typed languages require large suites of tests to give some assurance
+  that simple type errors cannot occur. Test suites cannot offer complete coverage:
+  some common tasks, such as refactoring a program to make it more modular, can introduce
+  new type errors that a test suite may not expose.\r\n>\r\n> In Haskell, the compiler
+  proves the absence of type errors for us: a Haskell program that compiles will not
+  suffer from type errors when it runs. Refactoring is usually a matter of moving
+  code around, then recompiling and tidying up a few times until the compiler gives
+  us the \"all clear\".\r\n\r\nOne thing I learned when moving from Java to Ruby is
+  that developers often rely on the compiler as a false sense of security.  The notion
+  that you can refactor a bunch of code, get it to the point where it compiles and
+  then feel that your code works is dangerous.  You code can still contain all sorts
+  of runtime and logic errors, therefore if you want to have any degree of certainty
+  that your code is free of bugs, you need to have some sort of test suite, regardless
+  of if you are using a dynamic and statically typed language.\r\n\r\nI've also heard
+  the [argument made that statically-typed languages allow you to write less tests,
+  but I have also not found this to be the case][crap].  Most syntax and type errors
+  will be found with the same tests you use to test the logic of the program.  In
+  other words, you don't have to write one suite of tests to check for syntax errors,
+  one for type checking and another for testing the logic of your program.\r\n\r\nSo
+  the moral of the story is that regardless of whether you are writing your code in
+  a statically or dynamically typed language, you still have to [TATFT][tatft].\r\n\r\n[haskell]:
+  http://haskell.org\r\n[clojure]: http://clojure.org\r\n[koan]: http://vanderburg.org/Blog/Software/Development/koan.blog\r\n[rwh]:
+  http://book.realworldhaskell.org\r\n[rwhbc]: http://groups.google.com/group/real-world-haskell-book-club\r\n[crap]:
+  http://beust.com/weblog/archives/000503.html\r\n[tatft]: http://smartic.us/2008/8/15/tatft-i-feel-a-revolution-coming-on"
+format: Markdown
+guid: ecdcd5f8-6093-4c80-9251-4a212bc307bc
+comments_count: 6

@@ -1,0 +1,23 @@
+---
+id: 4882
+slug: calling-methods-during-class-definition
+created_at: 2008-04-16 23:33:28.000000000 Z
+published_at: 2008-04-17 21:38:31.000000000 Z
+title: Calling Methods During Class Definition
+body: "One of the features I like most about Ruby is the ability to execute code during
+  the definition of a class.  Here's a simple example:  \r\n\r\n    class Foo\r\n
+  \     puts \"hi\"\r\n    end\r\n\r\nA more useful example is that you can call a
+  method and self is set to the class you are defining.  \r\n    \r\n    class Foo\r\n
+  \     def self.whoami\r\n        puts \"You are #{self}\"\r\n      end\r\n    end\r\n
+  \   class Bar < Foo\r\n      whoami\r\n    end\r\n\r\nThis prints `You are Bar`.
+  \ This is a feature that isn't common to most languages, for example, you can't
+  do it in PHP, Python(I don't think, Pythonistas jump in there if I'm wrong), Java
+  or even Groovy.  The reason why this kind of method is so helpful is this how you
+  can write code that writes code.  This is the closest thing Ruby has to Lisp macros.
+  \ You see this used in Ruby in with the `attr_accessor` method and in Rails with
+  many methods, `belongs_to` and `has_many` being the most obvious examples.\r\n\r\nThis
+  allows you to define the metadata about a class in the most DSL-like syntax.  It
+  would be really great to see this kind of thing in Groovy.\r\n\r\n"
+format: Markdown
+guid: d0f57e92-fab5-41e4-b7c2-a825ac7b88cd
+comments_count: 0

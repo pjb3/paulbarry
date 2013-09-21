@@ -1,0 +1,13 @@
+---
+id: 5212
+article_id: 4913
+created_at: 2008-10-02 16:39:54.000000000 Z
+url: http://hasmanybeers.com
+email: 
+author: Sean
+ip: 96.255.82.213
+body: |-
+  I don't like how its all lumped into the models directory.  I like how with Rails you know just where to go to find stuff.  With this approach I don't know (without opening the file and looking carefully) whether something is a model or not.
+
+  Why not store these in a "concerns" directory?
+guid: 80012034-0887-40df-9582-d761bc6f4d63

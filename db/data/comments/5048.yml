@@ -1,0 +1,15 @@
+---
+id: 5048
+article_id: 4806
+created_at: 2007-03-28 13:41:14.000000000 Z
+url: 
+email: ppine7@yahoo.com
+author: Marina
+ip: 63.111.224.163
+body: "Thanks a lot for the nice example!\nI have one question - how would you go
+  about packaging all artifacts? Say, if I wanted to have separate interfaces, implementations
+  and consumer (client) JARs - where would you put the Module in and what would be
+  the (classpath) dependencies between the jars? Further, what would be the best practice
+  for swapping implementations with minimal disruption on the client side, thus providing
+  a true transparency of which implementation is currently used? "
+guid: b7b351c5-22ca-4846-97c4-6015f79341b2

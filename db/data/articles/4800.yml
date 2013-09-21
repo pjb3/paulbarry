@@ -1,0 +1,132 @@
+---
+id: 4800
+slug: navigating-object-graphs-in-rails
+created_at: 2007-02-13 21:16:47.000000000 Z
+published_at: 2007-02-13 21:26:48.000000000 Z
+title: Navigating Object Graphs in Rails
+body: "One of the more powerful and complicated features that good ORM frameworks
+  have is the ability to easily navigate through relationships when constructing queries.
+  \ What we'd like out of our ORM framework is to be able to build these complicated
+  queries without having to write any SQL, and as luck would have it, [Ruby on Rails][RoR]
+  allows us to do just that.\r\n\r\nWe are going to build a simple working example,
+  so if you have Rails 1.2 and MySQL installed, feel free to play along at home.  Our
+  example is a bare minimum simple model representing an online store.  What we want
+  to do is to get all of the users who have ordered a given product.  Seems simple
+  enough, but it will require us to go across a few different models.  So first, let's
+  go over what the model of our database will be.\r\n\r\nFirst, we have a simple user
+  table:\r\n\r\n    +----------+--------------+------+-----+---------+----------------+\r\n
+  \   | Field    | Type         | Null | Key | Default | Extra          |\r\n    +----------+--------------+------+-----+---------+----------------+\r\n
+  \   | id       | int(11)      | NO   | PRI | NULL    | auto_increment |\r\n    |
+  username | varchar(255) | YES  |     | NULL    |                |\r\n    +----------+--------------+------+-----+---------+----------------+\r\n\r\nJust
+  two fields, a primary key and a username.  Obviously a real world database would
+  have more, but they don't effect what we are doing here.  Next, we have a products
+  table:\r\n\r\n    +-------+--------------+------+-----+---------+----------------+\r\n
+  \   | Field | Type         | Null | Key | Default | Extra          |\r\n    +-------+--------------+------+-----+---------+----------------+\r\n
+  \   | id    | int(11)      | NO   | PRI | NULL    | auto_increment |\r\n    | name
+  \ | varchar(255) | YES  |     | NULL    |                |\r\n    | price | decimal(8,2)
+  | YES  |     | NULL    |                |\r\n    +-------+--------------+------+-----+---------+----------------+
+  \   \r\n\r\nThe fields should be pretty self-explanatory.  We have an orders table:\r\n\r\n
+  \   +---------+---------+------+-----+---------+----------------+\r\n    | Field
+  \  | Type    | Null | Key | Default | Extra          |\r\n    +---------+---------+------+-----+---------+----------------+\r\n
+  \   | id      | int(11) | NO   | PRI | NULL    | auto_increment |\r\n    | user_id
+  | int(11) | YES  |     | NULL    |                |\r\n    +---------+---------+------+-----+---------+----------------+\r\n\r\nIn
+  this case user_id is a foreign key to the user who placed the order.  And lastly,
+  we have a table to hold the line items for an order:\r\n\r\n    +------------+---------+------+-----+---------+----------------+\r\n
+  \   | Field      | Type    | Null | Key | Default | Extra          |\r\n    +------------+---------+------+-----+---------+----------------+\r\n
+  \   | id         | int(11) | NO   | PRI | NULL    | auto_increment |\r\n    | order_id
+  \  | int(11) | YES  |     | NULL    |                |\r\n    | product_id | int(11)
+  | YES  |     | NULL    |                |\r\n    | quantity   | int(11) | YES  |
+  \    | NULL    |                |\r\n    +------------+---------+------+-----+---------+----------------+\r\n\r\nA
+  line item has a foreign key to an order and a product.  So, the task at hand is
+  to get all users who have ordered a given product, so we'll need to join all these
+  tables to get our data.  Now let's build the rails app and make it happen:\r\n    \r\n
+  \   C:\\ruby\\projects>rails store\r\n    C:\\ruby\\projects\\store>cd store\r\n\r\nNow
+  let's create a database and user for our store:\r\n    \r\n    C:\\ruby\\projects\\store>mysql
+  -u root -p\r\n    Enter password: ********\r\n    Welcome to the MySQL monitor.
+  \ Commands end with ; or \\g.\r\n    Your MySQL connection id is 36 to server version:
+  5.0.27-community-nt\r\n\r\n    Type 'help;' or '\\h' for help. Type '\\c' to clear
+  the buffer.\r\n\r\n    mysql> CREATE DATABASE store_development;\r\n    Query OK,
+  1 row affected (0.00 sec)\r\n\r\n    mysql> CREATE USER store@localhost;\r\n    Query
+  OK, 0 rows affected (0.00 sec)\r\n\r\n    mysql> GRANT ALL PRIVILEGES ON store_development.*
+  TO store@localhost;\r\n    Query OK, 0 rows affected (0.00 sec)\r\n\r\n    mysql>
+  quit\r\n    Bye\r\n\r\nNow we'll log in with our new user to make sure everything
+  is working:\r\n\r\n    C:\\ruby\\projects>mysql -u store store_development\r\n    Welcome
+  to the MySQL monitor.  Commands end with ; or \\g.\r\n    Your MySQL connection
+  id is 12 to server version: 5.0.27-community-nt\r\n\r\n    Type 'help;' or '\\h'
+  for help. Type '\\c' to clear the buffer.\r\n\r\n    mysql> quit\r\n    Bye\r\n\r\nOk,
+  all is well, let's edit the rails config to use this database:    \r\n    \r\n    C:\\ruby\\projects\\store>notepad
+  config\\database.yml\r\n\r\nNOTEPAD?  NOTEPAD!!?  I know, I know, what can I say.
+  \ I'm on Windows and the arrogant makers of [TextMate][mate] are going to port it
+  to Windows.  But fear not, I am not using the regular notepad, I'm using [Notepad++][npp].
+  \ Notepad++, ah ha!  It is ++, so it must be better!  Well, it allows you to edit
+  multiple files at once and has syntax highlighting, so until [intype][intype] gets
+  the ability to edit multiple files at once, has a file explorer and can do undo/redo,
+  Notepad++ will have to do.  So make the development settings look like this:    \r\n
+  \   \r\n    development:\r\n      adapter: mysql\r\n      database: store_development\r\n
+  \     username: store\r\n      password:\r\n      host: localhost\r\n\r\nFor safety's
+  sake, check to make sure the DB connection is working.    \r\n\r\n    C:\\ruby\\projects\\store>rake
+  db:migrate\r\n\r\nThis command should return nothing (except possibly a warning
+  about 'require_gem', buy you can safely ignore that).  As they say, no news is good
+  news.  If you do get some kind of error, do not pass go, do not collect $200, figure
+  out what is wrong.\r\n\r\nOk time, to create our objects\r\n\r\n    C:\\ruby\\projects\\store>ruby
+  script/generate model user\r\n    C:\\ruby\\projects\\store>notepad db\\migrate\\001_create_users.rb\r\n\r\n`001_create_users.rb`
+  will contain the standard migration skeleton, which looks like this:\r\n\r\n    class
+  CreateUsers < ActiveRecord::Migration\r\n      def self.up\r\n        create_table
+  :users do |t|\r\n        end\r\n      end\r\n\r\n      def self.down\r\n        drop_table
+  :users\r\n      end\r\n    end\r\n\r\nSo we'll just add one line between the create_table
+  and the end, that contains this:\r\n\r\n    t.column :username, :string    \r\n\r\nEach
+  subsequent migration will contain only one table, so I'll just give what goes inside
+  the create table.  We are going to create the simplest possible model, with as few
+  proprties as possible.\r\n    \r\n    C:\\ruby\\projects\\store>ruby script/generate
+  model product\r\n    C:\\ruby\\projects\\store>notepad db\\migrate\\002_create_products.rb
+  \   \r\n\r\n    t.column :name, :string\r\n    t.column :price, :decimal, :precision
+  => 8, :scale => 2\r\n    \r\n    C:\\ruby\\projects\\store>ruby script/generate
+  model order\r\n    C:\\ruby\\projects\\store>notepad db\\migrate\\003_create_orders.rb\r\n
+  \   \r\n    t.column :user_id, :integer\r\n    \r\n    C:\\ruby\\projects\\store>ruby
+  script/generate model line_item\r\n    C:\\ruby\\projects\\store>notepad db\\migrate\\004_create_line_items.rb
+  \   \r\n    \r\n    t.column :order_id, :integer\r\n    t.column :product_id, :integer\r\n
+  \   t.column :quantity, :integer\r\n\r\nNow we'll run the rake task to create the
+  database structure.  \r\n    \r\n    C:\\ruby\\projects\\store>rake db:migrate\r\n
+  \   \r\nNow that we have the database structure, we need to edit the code for the
+  models to define the relationships.    \r\n        \r\n    C:\\ruby\\projects\\store>notepad
+  app\\models\\order.rb\r\n    \r\n    class Order < ActiveRecord::Base\r\n      belongs_to
+  :user\r\n    end\r\n\r\n    C:\\ruby\\projects\\store>notepad app\\models\\product.rb\r\n
+  \   \r\n    class Product < ActiveRecord::Base\r\n      has_many :line_items\r\n
+  \   end\r\n    \r\n    C:\\ruby\\projects\\store>notepad app\\models\\line_item.rb\r\n
+  \   \r\n    class LineItem < ActiveRecord::Base\r\n      belongs_to :order\r\n      belongs_to
+  :product\r\n    end\r\n    \r\nNow that we have the model defined, let's create
+  some test data:\r\n    \r\n    C:\\ruby\\projects\\store>ruby script/generate migration
+  create_test_data\r\n    \r\n    class CreateTestData < ActiveRecord::Migration\r\n
+  \     def self.up\r\n        #Create a product\r\n        foo = Product.new(:name
+  => 'foo', :price => 9.99)\r\n        foo.save\r\n        \r\n        #Create another
+  product\r\n        bar = Product.new(:name => 'bar', :price => 14.99)\r\n        bar.save\r\n
+  \       \r\n        #Create our first user, me\r\n        pbarry = User.new(:username
+  => 'pbarry')\r\n        pbarry.save\r\n        \r\n        #Create some other guy\r\n
+  \       jsmith = User.new(:username => 'jsmith')\r\n        jsmith.save\r\n        \r\n
+  \       #Create our first order\r\n        #notice all the line items and the order
+  get saved with just one order.save\r\n        order = Order.new(:user => pbarry)\r\n
+  \       order.line_items << LineItem.new(:product => foo, :quantity => 2, :order
+  => order)\r\n        order.line_items << LineItem.new(:product => bar, :quantity
+  => 1, :order => order)\r\n        order.save\r\n        \r\n        #What can I
+  say, I just can't get enough foo.\r\n        order = Order.new(:user => pbarry)\r\n
+  \       order.line_items << LineItem.new(:product => foo, :quantity => 1, :order
+  => order)\r\n        order.save\r\n\r\n        #Random guy order's something too\r\n
+  \       order = Order.new(:user => jsmith)\r\n        order.line_items << LineItem.new(:product
+  => bar, :quantity => 1, :order => order)\r\n        order.save\r\n      end\r\n\r\n
+  \     def self.down\r\n      end\r\n    end\r\n\r\nSo now let's run this migration:\r\n\r\n
+  \   C:\\ruby\\projects\\store>rake db:migrate\r\n\r\nNow our database is full of
+  data.  Go ahead and check if you don't believe me.  And we didn't write any SQL.
+  \ Nice.  \r\n\r\nNow here's where the fun starts.  Let's get those users who have
+  ordered 'foo':\r\n   \r\n    C:\\ruby\\projects\\store>ruby script/console\r\n    Loading
+  development environment.\r\n    >> User.find(:all, :include => {:orders => {:line_items
+  => :product}}, \\\r\n    ?> :conditions => [\"products.name = ?\", 'foo'])[0].username\r\n
+  \   => \"pbarry\"\r\n    >>\r\n\r\nWhammy!  That was easy.  We didn't write any
+  SQL to make any of those joins happen.  The nested hashes in `:include` did all
+  the work.  We also didn't have to do anything funky with the results, we got back
+  an array of users, just like we asked for.  And we did it all in one line of code
+  (ok two lines, broken only for the sake of readability).  Not bad.\r\n\r\n[RoR]:
+  http://www.rubyonrails.com\r\n[npp]: http://notepad-plus.sourceforge.net\r\n[intype]:
+  http://intype.info\r\n[mate]: http://macromates.com"
+format: Markdown
+guid: 4cbd021b-60c2-4f20-b9b9-e48adc2bd623
+comments_count: 0

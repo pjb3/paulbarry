@@ -1,0 +1,47 @@
+---
+id: 4914
+slug: javascript-global-by-default
+created_at: 2008-08-31 22:21:11.000000000 Z
+published_at: 2008-09-01 00:44:46.000000000 Z
+title: 'JavaScript: Global By Default'
+body: "Here's a very simple JavaScript function that prints the sum of its arguments:\r\n\r\n
+  \   function sum() {\r\n      s = 0;\r\n      for(i=0; i < arguments.length; i++)
+  {\r\n        s += arguments[i];\r\n      }\r\n      return s;\r\n    }\r\n    document.write('sum
+  = '+sum(1, 2, 3));\r\n\r\nLooks simple enough.  Translated directly into non-idiomatic
+  Ruby, that would be:\r\n    \r\n    def sum(*args)\r\n      s = 0\r\n      i = 0\r\n
+  \     while i < args.length\r\n        s += args[i]\r\n        i += 1\r\n      end\r\n
+  \     s\r\n    end\r\n\r\nSo let's say you now want your sum function to return
+  the sum of the factorial of each number.  No problem:\r\n\r\n    function sum()
+  {\r\n      s = 0;\r\n      for(i=0; i < arguments.length; i++) {\r\n        s +=
+  factorial(arguments[i]);\r\n      }\r\n      return s;\r\n    }\r\n    function
+  factorial(n) {\r\n      f = 1;\r\n      for(i=1; i <= n; i++) {\r\n        f *=
+  i;\r\n      }\r\n      return f;\r\n    }\r\n    document.write('sum = '+sum(1,
+  2, 3));\r\n\r\nOops.  That prints `1`, but the answer we were looking for was `9`.
+  \ Hmmm, let's translate it to ruby and see what we get:\r\n\r\n    def sum(*args)\r\n
+  \     s = 0\r\n      i = 0\r\n      while i < args.length\r\n        s += factorial(args[i])\r\n
+  \       i += 1\r\n      end\r\n      s\r\n    end\r\n    def factorial(n)\r\n      s
+  = 1\r\n      i = 1\r\n      while i <= n\r\n        s = s * i\r\n        i += 1\r\n
+  \     end\r\n      s\r\n    end\r\n    puts sum(1, 2, 3)\r\n\r\nOk, so Ruby gives
+  us `9`.  So what's up?  The truth is that is not a direct translation.  Here's the
+  correct translation:\r\n\r\n    def sum(*args)\r\n      $s = 0\r\n      $i = 0\r\n
+  \     while $i < args.length\r\n        $s += factorial(args[$i])\r\n        $i
+  += 1\r\n      end\r\n      $s\r\n    end\r\n    def factorial(n)\r\n      $s = 1\r\n
+  \     $i = 1\r\n      while $i <= n\r\n        $s = $s * $i\r\n        $i += 1\r\n
+  \     end\r\n      $s\r\n    end\r\n    puts sum(1, 2, 3)\r\n\r\nThis gives us the
+  same result as the flawed JavaScript, which is `1`.  As you can see, in both functions,
+  the variables `s` and `i` are declared as global variables, which you can tell by
+  the `$` [sigil][sigil].  But in JavaScript, **variables are global by default**.
+  \ That's right, the simple little innocuous-looking `i=0` in our JavaScript for
+  loop defines a global variable.  Here is the corrected JavaScript version:\r\n\r\n
+  \   function sum() {\r\n      var s = 0;\r\n      for(var i=0; i < arguments.length;
+  i++) {\r\n        s += factorial(arguments[i]);\r\n      }\r\n      return s;\r\n
+  \   }\r\n    function factorial(n) {\r\n      var f = 1;\r\n      for(var i=1; i
+  <= n; i++) {\r\n        f *= i;\r\n      }\r\n      return f;\r\n    }\r\n    document.write('sum
+  = '+sum(1, 2, 3));\r\n\r\nThe moral of the story is always prefix your variable
+  declarations with `var`.  If you are a web developer who writes JavaScript and this
+  is news to you, stop what you are doing an read [Douglas Crockford][crockford]'s
+  _[JavaScript: The Good Parts][jsgood]_. \r\n\r\n[sigil]: http://en.wikipedia.org/wiki/Sigil_(computer_programming)\r\n[crockford]:
+  http://www.crockford.com\r\n[jsgood]: http://www.amazon.com/exec/obidos/ASIN/0596517742\r\n\r\n\r\n\r\n"
+format: Markdown
+guid: 4d168ca6-7e1b-4864-8f84-3d3fbe9b624a
+comments_count: 1

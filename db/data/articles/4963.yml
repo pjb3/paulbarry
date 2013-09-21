@@ -1,0 +1,54 @@
+---
+id: 4963
+slug: how-to-spy-on-a-hash-in-ruby
+created_at: 2010-02-24 16:42:18.000000000 Z
+published_at: 2010-02-24 16:42:56.000000000 Z
+title: How to spy on a Hash in Ruby
+body: "Let's say you're dealing with a large [Rails][rails] codebase and you've got
+  a [Hash][hash] stored in a global variable or a constant and you want to know who
+  is changing that Hash.  Here's a contrived example:\r\n\r\n    IMPORTANT_STUFF =
+  {\r\n      :password => \"too many secrets\"\r\n    }\r\n\r\n    def change_password(h)\r\n
+  \     h[:password] = \"FAIL\"\r\n    end\r\n\r\n    def print_password\r\n      puts
+  IMPORTANT_STUFF[:password]\r\n    end\r\n\r\n    print_password\r\n    change_password(IMPORTANT_STUFF)\r\n
+  \   print_password\r\n\r\nHere it's pretty obvious where the Hash gets changed,
+  but as I said, imagine you are trying to figure this out in a much larger codebase.
+  \ Something is changing the value of `IMPORTANT_STUFF` and you don't know what.
+  \ So how do you figure out what is?  Easy, you do what Lester Freeman would do!\r\n\r\n<img
+  src=\"/images/lester.jpg\" alt=\"Lester Freeman from The Wire\"/>\r\n\r\nWe set
+  up a sting!  We put a wire tap on `IMPORTANT_STUFF` and monitor all communication
+  with `IMPORTANT_STUFF`.  So how do we do that?  Let's create a class that proxies
+  all communication with a Hash:\r\n\r\n    class HashSpy\r\n\r\n      def initialize(hash={})\r\n
+  \       @hash = hash\r\n      end\r\n\r\n      def method_missing(method_name, *args,
+  &block)\r\n        puts \"***** hash access\"\r\n        puts \"  before: #{@hash.inspect}\"\r\n
+  \       r = @hash.send(method_name, *args, &block)\r\n        puts \"  after: #{@hash.inspect}\"\r\n
+  \       puts \"  backtrace:\\n    #{caller.join(\"\\n    \")}\"\r\n        r\r\n
+  \     end\r\n\r\n    end\r\n    \r\nThis uses a couple of interesting [Ruby][ruby]
+  techniques.  First, we just pass the actual Hash to the constructor.  Then, we use
+  [method missing][mm] so that any method that is called on the HashSpy will be then
+  called on the Hash and the return value of that method call with be called instead.
+  \ Note that in Ruby 1.8, this isn't a transparent proxy because if you called `class`
+  on the HashSpy, you would get HashSpy, not Hash.  In Ruby 1.9, you can have your
+  object inherit from [BasicObject][bo], which won't have those methods, making it
+  easier to be a transparent proxy.  In Ruby 1.8, you can use [Jim Weirich's Blank
+  Slate][bs] pattern\r\n\r\nIn HashSpy's method missing, we use `caller` to get a
+  backtrace of the current call stack, which will tell us who the perpetrator is.
+  \ \r\n\r\nSo, if we just change `IMPORTANT_STUFF` to be created like this:\r\n\r\n
+  \   IMPORTANT_STUFF = HashSpy.new(\r\n      :password => \"too many secrets\"\r\n
+  \   )\r\n\r\nNow when we run the program, we'll get output something like this:\r\n\r\n
+  \   ***** hash access\r\n      before: {:password=>\"too many secrets\"}\r\n      after:
+  {:password=>\"too many secrets\"}\r\n      backtrace:\r\n        hash_spy.rb:27:in
+  `print_password'\r\n        hash_spy.rb:30\r\n    too many secrets\r\n    *****
+  hash access\r\n      before: {:password=>\"too many secrets\"}\r\n      after: {:password=>\"FAIL\"}\r\n
+  \     backtrace:\r\n        hash_spy.rb:23:in `change_password'\r\n        hash_spy.rb:31\r\n
+  \   ***** hash access\r\n      before: {:password=>\"FAIL\"}\r\n      after: {:password=>\"FAIL\"}\r\n
+  \     backtrace:\r\n        hash_spy.rb:27:in `print_password'\r\n        hash_spy.rb:32\r\n
+  \   FAIL\r\n\r\nAnd by reading through the output, we can see that the second time
+  the hash is accessed is when the value is changed, so the perpetrator is on line
+  23 of `hash_spy.rb` in the `change_password` method.  Here's the entire script in
+  one gist for reference.\r\n\r\n<script src=\"http://gist.github.com/313597.js\"></script>\r\n\r\n[ruby]:
+  http://www.ruby-lang.org/en/\r\n[rails]: http://rubyonrails.org/\r\n[hash]: http://ruby-doc.org/core/classes/Hash.html\r\n[mm]:
+  http://ruby-doc.org/core/classes/Kernel.html#M005925\r\n[bo]: http://ruby-doc.org/core-1.9/classes/BasicObject.html\r\n[bs]:
+  http://onestepback.org/index.cgi/Tech/Ruby/BlankSlate.rdoc"
+format: Markdown
+guid: b52bc2d0-a795-4d76-9114-e1dfb32c1da6
+comments_count: 2

@@ -1,0 +1,19 @@
+---
+id: 4879
+slug: shell-history-with-ruby-golf
+created_at: 2008-04-11 11:56:04.000000000 Z
+published_at: 2008-04-11 11:56:18.000000000 Z
+title: Shell History with Ruby Golf
+body: "I saw [this post about Shell History][shell-history] and thought why not try
+  to do it in Ruby.  Probably inspired by the fact that [the Masters][masters] underway,
+  this became an exercise in [Code Golf][code-golf].  Here's what I came up with:\r\n\r\n
+  \   ~ $ history | ruby -e '$<.inject(Hash.new(0)){|h,l| h[l.split[1]] += 1; h}.sort{\r\n
+  \       |a,b| b[1]<=>a[1]}[0..9].each{|k,v| puts \"#{v} #{k}\"}'\r\n    138 cd\r\n
+  \   55 ls\r\n    40 merb\r\n    31 mate\r\n    29 cat\r\n    19 mv\r\n    17 httperf\r\n
+  \   15 rm\r\n    14 ant\r\n    14 rake\r\n\r\nI must admit, the fact that I can't
+  fit in on one line in the blog makes me feel slightly defeated.  Can you do better?\r\n\r\n[shell-history]:
+  http://rubynugs.blogspot.com/2008/04/shell-history.html\r\n[masters]: http://masters.org\r\n[code-golf]:
+  http://codegolf.com/boards/conversation/view/184"
+format: Markdown
+guid: 2fa424f2-468b-46ba-98bb-2a4590744458
+comments_count: 0

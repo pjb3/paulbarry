@@ -1,0 +1,21 @@
+---
+id: 5326
+article_id: 4949
+created_at: 2009-09-02 15:31:50.000000000 Z
+url: 
+email: 
+author: Jörg W Mittag
+ip: 91.51.115.42
+body: 'Just some minor nitpicks: it is true that the Ruby *Language* Specification
+  doesn''t enforce TCO, but it also doesn''t *forbid* it. YARV, for example, has TCO,
+  it''s just not enabled by default. The same applies to Python: the Language Specification
+  doesn''t have TCO, but AFAIK PyPy *does* have TCO. Haskell has lazy evaluation and
+  call-by-need semantics. Since you aren''t doing anything with your forever function,
+  it will never get evaluated. You have to enforce strict evaluation, by e.g. printing
+  it out. (The same mistake is done on the Computer Language Benchmark Game. There''s
+  an Array sorting benchmark where Haskell just blows away even hand-optimized C.
+  The secret is that the benchmark never prints out the contents of the sorted array.
+  The C compiler isn''t smart enough to recognize that the array is never actually
+  used anywhere, but Haskell is, and so the entire benchmark basically compiles down
+  to the equivalent of "int main() { return 0; }".)'
+guid: 38bcb78e-dca3-4b4d-8637-e3db0f42ef21

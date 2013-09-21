@@ -1,0 +1,18 @@
+---
+id: 5214
+article_id: 4816
+created_at: 2008-10-13 10:35:17.000000000 Z
+url: http://clair/ro/rc
+email: 
+author: cs
+ip: 86.125.145.92
+body: |-
+  Ahoy,
+
+  I have a solution for has_many associations (therefore for habtm too) with a single select box and a list of checkboxes to store the associations.
+
+  It uses client-side javascript, no AJAX, and the code is simpler than Ryan Bates'complex forms.
+
+
+  Take a look at: http://clair.ro/rc/2008/10/13/has_many-with-select-box-and-checkboxes/
+guid: ffa97a37-99d1-4a7f-8fdc-1ad9b54a0c6c

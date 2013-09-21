@@ -1,0 +1,17 @@
+---
+id: 5302
+article_id: 4943
+created_at: 2009-07-17 12:06:52.000000000 Z
+url: 
+email: miketomasello@gmail.com
+author: Mike Tomasello
+ip: 82.132.139.8
+body: |-
+  You say "the Maybe type is definitely more powerful in Haskell when you combine it other things such as the Maybe Monad", which is a little confusing. Maybe actually *is* a monad. The 'Maybe type' and the 'Maybe Monad' are the same thing. Remember, a monad is essentially just a type that wraps an inner type.
+
+  Unlike with Maybe in Haskell, using exceptions gives you no compile-time (type-checked) guarantee that the exception will be handled. This is, in my mind, the real power of Maybe.
+
+  Certainly, in other languages, dealing with 'Nothing' cases is often best achieved with exceptions rather than returning null, nil, None, et al.
+
+  If someone did want a 'null' value in Haskell that could essentially stand-in for any other type, they might want to explore the properties of 'undefined'. (":t undefined" in GHCI). This is really only useful for skeleton definitions.
+guid: 65b1f024-8d96-4939-8faa-5f999754ca25

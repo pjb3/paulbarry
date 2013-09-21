@@ -1,0 +1,18 @@
+---
+id: 15
+slug: annotation-hello-world
+created_at: 2006-02-27 12:48:00.000000000 Z
+published_at: 2006-02-27 12:48:00.000000000 Z
+title: Annotation Hello World!
+body: "So I was looking into <a href=\"http://java.sun.com/j2se/1.5.0/docs/guide/language/annotations.html\">JDK
+  1.5 Annotations</a> and couldn't find a real good \"Hello World!\" for annotations,
+  so I wrote one:\r\n<pre>import java.lang.annotation.Annotation;\r\nimport java.lang.annotation.Retention;\r\nimport
+  java.lang.annotation.RetentionPolicy;\r\n\r\n@Retention(RetentionPolicy.RUNTIME)
+  @interface Message {String value(); }\r\npublic class HelloWorld {\r\n\r\n    @Message(\"Hello
+  World!\")\r\n    public static void main(String[] args) throws Exception {\r\n        Annotation
+  message =\r\n            HelloWorld.class.getMethod(\"main\",String[].class)\r\n
+  \               .getAnnotation(Message.class);\r\n        System.out.println(message);\r\n
+  \   }\r\n   \r\n}</pre>"
+format: Markdown
+guid: 0a531bc2-d93f-4710-bb3e-5395d2f7e2af
+comments_count: 0

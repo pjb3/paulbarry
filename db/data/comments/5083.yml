@@ -1,0 +1,16 @@
+---
+id: 5083
+article_id: 4838
+created_at: 2008-01-14 17:33:34.000000000 Z
+url: 
+email: 
+author: Peter
+ip: 38.99.162.187
+body: "Thank you very much for you post. It was exactly what I was looking for.  I
+  started learning Rails two weeks ago.  I don't suppose someone could confirm that
+  this is the correct `view` script:\r\n\r\n\r\n<!-- users/_form.rhtml -->\r\n<% form_for(@user)
+  do |f| %>\r\n\r\n<!-- ... -->\r\n\r\n<%= hidden_field_tag \"user[group_ids][]\",
+  \"\" %>\r\n<% for group in group.find(:all) %>\r\n<div>\r\n    <%= check_box_tag
+  \"user[group_ids][]\", \r\n        group.id, @user.groups.include?(group) %>\r\n
+  \   <%= group.name %>\r\n</div>\r\n<% end %>\r\n\r\n<!-- ... -->\r\n\r\n<% end %>"
+guid: 83c37a13-520f-4e48-b42a-1c30767ba2ab

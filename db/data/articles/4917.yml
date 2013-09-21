@@ -1,0 +1,87 @@
+---
+id: 4917
+slug: adding-your-own-methods-to-jquery
+created_at: 2008-11-21 12:57:17.000000000 Z
+published_at: 2008-11-21 13:42:57.000000000 Z
+title: Adding Your Own Methods to jQuery
+body: "Lately, when doing dynamic/AJAX JavaScript stuff, I've been using the [jQuery][jq]
+  library.  It's pretty [easy to use as a drop in replacement for Prototype in Rails][jq-rails].
+  \ If you do start using jQuery, make sure to [download the jquery api browser for
+  offline browsing of the jQuery docs][jq-api].  Not only is it much faster and handy
+  to have when you are offline, I've found the [main jQuery documentation site][jq-docs]
+  to be somewhat unreliable.  They're probably just having a hard time handling all
+  the traffic they are getting to due to the increased popularity of the library.
+  \ Also check out [the most recent Railscast, which covers using jQuery with Rails][railscast].
+  \ \r\n\r\nIn that episode, Ryan shows you how to define a jQuery function to make
+  submitting forms with AJAX easier.  I'm going to show a couple more function you
+  can add to make manipulating drop-down menus (HTML select/option element) a little
+  easier.  What I'm doing is having the contents of one drop-down updated when the
+  value in another drop-down changes.  Here's the code with standard jQuery:\r\n\r\n
+  \   <% content_for :html_head do %>\r\n      <script type=\"text/javascript\">\r\n
+  \       jQuery(function($){\r\n          var categoriesByType = <%= CategoryType.category_map.to_json
+  %>\r\n          $(\"#category_category_type_id\").change(function(){\r\n            $(\"#category_parent_id
+  option\").remove()\r\n            $.each(categoriesByType[$(this).val()], function(){\r\n
+  \             var option = $(document.createElement(\"option\"))\r\n              option.attr('value',
+  this[1])\r\n              option.html(this[0])\r\n              $(\"#category_parent_id\").append(option)
+  \         \r\n            })\r\n          })\r\n        })\r\n      </script>\r\n
+  \   <% end %>\r\n\r\nThere's a lot going on, so I'll go through it step-by-step.
+  \ But before I do that, let me explain what this code does.  This is used on a form
+  to create a new category.  Each category has a parent and a type.  The form has
+  2 HTML select elements (drop-down menus), one of the category types and another
+  for the category parent.  The list of possible parents should be limited to categories
+  within the selected category type.  \r\n\r\nSo, first we are using the Rails `content_for`
+  method to have this whole chunk end up in the head of the HTML document.  I have
+  a `<%= yield :html_head %>` defined at the end of my HTML head in the layout.  Next,
+  we use the syntax `jQuery(function($){ ... })` to define a chunk of JavaScript code
+  that executes on the DOM is ready.  \r\n\r\nInside that function, the first thing
+  we do is create a variable that is a map (Strictly speaking, it is a JavaScript
+  Object, but JavaScript objects act as an associative data type).  We call a method
+  on our Rails model to get the data, and then call `to_json` on it to format the
+  data as JavaScript.  The structure of this data is that the key is the category
+  type id and the value is an array of array.  Each array is the category path and
+  category id.  This structure makes it easy for us to replace the set of options
+  in the parent drop-down each time the value in the category type is changed.\r\n\r\nSo
+  we define a function to be executed on change of the category type drop-down.  The
+  first thing that function does is remove all of the options from the category parent
+  drop-down.  Then, for each value we get in the array that maps to the currently
+  selected category type, we want to append an option tag to the category parent drop-down.
+  \ \r\n\r\nSo all of this works as advertised, but the one thing I don't like is
+  there is a lot of code, 4 lines, just to create and append a new option tag.  Let's
+  shorten that up, so our new syntax looks like this:\r\n\r\n    <% content_for :html_head
+  do %>\r\n      <script type=\"text/javascript\">\r\n        jQuery(function($){\r\n
+  \         var categoriesByType = <%= CategoryType.category_map.to_json %>\r\n          $(\"#category_category_type_id\").change(function(){\r\n
+  \           $(\"#category_parent_id option\").remove()\r\n            $.each(categoriesByType[$(this).val()],
+  function(){        \r\n              $(\"#category_parent_id\").appendElement(\"option\",
+  this[0], {value: this[1]})\r\n            })\r\n          })\r\n        })\r\n      </script>\r\n
+  \   <% end %>\r\n\r\nThe only part that has changed is the body of the each.  As
+  you can see, we are going to define a new function that operates on a jQuery set
+  of elements.  jQuery refers to this as a method, just to give it a name to differentiate
+  it from a typical function that is just in the jQuery namespace.  So to implement
+  this, we are going to actually define a function and a method.  First, we define
+  a function that simply creates a new DOM element, and second, a method that uses
+  the same syntax, but appends the element to the jQuery set:\r\n\r\n    //You can
+  call this a few ways:\r\n    //createElement('p') => \"<p/>\"\r\n    //createElement('p','hi')
+  => \"<p>hi</p>\"\r\n    //createElement('p', {align: 'center'}) => \"<p align=\"center\"/>\"\r\n
+  \   //createElement('p','hi',{align: 'center'}) => \"<p align=\"center\">hi</p>\"
+  \   \r\n    $.createElement = function(tag_name, tag_value, tag_attrs) {\r\n      var
+  name = tag_name\r\n      if(typeof tag_value == \"object\") {\r\n        var value
+  = null\r\n        var attrs = tag_value\r\n      } else {\r\n        var value =
+  tag_value\r\n        var attrs = tag_attrs\r\n      }\r\n      var element = $(document.createElement(tag_name))\r\n
+  \     if(attrs) {\r\n        $.each(attrs, function(k,v) {\r\n          element.attr(k,v)\r\n
+  \       })\r\n      }\r\n      if(value) {\r\n        element.html(value)\r\n      }\r\n
+  \     return element\r\n    }\r\n\r\n    $.fn.appendElement = function(tag_name,
+  tag_value, tag_attrs) {\r\n      var element = $.createElement(tag_name, tag_value,
+  tag_attrs)\r\n      this.append(element)\r\n    }\r\n\r\nFirst there is the `createElement`
+  function that is defined on `$`, then there is the `appendElement` method, that
+  is defined on `$.fn`.  The `appendElement` method isn't really needed, because you
+  could accomplish the same thing with just `append` and `createElement`:\r\n\r\n
+  \   $(\"#category_parent_id\").append($.createElement(\"option\", this[0], {value:
+  this[1]}))\r\n\r\nBut I just wanted to illustrate the different between a jQuery
+  function and a jQuery method.  A jQuery function is called on just `$` object (which
+  happens to be a function), whereas a jQuery method is called on the result of calling
+  the `$` function.\r\n\r\n[jq]: http://jquery.org\r\n[jq-rails]: http://www.loudthinking.com/posts/32-myth-3-rails-forces-you-to-use-prototype\r\n[jq-api]:
+  http://dev.jquery.com/view/trunk/tools/api-browser/jquery-api-browser.zip\r\n[jq-docs]:
+  http://docs.jquery.com\r\n[railscast]: http://railscasts.com/episodes/136-jquery"
+format: Markdown
+guid: f729d45b-f2cd-49d5-a818-8d1bcae7fd17
+comments_count: 1

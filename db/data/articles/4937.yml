@@ -1,0 +1,72 @@
+---
+id: 4937
+slug: how-object-oriented-programming-works-in-javascript
+created_at: 2009-06-08 18:01:56.000000000 Z
+published_at: 
+title: How Object-Oriented Programming Works in JavaScript
+body: "The way [Object-Oriented Programming (OOP)][OOP] in [JavaScript][JS] works
+  is very different than most other Object-Oriented programming languages.  In this
+  article, I'm just going to explain how OO works in JavaScript and reserve judgement
+  and comparison to other languages for another article.\r\n\r\nSo the first big difference
+  with JavaScript, as compared to Java, Python, Ruby, PHP, C++, etc. is that JavaScript
+  has no classes.  In a Classical language (in this context by Classical I mean an
+  OO language with classes, not the more general meaning of classical that is somewhat
+  synonymous with traditional), you define methods in a class and then you instantiate
+  instances of that class, which is then called an object.  Every object is an instance
+  of a class.\r\n\r\nIn JavaScript, every object is created by a constructor function.
+  \ You can ask any object what function it was constructed by, an it will tell you:\r\n\r\n
+  \   js> var x = 1\r\n    js> x.constructor\r\n    function Number() {\r\n        [native
+  code]\r\n    }\r\n    js> var x = \"foo\"\r\n    js> x.constructor\r\n    function
+  String() {\r\n        [native code]\r\n    }\r\n    js> var x = new Date()\r\n    js>
+  x.constructor\r\n    function Date() {\r\n        [native code]\r\n    }\r\n\r\nAs
+  you can see, the \"primative\"-like types such as Number and String still follow
+  this pattern, even though you don't create them using the `new` operator.  You can
+  see the use of the `new` operator used to create the Date above.  Technically, you
+  can use any function as a constructor function:\r\n\r\n    js> var x = new parseInt()\r\n
+  \   js> x.constructor\r\n    function parseInt() {\r\n        [native code]\r\n
+  \   }\r\n\r\nThis works, though it is silly.  By convention, you create functions
+  that begin with an uppercase letter to signal that it is meant to be used as a constructor.
+  \ When the constructor function is called, a blank object is created and then the
+  `this` reference is set to that object for the call of the function:\r\n\r\n    js>
+  function Person() {\r\n      this.name = \"Paul\"\r\n    }\r\n    js> var p = new
+  Person()\r\n    js> p.name\r\n    Paul\r\n\r\nNote that the return value of the
+  constructor function is essentially irrelevant, the result of the `new` operator
+  when applied to a function call is always the object that the this reference was
+  pointing to:\r\n\r\n    js> function Person() {\r\n      this.name = \"Paul\"\r\n
+  \     return 42;\r\n    }\r\n    js> var p = new Person()\r\n    js> p\r\n    [object
+  Object]\r\n    js> p.name\r\n    Paul\r\n\r\nSo in this case, even though our constructor
+  function returns the number 42, that value is discarded and p is still set to the
+  object pointed to by this during the constructor function.\r\n\r\nThere is only
+  one more aspect to Object-Oriented JavaScript and that is the prototype.  But before
+  we dive into that, I forgot to mention that in JavaScript an object is essentially
+  the same thing as a Java Map, Ruby Hash or Python Dictionary.  It is an object that
+  maps keys to values.  Objects in JavaScript don't really have methods, it just looks
+  like they do.  You can lookup a value for a key with the square bracket operators,
+  like this:\r\n\r\n    js> p[\"name\"]\r\n    Paul\r\n\r\nOr you can use the dot-syntax:\r\n\r\n
+  \   js> p.name\r\n    Paul\r\n\r\nWhich looks more like accessing a property or
+  method from other OO languages.  If the object is a function, you simply add parentheses
+  to it to call it:\r\n\r\n    js> p[\"shout\"] = function() { return \"HEY!\" }\r\n
+  \   function () {\r\n        return \"HEY!\";\r\n    }\r\n    js> p.shout()\r\n
+  \   HEY!\r\n    js> p[\"shout\"]()\r\n    HEY!\r\n\r\nThis also illustrates another
+  point, which is that JavaScript object are always open to having properties or methods
+  added or taken away at any time.\r\n\r\n    js> delete p.shout\r\n    true\r\n    js>
+  p.shout()\r\n    typein:36: TypeError: p.shout is not a function    \r\n\r\nSo now
+  we can see how an object is setup with the prototype of the constructor function.
+  \ Every function has a prototype, which by default is an empty object:\r\n\r\n    js>
+  Person.prototype\r\n    [object Object]\r\n\r\nWe can add methods to this object
+  at anytime:\r\n\r\n    js> Person.prototype.sing = function() { return \"la la la\"
+  }\r\n    function () {\r\n      return \"la la la\";\r\n    }\r\n\r\nNow if we create
+  a person, they will be able to sing:\r\n\r\n    js> var aretha = new Person()\r\n
+  \   js> aretha.sing()\r\n    la la la\r\n\r\nAnytime you try to access a property
+  or method on an object, if it does not have that property, then it will see if it's
+  constructor function's prototype does and if it does, it will return that property.
+  \ So the person we created before we added the sing method to the Person function's
+  prototype can now sing as well:\r\n\r\n    js> p.sing()\r\n    la la la\r\n    js>
+  p.sing\r\n    function () {\r\n        return \"la la la\";\r\n    }\r\n\r\nAnd
+  really, that's all there is for the built-in Object-Oriented capabilities of JavaScript.
+  \ The constructor and the prototype are the two things to be aware of and once you
+  are, it's pretty easy to understand how object in JavaScript work.\r\n\r\n[OOP]:
+  http://en.wikipedia.org/wiki/Object-oriented_programming\r\n[JS]: https://developer.mozilla.org/en/JavaScript"
+format: Markdown
+guid: ee8fe898-8e90-4773-a138-4ded849b99b1
+comments_count: 0

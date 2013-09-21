@@ -1,0 +1,40 @@
+---
+id: 5145
+article_id: 4901
+created_at: 2008-05-30 05:23:09.000000000 Z
+url: http://yapok.org/
+email: 
+author: François Vaux
+ip: 82.66.177.64
+body: |-
+  Nice one-liner :-)
+
+  I've been inspired by this and built a more robust one, but it's 20 lines long :P
+
+  def MTest(tests)
+    if tests[0].is_a?(String) then puts tests.shift end
+    threads = []
+    results = {:pass => 0, :fail => 0, :err => 0}
+    tests.each do |t|
+      e,p,v = *t
+      threads << Thread.new do
+        begin
+          puts(if (r = p.call) == v
+            results[:pass] += 1
+            ". #{e}"
+          else
+            results[:fail] += 1
+            "! #{e} was #{r}, expected #{v}"
+          end)
+        rescue => x
+          results[:err] += 1
+          puts "@ #{x.class} at line #{x.backtrace[0].split(':')[1]}"
+        end
+      end
+    end
+    threads.join
+    results
+  end
+
+  This allows you many tricks like naming your tests, don't abort on exceptions but show a notice and get a summary for your tests.
+guid: caedf0ec-8437-481b-a544-eba2ee29d025

@@ -1,0 +1,18 @@
+---
+id: 5059
+article_id: 4806
+created_at: 2007-04-25 20:23:46.000000000 Z
+url: 
+email: jbsteadman@google.com
+author: JB
+ip: 65.57.245.11
+body: "@Martin \n\nMy project is using Guice with Hibernate and Webwork. We have very
+  simple transaction needs. We declare an interceptor stack for requests that need
+  transactions. In that stack, we have an interceptor that starts a txn, passes control,
+  then does a commit or rollback as appropriate, protected by a finally block.\n\nIf
+  you have more sophisticated txn needs, \n\nFor classes that need Hibernate sessions,
+  we either inject the Session through guice or inject a Provider<Session>. You need
+  a Provider<Session> if the object you're injecting into has a lifetime that exceeds
+  the life of a Session.\n\nFor example, we have long-lived Hibernate Daos that need
+  Sessions, and we inject Provider<Session> into the daos.\n\n"
+guid: d3d4b672-fe18-47b2-95f2-ab6d22e60cd5

@@ -1,0 +1,13 @@
+---
+id: 5110
+article_id: 4883
+created_at: 2008-04-18 10:37:05.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 141.157.46.100
+body: |-
+  @Vidar
+
+  In that example the explicit receiver of the instance_eval method call is the new Test instance returned by Test.new, so that still falls under Rule #1.
+guid: cb66e8ee-81c3-4f7f-b8e6-84913ce36843

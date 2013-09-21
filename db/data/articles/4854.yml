@@ -1,0 +1,52 @@
+---
+id: 4854
+slug: getting-started-with-clojure
+created_at: 2007-12-22 12:06:59.000000000 Z
+published_at: 2007-12-22 12:48:23.000000000 Z
+title: Getting Started with Clojure
+body: "After [finding out about Clojure][find-clj], I just couldn't wait work on some
+  examples.  Step one is getting it downloaded and installed.  That's pretty straightforward,
+  you just [download it][dl-clj] and follow the [examples from the website][gs-clj].\r\n\r\nOne
+  problem is that running it from the command line is a lot of typing and how do a
+  run code I have saved in a file?  Something better will probably come along eventually,
+  but here's what I did.  First, save closure in `/usr/local/lib/closure`.  Then,
+  copy JLine jar to that directory.  Finally, create a shell script at `/usr/local/bin/clj`
+  with the following contents:\r\n\r\n    #!/bin/bash \r\n    CLOJURE_DIR=/usr/local/lib/clojure
+  \      \r\n    CLOJURE_JAR=$CLOJURE_DIR/target/clojure-lang-1.0-SNAPSHOT.jar\r\n
+  \   if [ -z \"$1\" ]; then \r\n    \tjava -cp $CLOJURE_DIR/jline-0.9.93.jar:$CLOJURE_JAR
+  \\\r\n    \t    jline.ConsoleRunner clojure.lang.Repl    \r\n    else\r\n    \tjava
+  -cp $CLOJURE_JAR clojure.lang.Script $1\r\n    fi\r\n\r\nSo with this, assuming
+  `/usr/local/bin` is in your path, you can either run a script of invoke the REPL:\r\n\r\n
+  \   #run foo.clj\r\n    clj foo.clj\r\n\r\n    #start the REPL\r\n    clj\r\n\r\nNow
+  that we've got that out of the way, I thought I would provide a slight variation
+  of the [Runtime Polymorphism example][run-poly]:\r\n    \r\n    (defmulti encounter
+  (fn [x y] [(:Species x) (:Species y)])) \r\n\r\n    (defmethod encounter [:Bunny
+  :Lion] [b l] \r\n      (str (b :name) \" runs away from \" (l :name))) \r\n\r\n
+  \   (defmethod encounter [:Lion :Bunny] [l b]\r\n      (str (l :name) \" eats \"
+  (b :name))) \r\n\r\n    (defmethod encounter [:Lion :Lion] [l1 l2]\r\n      (str
+  (l1 :name) \" fights with \" (l2 :name))) \r\n\r\n    (defmethod encounter [:Bunny
+  :Bunny] [b1 b2]\r\n      (str (b1 :name) \" mates with \" (b2 :name)))\r\n\r\n    (def
+  bugs {:Species :Bunny, :name \"Bugs\"}) \r\n    (def betty {:Species :Bunny, :name
+  \"Betty\"}) \r\n    (def simba {:Species :Lion, :name \"Simba\"}) \r\n    (def scar
+  {:Species :Lion, :name \"Scar\"}) \r\n\r\n    (println (encounter bugs betty)) \r\n
+  \   (println (encounter bugs simba)) \r\n    (println (encounter simba bugs)) \r\n
+  \   (println (encounter simba scar))\r\n\r\nSo refer to the [documentation on Runtime
+  Polymorphism][run-poly] for a full explanation of what's going on here, but here's
+  my short summary.  When you call encounter, the defmulti is called first.  The defmulti
+  returns a data structure that is then used to dispatch to a defmethod that matches
+  that data structure.  The defmulti uses the value that corresponds to the key `:Species`
+  in the map to construct that data structure, but the defmethod doesn't know or care
+  where that value came from.  The first list in the defmethod for encounter is what
+  should be matched.  In other words, if the defmulti returns `[:foo :bar]`, then
+  it calls `defmethod encounter [:foo :bar]`.  The second list is the declaration
+  of the arguments that the method takes.  \r\n\r\nAnother little nugget in there
+  is that the comma is whitespace.  Maps are defined as a list of alternating key
+  values, surrounded by curly braces.  So `{:a 1 :b 2 3 :c :d 4}` is a map, but as
+  you can see, sometimes without the commas, it can be confusing.  So you can write
+  is as `{:a 1, :b 2, 3 :c, :d 4}` to make it more clear where the pairs are, but
+  it's not required. \r\n\r\n[find-clj]: http://paulbarry.com/articles/2007/12/22/scala-clojure-and-lisplets\r\n[dl-clj]:
+  http://sourceforge.net/project/showfiles.php?group_id=137961\r\n[gs-clj]: http://clojure.sourceforge.net/reference/getting_started.html\r\n[run-poly]:
+  http://clojure.sourceforge.net/features/runtime_polymorphism.html"
+format: Markdown
+guid: e0144aa8-e39b-4666-822e-cf0d98afa4ad
+comments_count: 1

@@ -1,0 +1,13 @@
+---
+id: 5353
+article_id: 4838
+created_at: 2009-11-03 01:42:00.000000000 Z
+url: 
+email: 
+author: Albert Chow
+ip: 71.202.151.232
+body: 'Thank you for the excellent tutorial. I have a follow-on question: suppose
+  you need to find all users who don''t belong in any group (i.e. w/o membership),
+  is iterating through all users and checking for associated membership the only method?
+  Is there a more efficient way?'
+guid: 828c7ad5-e4b8-44e0-8348-66fbb52c35a9

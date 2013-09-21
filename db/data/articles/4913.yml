@@ -1,0 +1,41 @@
+---
+id: 4913
+slug: concerned-with-skinny-controller-skinny-model
+created_at: 2008-08-30 14:19:16.000000000 Z
+published_at: 2008-08-30 14:33:18.000000000 Z
+title: 'Concerned With: Skinny Controller, Skinny Model'
+body: "A small Rails technique that I've been using lately is `concerned_with`.  I
+  first saw [Matthew Bass][bass] use it on the [=> 3-2-1][hr], but I've gleaned from
+  a [couple][hmt] of [articles][st] on the web that it was invented by [Rick Olsen][olsen].\r\n\r\nThe
+  purpose of `concerned_with` is to break up larger models up into concerns.  Let's
+  say you have a User model, and you have several macros, includes, validations, callbacks,
+  class methods and instance methods all related to authentication, maybe sort of
+  like this:\r\n\r\n    class User << ActiveRecord::Base\r\n      include AuthenticationSupport\r\n
+  \     validates_presence_of :login\r\n      validates_uniqueness_of :login\r\n      before_create
+  :set_default_password\r\n      class << self\r\n        def authenticate(login,
+  password)\r\n          login == \"root\" && password == \"too_many_secrets\"\r\n
+  \       end\r\n      end\r\n      def set_default_password\r\n        self.password
+  = \"pa$$w0rd\"\r\n      end\r\n    end\r\n\r\nAs your model grows in complexity,
+  eventually what will happens is that you will have more validations, callbacks,
+  class methods, instance methods, etc.  They will get mixed in with the authentication
+  ones, `app/models/user.rb` will grow to become 500 lines of code and it will be
+  hard to keep track of what's what.  Instead, just put this into `app/models/user.rb`:\r\n\r\n
+  \   class User << ActiveRecord::Base\r\n      concerned_with :authentication\r\n
+  \   end\r\n\r\nAnd then throw all of that into `app/models/user/authentication.rb`:\r\n\r\n
+  \   class User\r\n      include AuthenticationSupport\r\n      validates_presence_of
+  :login\r\n      validates_uniqueness_of :login\r\n      before_create :set_default_password\r\n
+  \     class << self\r\n        def authenticate(login, password)\r\n          login
+  == \"root\" && password == \"too_many_secrets\"\r\n        end\r\n      end\r\n
+  \     def set_default_password\r\n        self.password = \"pa$$w0rd\"\r\n      end\r\n
+  \   end\r\n\r\nSo now your `app/models/user.rb` is clean and can have other stuff
+  in there, and all the authentication related stuff gets loaded from `app/model/user/authentication.rb`.
+  All you have to do to enable this is is throw this snippet into an initializer,
+  like `config/initializers/concerned_with.rb`:\r\n\r\n    class << ActiveRecord::Base\r\n
+  \     def concerned_with(*concerns)\r\n        concerns.each do |concern|\r\n          require_dependency
+  \"#{name.underscore}/#{concern}\"\r\n        end\r\n      end\r\n    end\r\n\r\n[bass]:
+  http://matthewbass.com\r\n[hr]: http://paulbarry.com/articles/2008/08/15/my-guest-appearance-on-a-hashrocket-3-2-1-project\r\n[hmt]:
+  http://blog.hasmanythrough.com/2008/5/6/a-simple-alternative-to-namespaced-models\r\n[st]:
+  http://blog.skiptree.com/?p=12\r\n[olsen]: http://pastie.org/pastes/129144"
+format: Markdown
+guid: 06cac024-02eb-497d-b45b-2c0b35d95c90
+comments_count: 22

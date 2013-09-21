@@ -1,0 +1,48 @@
+---
+id: 4958
+slug: customizing-generators-in-rails-3
+created_at: 2010-01-13 07:10:12.000000000 Z
+published_at: 2010-01-13 07:10:49.000000000 Z
+title: Customizing Generators in Rails 3
+body: "As you probably already know, [Rails 3 is just around the corner][infoworld].
+  \ There are some pretty nice features being added and one of them is the ability
+  to customize the way the generators work.  I personally prefer [Haml][haml] over
+  [ERB][erb], [RSpec][rspec] over [Test::Unit][test-unit] and [Factory Girl][factory-girl]
+  over [Fixtures][fixtures].  So let's see how we can configure a Rails 3 app to do
+  that.\r\n\r\nFirst, follow [Yehuda's instructions on how to create a Rails 3 app][katz].
+  \ Next, you have to tell Rails that you want to use Haml, RSpec and Factory Girl.
+  \ First, add this somewhere in the `Gemfile`:\r\n\r\n    gem \"haml\"\r\n\r\n    only
+  :test do\r\n      gem \"rspec\"\r\n      gem \"rspec-rails\"\r\n      gem \"factory_girl\"\r\n
+  \   end\r\n\r\nThen, re-run the bundler and initialize the Haml plugin:\r\n\r\n
+  \   $ gem bundle\r\n    $ bin/haml --rails .\r\n\r\nFinally, you have to install
+  the custom generators for the frameworks that you want to use.  I found [a repo
+  on github that already had RSpec][indirect], so [I forked it and added Haml and
+  Factory Girl][pjb3].  Clone the repo into the `lib/generators` directory of your
+  app:\r\n\r\n    $ git clone git://github.com/pjb3/rails3-generators.git lib/generators\r\n
+  \   \r\nNow, in the `config/application.rb` file in your app, near the bottom there
+  is a section related to config.generators.  Put this in that section:\r\n\r\n    config.generators
+  do |g|\r\n      g.template_engine :haml\r\n      g.test_framework :rspec, :fixture
+  => true, :views => false\r\n      g.fixture_replacement :factory_girl, :dir => \"spec/factories\"\r\n
+  \   end\r\n\r\nHere is where we reap the benefits of the modularity in Rails 3.
+  \ What this says is that we want to use Haml as the template enging, we want to
+  use RSpec as the test framework and we want to generate fixtures with our generated
+  specs, but we don't want to generate view specs and that instead of fixtures, we
+  actually want to use factory girl and we want the factories to be put into `spec/factories`.
+  \ Whew!  So does this all work?\r\n\r\n    $ script/generate rspec:install\r\n    $
+  script/generate scaffold person name:string dob:date age:integer male:boolean bio:text\r\n
+  \   \r\nAt this point you should see that Rails has generated what we want, which
+  is scaffolding that uses Haml for the views, RSpec for the tests and Factory Girl
+  for the fixtures.  Run the migrations, start the server and open the browser http://localhost:3000/people
+  to see your scaffolding in action.\r\n\r\nNow if you try to actually run `rake spec`,
+  you'll get an error, at least I do.  I'm not sure that RSpec 1.X is going to ever
+  work with Rails 3.  I think the intent is for [RSpec 2 to be compatible with Rails
+  3][chelimsky], so keep an eye out for that.\r\n\r\n[infoworld]: http://www.infoworld.com/d/developer-world/rails-3-beta-eyed-late-january-release-150\r\n[haml]:
+  http://haml-lang.com/\r\n[erb]: http://ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html\r\n[rspec]:
+  http://rspec.info\r\n[test-unit]: http://ruby-doc.org/stdlib/libdoc/test/unit/rdoc/classes/Test/Unit.html\r\n[factory-girl]:
+  http://github.com/thoughtbot/factory_girl\r\n[fixtures]: http://api.rubyonrails.org/classes/Fixtures.html\r\n[generators]:
+  http://github.com/pjb3/rails3-generators\r\n[katz]: http://yehudakatz.com/2009/12/31/spinning-up-a-new-rails-app/\r\n[indirect]:
+  http://github.com/indirect/rails3-generators\r\n[pjb3]: http://github.com/pjb3/rails3-generators\r\n[chelimsky]:
+  http://blog.davidchelimsky.net/2010/01/12/rspec-2-and-rails-3/"
+format: Markdown
+guid: 2a315a57-3a30-4d28-8a2f-7e4fefce86e7
+comments_count: 1

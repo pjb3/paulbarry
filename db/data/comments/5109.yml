@@ -1,0 +1,22 @@
+---
+id: 5109
+article_id: 4883
+created_at: 2008-04-18 08:44:19.000000000 Z
+url: http://www.hokstad.com/blog
+email: vidar@hokstad.com
+author: Vidar Hokstad
+ip: 82.70.200.181
+body: |+
+  It's not strictly true it only happens in two cases. instance_eval and class_eval also change self:
+
+  class Test
+  end
+
+  p self
+  Test.new.instance_eval do
+    p self
+  end
+
+  Though these ones are fairly obvious, beware of the situations where people do "some_object.instance_eval { yield }" behind your back, as "self" may not be what you think it should be within a block you pass to a method.
+
+guid: eb62abb6-deef-47c3-a006-d7c1d2c7b8e9

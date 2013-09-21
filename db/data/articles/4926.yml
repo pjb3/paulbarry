@@ -1,0 +1,32 @@
+---
+id: 4926
+slug: browsercms-on-rails
+created_at: 2008-12-31 09:03:38.000000000 Z
+published_at: 2008-12-31 09:29:24.000000000 Z
+title: BrowserCMS on Rails
+body: "If you haven't heard the news already, [BrowserMedia][bm] will be releasing
+  [BrowserCMS][cms] as an open source product, based on [Rails][ror]!  BrowserCMS
+  2.0 is a proprietary J2EE product and we've been working on BrowserCMS 3.0, a Rails-based
+  version of the product for the last few months.  Patrick Peak and I will be giving
+  a few presentations in the next few months covering some of the motivations and
+  lessons learned, as well as previewing some of the features of the product.  First
+  up will be the [DC Ruby Users Group on Thursday, January 8th at 7:00pm][dcrug].
+  \ After that, we'll be up in Baltimore for [B'More on Rails on Tuesday, January
+  13th at 7:00pm][bmore].  Then we're headed to Orlando, Florida for [Acts As Conference
+  on Saturday, February 7th at 10:00am][actsp]. \r\n\r\nBrowserCMS 3.0 isn't just
+  an Open Source Rails version of BrowserCMS 2.0, it also has a new design and lots
+  of new features.  We will be finishing up the initial development phase next month
+  and will release the initial beta version at [Acts As Conference][acts].  We'll
+  be building out sites with BrowserCMS 3.0 for our customers at that time, so we'll
+  be looking for people in the community to try it out and give us feedback.\r\n\r\nWe're
+  excited about what we'll be able to do by bringing together BrowserCMS and Rails.
+  \ We're also looking forward to Rails 3.0 and taking advantage of new features in
+  Rails brought on by the Rails/Merb merger.  So if you have a chance, please stop
+  by one of the upcoming presentations, see what we're up to and let us know what
+  you think. \r\n\r\n[bm]: http://browsermedia.com\r\n[cms]: http://browsercms.com\r\n[ror]:
+  http://rubyonrails.org\r\n[dcrug]: http://actsascommunity.com/events/24/profile\r\n[bmore]:
+  http://www.meetup.com/bmore-on-rails/calendar/9311097\r\n[actsp]: http://www.actsasconference.com/speakers/paul-barry-patrick-peak\r\n[acts]:
+  http://www.actsasconference.com"
+format: Markdown
+guid: d8ec2778-f5fd-4f60-83ec-0fd6bb43b028
+comments_count: 1

@@ -1,0 +1,16 @@
+---
+id: 4907
+slug: interactive-development-with-clojure
+created_at: 2008-07-11 21:34:51.000000000 Z
+published_at: 2008-07-11 21:46:04.000000000 Z
+title: Interactive Development with Clojure
+body: "A screencast on interactive development with Clojure.\r\n\r\n[Download original
+  18MB quicktime file][qt]\r\n\r\n<object width=\"640\" height=\"483\">\t<param name=\"allowfullscreen\"
+  value=\"true\" />\t<param name=\"allowscriptaccess\" value=\"always\" />\t<param
+  name=\"movie\" value=\"http://www.vimeo.com/moogaloop.swf?clip_id=1324685&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1\"
+  />\t<embed src=\"http://www.vimeo.com/moogaloop.swf?clip_id=1324685&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1\"
+  type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" allowscriptaccess=\"always\"
+  width=\"640\" height=\"483\"></embed></object>\r\n\r\n\r\n[qt]: http://blip.tv/file/get/Pjb3-InteractiveDevelopmentWithClojure373.mov"
+format: Markdown
+guid: 82db6356-02b8-46c6-9bb7-c03146e21487
+comments_count: 1

@@ -1,0 +1,10 @@
+---
+id: 5382
+article_id: 4963
+created_at: 2010-02-25 13:20:57.000000000 Z
+url: http://nimbletechnique.com
+email: collin@nimbletechnique.com
+author: Collin VanDyck
+ip: 64.62.173.70
+body: '@bryanl, yes, but you''d also then need to patch Hash#merge!.'
+guid: b0cfa85b-4c99-44ff-a6d1-b34574e82445

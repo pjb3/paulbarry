@@ -1,0 +1,22 @@
+---
+id: 4793
+slug: paulbarry-com-3-0
+created_at: 2007-01-28 19:45:48.000000000 Z
+published_at: 2007-01-28 19:51:08.000000000 Z
+title: PaulBarry.com 3.0
+body: "So I've finally finished the latest version of my site.  The first version
+  of my site went online on March 3rd of 2006 using [WordPress][wp].  Then on my last
+  birthday, I [switched][pb2] to [Typo][typo].  Now, I've got up the first version
+  of my site that I have built myself, using [Java][java], [Stripes][stripes], [Spring][spring]
+  and [Hibernate][hibernate].  I'm using [Resin][resin] as the Web/Application server
+  and [MySQL][mysql] for the database.  The OS is [Ubuntu][ubuntu] and it is hosted
+  with [VPSLand][vpsland].\r\n\r\nI hoping that this version will be more stable than
+  the previous version.  If you are having any problems using the site, let me know.\r\n\r\n[wp]:
+  http://wordpress.org/\r\n[pb2]: http://www.paulbarry.com/articles/2006/07/06/paulbarry-com-2-0\r\n[typo]:
+  http://www.typosphere.org/\r\n[java]: http://java.sun.com\r\n[stripes]: http://stripes.mc4j.org/confluence/display/stripes/Home\r\n[spring]:
+  http://www.springframework.org/\r\n[hibernate]: http://www.hibernate.org/\r\n[resin]:
+  http://www.caucho.com/\r\n[mysql]: http://dev.mysql.com/\r\n[ubuntu]: http://www.ubuntu.com/\r\n[vpsland]:
+  http://www.vpsland.com/"
+format: Markdown
+guid: 28c7d612-0d6b-47fd-a378-43a75430605a
+comments_count: 3

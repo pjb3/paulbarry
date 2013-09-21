@@ -1,0 +1,77 @@
+---
+id: 4838
+slug: has_many-through-checkboxes
+created_at: 2007-10-24 20:19:34.000000000 Z
+published_at: 2007-10-24 20:37:01.000000000 Z
+title: has_many :through checkboxes
+body: "As you probably already know, Rails has 2 methods of handling Many-to-Many
+  relationships, `has_and_belongs_to_many` (HABTM) and `has_many_through` (HMT).  Ryan
+  Bates does a great job explaining the difference between the 2 in [Railscast #47:
+  Two Many-to-Many][rc47].  He does seem to indicate the HABTM is effectively deprecated:\r\n\r\n>
+  Now in the other cases you might want to go with has and belongs to many...you might,
+  but that's kind of going quickly out of date and it has some limitations that you
+  might experience further on in development, so if you are the least bit unsure on
+  which way to go, it's usually better to go with has many through, because that it
+  much more flexible.\r\n\r\nOk, so what if I do want to use simple checkboxes in
+  my interface, but I don't want to use the soon-to-be out of date, inflexible method?\r\n\r\nBasically,
+  all you need to do is implement an `_ids` method for the association, and then you
+  will be good to go.  The `_ids` method is automatically generated for you when you
+  use HABTM, but since HMT is often used with models that aren't just simple join
+  associations, there is no automatic `_ids` method generated for you.\r\n\r\nSo let's
+  create an example app where we have a User model which has many Groups through the
+  Membership model:\r\n\r\n    $ rails example\r\n    $ cd example\r\n    $ mysqladmin
+  -u root create example_development\r\n    $ script/generate scaffold_resource user
+  name:string\r\n    $ script/generate scaffold_resource group name:string\r\n    $
+  script/generate scaffold_resource membership user_id:integer group_id:integer\r\n
+  \   $ rake db:migrate\r\n\r\nOk, now we've got our DB and our models, so we just
+  need to set up the associations in each model:\r\n\r\n    #app/models/membership.rb\r\n
+  \   class Membership < ActiveRecord::Base\r\n      belongs_to :user\r\n      belongs_to
+  :group\r\n    end\r\n\t\r\n    #app/models/group.rb\r\n    class Group < ActiveRecord::Base\r\n
+  \     has_many :memberships\r\n      has_many :users, :through => :memberships\r\n
+  \   end\r\n\r\nAnd in the User model, we'll add the associations as well as an implementation
+  for the group_ids method: \r\n\r\n    #app/models/user.rb\r\n    class User < ActiveRecord::Base\r\n
+  \     has_many :memberships\r\n      has_many :groups, :through => :memberships\r\n
+  \ \r\n      attr_accessor :group_ids\r\n      after_save :update_groups\r\n  \r\n
+  \     #after_save callback to handle group_ids\r\n      def update_groups\r\n        unless
+  group_ids.nil?\r\n          self.memberships.each do |m|\r\n            m.destroy
+  unless group_ids.include?(m.group_id.to_s)\r\n            group_ids.delete(m.group_id.to_s)\r\n
+  \         end \r\n          group_ids.each do |g|\r\n            self.memberships.create(:group_id
+  => g) unless g.blank?\r\n          end\r\n          reload\r\n          self.group_ids
+  = nil\r\n        end\r\n      end\r\n    end\r\n\r\nSo what's going on here is that
+  first we define an attribute to hold the `group_ids`.  Then, we define a method
+  that will get called after this model is saved.  In that callback, first check to
+  see if `group_ids` is nil, because if it is, we're going to do nothing.  Then we
+  iterate through each membership that this record has, delete it if it's `group_id`
+  is not in our new array of `group_ids`.  Then we remove the `group_id` from the
+  array, so that anything we have left in the `group_ids` array after we've gone through
+  all the existing memberships are groups that we should create new memberships for,
+  for this user.\r\n\r\nSo let's see if this works.  So we log into the console and
+  first create some Groups to work with:\r\n\r\n    $ script/console\r\n    Loading
+  development environment.\r\n    >> ('A'..'E').each{|n| Group.create!(:name => n)
+  }\r\n    => \"A\"..\"E\"\r\n\t\t\r\nNow we can create a User with some groups:\r\n\r\n
+  \   >> foo = User.create!(:name => 'foo', :group_ids => ['1','2','3'])\r\n    =>
+  #<User:0x30e2c90...\t\t\r\n    >> puts foo.memberships.collect{|m| \"#{m.id} =>
+  #{m.group.name}\\n\" }      \r\n    1 => A\r\n    2 => B\r\n    3 => C\r\n\r\nAs
+  you can see, we specified 3 groups that we wanted this user to have membership in.
+  \ So there are 3 membership records created.  Now let's take this user out of group
+  B and put them in group D:\r\n\r\n    >> foo.update_attributes(:group_ids => ['1','3','4'])\r\n
+  \   => true\r\n    >> puts foo.memberships.collect{|m| \"#{m.id} => #{m.group.name}\\n\"
+  }\r\n    1 => A\r\n    3 => C\r\n    4 => D\r\n\r\nNotice how A and C still have
+  the same membership id.  This is important, because you don't want to just delete
+  all the memberships and create new ones, in case there are other attributes on the
+  membership.  Of course if there are other attributes, you probably won't be using
+  checkboxes to edit them, but you get the idea.  Let's just check a couple more things
+  to make sure this method works.  First, we want to make sure if we update the model
+  without specifying the group_ids that it remains unchanged:\r\n\r\n    >> foo.update_attributes(:name
+  => 'foo')\r\n    => true\r\n    >> puts foo.memberships.collect{|m| \"#{m.id} =>
+  #{m.group.name}\\n\" }\r\n    1 => A\r\n    3 => C\r\n    4 => D\r\n\r\nOk, good,
+  and last but not least, if we set group_ids to an empty array, then we want to make
+  sure all of the memberships are deleted:\r\n\r\n    >> foo.update_attributes(:group_ids
+  => [])\r\n    => true\r\n    >> puts foo.memberships.collect{|m| \"#{m.id} => #{m.group.name}\\n\"
+  }\r\n    => nil\r\n\r\nNow we just need to update the views in our scaffolding to
+  put checkboxes on the form, which I explained how to do in a previous article called
+  [HABTM Checkboxes][habtm].\r\n\r\n[rc47]: http://railscasts.com/episodes/47\r\n[habtm]:
+  http://paulbarry.com/articles/2007/08/03/habtm-checkboxes"
+format: Markdown
+guid: 4c471f06-6d2a-4b38-8e58-535483925bf7
+comments_count: 42

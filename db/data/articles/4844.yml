@@ -1,0 +1,106 @@
+---
+id: 4844
+slug: merb-and-data-mapper
+created_at: 2007-11-16 05:32:27.000000000 Z
+published_at: 2007-11-16 08:30:30.000000000 Z
+title: Merb and Data Mapper
+body: "A couple of new frameworks making waves in the Ruby community are [Merb][merb]
+  and [Data Mapper][dm].  Merb and Data Mapper seem to go together like peanut butter
+  and jelly in that Merb gives you pretty much everything Rails gives you except for
+  an ORM framework, and Data Mapper is an ORM framework like Active Record.  \r\n\r\nData
+  Mapper has a fantastic [Why Data Mapper?][dm-why] page.  I love this page because
+  it assumes you the reader are a Ruby on Rails web developer, so you know Active
+  Record, and you want to know why you'd want to use Data Mapper instead of Active
+  Record.  After reading that page, I was definitely intrigued.  It's amazing what
+  good documentation can do for the success of a framework.  Merb has [documentation][merb-docs]
+  on the differences between Merb and Rails as well.\r\n\r\nThe most obvious difference
+  that jumps out at you between Active Record and Data Mapper is that in the Data
+  Mapper, you define the properties (a.k.a fields, attributes, columns) of your models
+  _inside the model itself_, as opposed to Active Record, where you define no properties
+  in your model and reflect the properties from the columns in your database.  This
+  has long been a [point of contention][peak] for [many developers critical of Rails][king].
+  \r\n\r\nThe most obvious difference between Rails and Merb is that with Merb, controller
+  actions always return the data that is to be sent to the client.  A Merb action
+  can simply return a String, or it could return a File, and IO or even a Proc.  That
+  sounds cool.\r\n\r\nIt will be interesting to see if Merb/Data Mapper gain popularity
+  in the Ruby community.  Rails is a full-stack solution, where as Merb is a MVC framework
+  and leaves it up to you to choose an ORM framework and Data Mapper is just an ORM,
+  not tied to any one MVC framework.  This is more like the Java web framework world,
+  where you have MVC frameworks like Struts, Stripes, etc. and ORM frameworks like
+  Hibernate, and you glue them all together with something like Spring or Guice.  The
+  difference here is that you glue them together with Ruby, still no XML or Annotations
+  needed.\r\n\r\nOne thing I thought I liked about Rails is that it's the only web
+  framework people in the Ruby community use to build web apps.  In the Java world,
+  managers and business types would say \"We're a Java shop\" or \"We're building
+  our app in Java\", but the reality is that there are so many different frameworks
+  and saying you are building it in \"Java\" could mean one of a hundred different
+  things.  That might really mean \"JSF/Struts 2/Spring/Hibernate\" or \"Freemarker/Stripes/Guice/iBatis\".
+  \ [Matt Raible has basically built his entire career around analyzing all the different
+  options there are for Java web frameworks][raible], as well as developing a [meta-framework
+  to help tie them all together][appfuse].  Up until now, on the Ruby side of things,
+  if someone says we're building an app with Ruby on Rails, you know what you are
+  talking about.  \r\n\r\nBut it seems this could be the start of trend, where we
+  get more frameworks within the Ruby community, which is a good thing because you
+  can make choices, but on the other hand it could start to fragment the community.
+  \ Overall I think it's a win and the reality you come to realize after developing
+  with Rails for a year or so is that Ruby is really the thing that makes the whole
+  thing go and that knowledge is easily portable to other Ruby frameworks.  To make
+  it even easier, Merb and Data Mapper both have many of the same concepts as Rails,
+  so I can't imagine the learning curve of switching from one to the other to be particularly
+  steep.\r\n\r\nAnother crazy idea is that with specialized frameworks like Merb and
+  Data Mapper that are meant to be just one part of a stack rather than the full stack
+  like Rails, and JRuby becoming a legitimate option, you could start to see some
+  weird hybrid Ruby/Java apps, like Merb+Hibernate, or Stripes+Data Mapper.  I doubt
+  that would be common, but you could do it.\r\n\r\nSo talk is cheap, let's get something
+  going.  To install Merb and Data Mapper, I followed these [instructions for setting
+  up Merb and Data Mapper][setup].\r\n\r\n    sudo gem install merb --include-dependencies\r\n
+  \   sudo gem install datamapper\r\n    sudo gem install ruby2ruby --include-dependencies\r\n
+  \   sudo gem install merb_datamapper\r\n    cd /usr/local/lib/ruby/gems/1.8/gems/datamapper-0.2.3\r\n
+  \   sudo bash -c \"ARCHFLAGS='-arch i386' rake dm:install:mysql\"\r\n\r\nBelieve
+  it or not that actually worked for my on my Macbook.  That last step just outputs
+  the following if it works:\r\n\r\n    (in /usr/local/lib/ruby/gems/1.8/gems/datamapper-0.2.3)\r\n\r\nHere's
+  to hoping I can just do this at some point in the future:\r\n\r\n    sudo gem install
+  merb_datamapper_mysql --include-dependencies\r\n\r\nBut you can't for now.  So I
+  continued following the instructions and got this error when I tried to run rake:\r\n
+  \   \r\n    paulbarry@paulbarry: ~/projects/foo $ rake\r\n    (in /Users/paulbarry/projects/foo)\r\n
+  \   Using pure ruby JSON lib\r\n    rake aborted!\r\n    no such file to load --
+  json/pure\r\n    /Users/paulbarry/projects/foo/rakefile:10\r\n    (See full trace
+  by running task with --trace)\r\n\r\nWhy didn't `gem install merb --include-dependencies`
+  install json and json_pure for me if they are required dependencies?  Good question,
+  I don't know, but we'll just install them now to get things going:\r\n\r\n    sudo
+  gem install json json_pure\r\n\r\nSo after that, everything goes off without a hitch.
+  \ Picking up where the instructions left off, let's at least create a hello world
+  app.  Create a file in `app/controllers` called `hello_world.rb` with the following
+  contents:\r\n\r\n    class HelloWorld < Application\r\n      def index\r\n        \"<h1>Hello,
+  World!</h1>\"\r\n      end\r\n    end\r\n\r\nGo to [http://localhost:4000/hello_world](http://localhost:4000/hello_world)
+  and bask in the glory of your fist Merb web application.  This should seem familar,
+  except for the fact that you are naming it HelloWorld instead of HelloWorldController.
+  \ How do you avoid namespace collisions when you have a User controller and a User
+  model?  Good question, I'll let you know when I find the answer.\r\n\r\nSo as promised,
+  you can just return a string and that's when gets rendered in the browser.  But
+  you don't want to do that for real, so let's render a template.  Create a file `app/views/hello_world/index.html.erb`
+  and put the html in there.  Change the index method to just call render, like this:\r\n\r\n
+  \   class HelloWorld < Application\r\n      def index\r\n        render\r\n      end\r\n
+  \   end\r\n\r\nAnd there's our hello world with a template.  Ok, so what about data
+  mapper?  So step one is create file in `app/models` called `foo.rb` with the following
+  contents:\r\n\r\n    class Foo < DataMapper::Base\r\n      property :bar, :string\r\n
+  \     property :created_at, :datetime\r\n      property :updated_at, :datetime\r\n\r\n
+  \     validates_presence_of :bar\r\n      validates_length_of :bar, :minimum =>
+  1\r\n    end\r\n\r\nThis also should make sense if you are Rails developer.  The
+  only difference is that we are defining our properties in the class, rather than
+  in a migration.  To create our table and a test record, start the merb console,
+  which you do by executing `merb -i`, and then enter these commands:\r\n\r\n    irb(main):004:0>
+  DataMapper::Base.auto_migrate!\r\n    => [Foo]\r\n    irb(main):005:0> Foo.create(:bar
+  => 'Hello, World!')\r\n    => #<Foo:0x22c5964 @new_record=false, ...\r\n\r\nOk,
+  so them we modify our controller and view to use this:\r\n\r\n    class HelloWorld
+  < Application\r\n      def index\r\n        @foo = Foo.first\r\n        render\r\n
+  \     end\r\n    end\r\n\r\nand:\r\n\r\n    <h1><%= @foo.bar %></h1>\r\n\r\nAnd
+  there we go, Merb and Data Mapper working together as one.\r\n\r\n[merb]: http://www.merbivore.com\r\n[dm]:
+  http://www.datamapper.org\r\n[merb-docs]: http://merb.rubyforge.org/files/README.html\r\n[dm-why]:
+  http://www.datamapper.org/why.html\r\n[setup]: http://jit.nuance9.com/2007/11/merb-datamapper-getting-rolling.html\r\n[peak]:
+  http://www.theserverside.com/tt/articles/article.tss?l=RailsHibernate\r\n[king]:
+  http://in.relation.to/Bloggers/MoreXMLThanCode\r\n[raible]: http://raibledesigns.com/rd/entry/comparing_web_frameworks_time_for\r\n[appfuse]:
+  http://appfuse.org\r\n[haml]: http://haml.hamptoncatlin.com"
+format: Markdown
+guid: 2b1b3a24-5ccd-43f1-9fd9-34f3a573589c
+comments_count: 9

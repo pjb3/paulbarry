@@ -1,0 +1,42 @@
+---
+id: 4955
+slug: guarding-logger-statements-in-ruby
+created_at: 2009-12-09 03:23:13.000000000 Z
+published_at: 2009-12-09 03:40:33.000000000 Z
+title: Guarding Logger Statements In Ruby
+body: "Whether you are a Java or a Ruby programmer, I'm sure you are familiar with
+  this idiom:\r\n\r\n    require 'logger'\r\n\r\n    log = Logger.new(STDOUT)\r\n
+  \   log.level = Logger::INFO\r\n\r\n    log.debug(\"hello\")\r\n    log.info(\"Done\")\r\n\r\nThat's
+  a simple logger where the log level is set to info, so the debug statement isn't
+  logged, but the info statement is.  One gotcha to look out for is something like
+  this:\r\n\r\n    require 'logger'\r\n\r\n    log = Logger.new(STDOUT)\r\n    log.level
+  = Logger::INFO\r\n\r\n    def fib(n)\r\n      if n < 1\r\n        0\r\n      elsif
+  n < 2\r\n        1\r\n      else\r\n        fib(n-1) + fib(n-2)\r\n      end\r\n
+  \   end\r\n\r\n    log.debug(\"fib(30) => #{fib(30)}\")\r\n    log.info(\"Done\")\r\n\r\nThis
+  also just logs \"Done\", but it take more than a few seconds to do so.  The reason
+  why is that even though you aren't logging the string that gets passed to `debug`,
+  the ruby interpreter still has to incur the cost of generating the string and passing
+  it to `debug`, where it gets ignored.\r\n\r\nIf you are an old Java programmer like
+  me, you'll probably know you can fix it like this:\r\n\r\n    require 'logger'\r\n\r\n
+  \   log = Logger.new(STDOUT)\r\n    log.level = Logger::INFO\r\n\r\n    def fib(n)\r\n
+  \     if n < 1\r\n        0\r\n      elsif n < 2\r\n        1\r\n      else\r\n
+  \       fib(n-1) + fib(n-2)\r\n      end\r\n    end\r\n\r\n    if log.debug?\r\n
+  \     log.debug(\"fib(30) => #{fib(30)}\")\r\n    end\r\n    log.info(\"Done\")\r\n\r\nThat
+  works, but it's not the Ruby way of doing it.  It's the idiomatic way of doing it
+  in Java, but that is due to the fact that Java doesn't have anonymous functions
+  nor a concise syntax for creating them.  The Ruby way of doing it is:\r\n\r\n    require
+  'logger'\r\n\r\n    log = Logger.new(STDOUT)\r\n    log.level = Logger::INFO\r\n\r\n
+  \   def fib(n)\r\n      if n < 1\r\n        0\r\n      elsif n < 2\r\n        1\r\n
+  \     else\r\n        fib(n-1) + fib(n-2)\r\n      end\r\n    end\r\n\r\n    log.debug
+  { \"fib(30) => #{fib(30)}\" }\r\n    log.info(\"Done\")\r\n\r\nThe difference between
+  this version and the original is that instead of passing a string to `debug`, we
+  pass a block that returns a string when it is called.  We don't have to wrap it
+  in an if statement because the block can be conditionally evaluated based on the
+  current log level.\r\n\r\nThe difference between the if statement and the block
+  is admittedly minor.  That being said, prefer the block syntax. :)  \r\n\r\nThe
+  important thing to remember is that if you have a debug statement that does any
+  kind of calculating, pass it a block instead of just a string to avoid the overhead
+  associated with unnecessarily building the string.\r\n\r\n\r\n"
+format: Markdown
+guid: 193792b9-9938-4c99-8c5a-ef84f7e48477
+comments_count: 1

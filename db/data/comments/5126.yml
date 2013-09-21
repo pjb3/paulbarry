@@ -1,0 +1,13 @@
+---
+id: 5126
+article_id: 4897
+created_at: 2008-04-29 13:29:40.000000000 Z
+url: http://avdi.org
+email: avdi@avdi.org
+author: Avdi
+ip: 216.230.102.194
+body: |-
+  Unless I am much mistaken, the hash rocket is neither deprecated nor un-idiomatic.  The new syntax is sugar for a very specific kind of hash: the kind where all the keys are Symbols.  Granted, this is a pretty common usage of Hash, especially in Rails.  But hashes are still going to support keys of arbitrary types, for which the hash rocket remains necessary.
+
+  And thank goodness. You don't appreciate arbitrarily-keyed hashes until you work in a language without them, like Perl (strings only) or Python (immutables only).  This is IMO one of the great unsung design choices of Ruby.
+guid: c31cbe49-014a-49b9-9618-500732c300ec

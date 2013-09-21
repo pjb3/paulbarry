@@ -1,0 +1,68 @@
+---
+id: 4949
+slug: infinite-recursion
+created_at: 2009-09-02 01:14:45.000000000 Z
+published_at: 2009-09-02 01:17:31.000000000 Z
+title: Infinite Recursion
+body: "A few days ago I posted an article on [Tail Call Optimization][tco].  One really
+  quick way to determine if any language/VM/interpreter performs Tail Call Optimization
+  (TCO) is to write a function that calls itself, in other words, creating an infinitely
+  recursive function.  If the function just runs forever and doesn't return, the interpreter
+  is doing TCO, otherwise you will get some sort of stack overflow error.  So I decided
+  to test a variety of languages to see what happens when you write an infinitely
+  recursive function.  First up is ruby:\r\n\r\n    def forever\r\n      forever\r\n
+  \   end\r\n\r\n    forever\r\n\r\nIt was no surprise to me that running this results
+  in this error:\r\n\r\n    run.rb:2:in `forever': stack level too deep (SystemStackError)\r\n
+  \   \tfrom run.rb:2:in `forever'\r\n    \tfrom run.rb:5\r\n\r\nRuby doesn't have
+  TCO, I knew that.  Next up, Python:\r\n\r\n    def forever(): forever()\r\n\r\n
+  \   forever()\r\n\r\nThis has a similar result, but the stack track is a little
+  more revealing:\r\n\r\n    Traceback (most recent call last):\r\n      File \"run.py\",
+  line 3, in <module>\r\n        forever()\r\n      File \"run.py\", line 1, in forever\r\n
+  \       def forever(): forever()\r\n      File \"run.py\", line 1, in forever\r\n
+  \       def forever(): forever()\r\n    ...\r\n      File \"run.py\", line 1, in
+  forever\r\n        def forever(): forever()\r\n      File \"run.py\", line 1, in
+  forever\r\n        def forever(): forever()\r\n    RuntimeError: maximum recursion
+  depth exceeded\r\n\r\nThis shows pretty clearly what is going on, the stack frames
+  are pilling up and eventually it gets to the point where the Python interpreter
+  says enough is enough.  Interestingly enough, this [mailing list thread][py-tco]
+  shows that it's completely feasible to add TCO to Python and Guido just doesn't
+  want to add it.\r\n\r\nJavaScript is no surprise either, but we can write our infinitely
+  recursive function with an interesting little twist:\r\n\r\n    (function(){ arguments.callee()
+  })()\r\n    \r\nYes that's right, it's an anonymous recursive function!  Running
+  this with SpiderMonkey results in `InternalError: too much recursion`.  So how about
+  Java:\r\n\r\n    class Run {\r\n      public static void main(String[] args) {\r\n
+  \       Run run = new Run();\r\n        run.forever();\r\n      }\r\n  \r\n      public
+  void forever() {\r\n        forever();\r\n      }\r\n    } \r\n\r\nThe stack trace
+  for this one looks a bit like the Python one, we see a stack frame for each iteration:\r\n\r\n
+  \   Exception in thread \"main\" java.lang.StackOverflowError\r\n    \tat Run.forever(Run.java:8)\r\n
+  \   \tat Run.forever(Run.java:8)\r\n    \tat Run.forever(Run.java:8)\r\n    \tat
+  Run.forever(Run.java:8)\r\n    ...\r\n\r\nSo that means no TCO on the JVM.  So Scala
+  doesn't have TCO, right?\r\n\r\n    def forever : Unit = forever\r\n\r\n    forever\r\n\r\nWrong.
+  \ This one runs forever.  Scala does TCO with some bytecode tricks which [Nick Wiedenbrueck
+  explains really well in this blog post][scala-tco].  \r\n\r\nClojure is a functional
+  Lisp saddled with the problem of no-TCO on the JVM, but it gets around it in a slightly
+  different way than Scala.  If you write a tail recursive function like this:\r\n\r\n
+  \   (defn forever [] (forever))\r\n\r\nYou will get a `java.lang.StackOverflowError`
+  just as you do in Java.  Instead, Clojure provides a language level feature to do
+  recursion:\r\n\r\n    (defn forever [] (recur))\r\n\r\nCalling `recur` in the function
+  makes it call the function again.  `recur` also checks that it is in the tail recursive
+  position, which ends up being an interesting feature because you have to explicitly
+  say \"I expect this to do TCO\".  In other languages that do it transparently, you
+  might think TCO is happening, but it might not be and you won't find out until you
+  get a stack overflow error.  Also, this construct allows us to have recursive anonymous
+  functions:\r\n\r\n    ((fn [] (recur)))\r\n\r\nErlang, being a function language,
+  has TCO as well:\r\n\r\n    -module(run).\r\n\r\n    -compile(export_all).\r\n\r\n
+  \   forever() ->\r\n      forever().\r\n\r\nNow one thing all of these functional
+  languages that have TCO; Scala, Clojure and Erlang, all have in common is that while
+  the infinitely recursive function runs, it essentially does nothing, but it will
+  peg your CPU utilization to nearly 100%.  This next language, Haskell, being the
+  mother of all functional langauges, of course has TCO.  Here's the function:\r\n\r\n
+  \   forever = forever\r\n    \r\nYes, that's a function.  And if you call it with
+  `forever`, it just sits there and runs forever.  But here's the crazy thing, it
+  uses no CPU.  My guess is that it has to do with lazy evaluation, but I'm not sure.
+  \ Any ideas?\r\n\r\n[tco]: http://paulbarry.com/articles/2009/08/30/tail-call-optimization\r\n[py-tco]:
+  http://mail.python.org/pipermail/python-dev/2004-July/046171.html\r\n[scala-tco]:
+  http://stronglytypedblog.blogspot.com/2009/08/scala-tail-recursion.html"
+format: Markdown
+guid: 4e543642-b8d8-4147-a713-a89fa110d181
+comments_count: 10

@@ -1,0 +1,81 @@
+---
+id: 4953
+slug: how-to-write-a-spelling-corrector-in-ruby
+created_at: 2009-11-05 02:06:53.000000000 Z
+published_at: 2009-11-05 02:06:58.000000000 Z
+title: How To Write A Spelling Corrector In Ruby
+body: "If you haven't seen it before, Peter Norvig has a [spelling corrector][norvig]
+  that is written\r\nin just 21 lines of Python code (not counting blank lines and
+  the import).  He also lists a few other implementations in other languages,\r\ninclude
+  [one in Ruby][adkins].  The Ruby one was listed as 34 lines.  I was surprised that\r\nit
+  was that many lines more in Ruby, so I wanted to give it a try.  I didn't look at
+  the \r\nRuby solution first and here's what I came up with:\r\n\r\n    require 'set'\r\n\r\n
+  \   def words(text)\r\n      text.downcase.scan /[a-z]+/ \r\n    end\r\n\r\n    def
+  train(features)\r\n      features.inject(Hash.new(1)){|model, f| model[f] += 1;
+  model }\r\n    end\r\n\r\n    NWORDS = train(words(File.open('big.txt').read))\r\n\r\n
+  \   ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split //\r\n\r\n    def edits1(word)\r\n
+  \     s = (0..word.size).map{|i| [word[0,i], word[i,word.size]]}\r\n      deletes
+  \   = s.map{|a,b| !b.empty? ? a + b[1..-1] : nil}.compact\r\n      transposes =
+  s.map{|a,b| b.size > 1 ? a + b[1].chr + b[0].chr + b[2..-1] : nil}.compact\r\n      replaces
+  \  = s.map{|a,b| !b.empty? ? ALPHABET.map{|c| a + c + b[1..-1]} : nil}.flatten.compact\r\n
+  \     inserts    = s.map{|a,b| ALPHABET.map{|c| a + c + b}}.flatten\r\n      Set.new(deletes
+  + transposes + replaces + inserts)\r\n    end\r\n\r\n    def known_edits2(word)\r\n
+  \     s = edits1(word).map do |e1| \r\n        edits1(e1).map{|e2| NWORDS.include?(e2)
+  ? e2 : nil}.compact\r\n      end.flatten\r\n      s.empty? ? nil : Set.new(s)\r\n
+  \   end\r\n\r\n    def known(words)\r\n      s = Set.new(words.find{|w| NWORDS.include?(w)})\r\n
+  \     s.empty? ? nil : s\r\n    end\r\n\r\n    def correct(word)\r\n      candidates
+  = known([word]) || known(edits1(word)) || known_edits2(word) || [word]\r\n      candidates.max{|a,b|
+  NWORDS[a] <=> NWORDS[b] }\r\n    end\r\n\r\nTo run this, download the data file,
+  put the code in a file called `spelling.rb`, then start up IRB:\r\n\r\n    $ wget
+  http://norvig.com/big.txt\r\n    $ irb -r spelling -f --simple-prompt\r\n    >>
+  correct \"speling\"\r\n    => \"spelling\"\r\n    >> correct \"korrecter\"\r\n    =>
+  \"corrected\"\r\n\r\nThis one weighs in at 30 lines.  I tried to do this as close
+  to the Python implementation\r\nas possible.  I also tried to use idiomatic Ruby.
+  \ You could shave the number of lines down\r\nbelow 21, but it wouldn't meet any
+  reasonable Ruby style guidelines.  I'm still probably \r\ncheating a little as a
+  few of those lines are approaching 100 characters, but it's at least\r\nreasonable,
+  in my opinion.\r\nHere are some things I noticed that caused the Ruby version to
+  be longer or less clear:\r\n\r\n1.  end vs. significant indentation\r\n\r\n    6
+  of the lines are just an end statement.  Python uses indentation to end methods,
+  \r\n    so the end statements aren't needed in Python.  This adds more lines, but
+  has trade offs.\r\n    I actually really like the idea of significant indentation,
+  it's one of the reasons\r\n    that I'm such a big fan of [Haml][haml].  But it
+  falls down in certain places.\r\n    For example, Ruby has [Embedded Ruby][erb],
+  which looks similar to [JSP][jsp] or [PHP][php], but it's actually trivial to implement
+  the basic cases.  It truly is embedded Ruby, because the code between the `<% %>`
+  and `<%= %>` tags is just ruby code.  You commonly see things like this:\r\n    \r\n
+  \       <% if logged_in? %>\r\n          Welcome, <%= current_user.login %>\r\n
+  \       <% else %>\r\n          Howdy Stranger!\r\n        <% end >\r\n    \r\n
+  \   You can't do this in Python because of the lack of the end statement.  This
+  is why\r\n    I'm surprised Haml was invented in Ruby and not Python.  In Python,
+  it fits with the\r\n    language and is actually necessary, whereas in Ruby, significant
+  indentation isn't\r\n    part of the language and ERB is actually pretty good.  There
+  is a [Python port of HAML][pyhaml],\r\n    but I'm not sure how well that works
+  or how widely it is used in the Python community.\r\n    \r\n2.  List Comprehensions
+  vs. Blocks\r\n\r\n    Python and Ruby, compared to C, Java, etc., have very powerful,
+  concise syntax for\r\n    iterating through and transforming collections, but they
+  are very different.\r\n    Python uses list comprehensions and Ruby uses blocks.
+  \ As you can see above, \r\n    there are certain cases where list comprehensions
+  are very compact.  List comprehensions\r\n    can have a guard, which is a little
+  cleaner than the Ruby equivalent where you have to\r\n    return nil if the guard
+  doesn't match and then compact that result.  Also,\r\n    when you want to iterate
+  over two lists, you can do so with mutliple for statements,\r\n    whereas in Ruby
+  you do nested blocks and then flatten the result.\r\n    \r\n3.  Collection Slicing\r\n\r\n
+  \   Python has a little cleaner, more consistent syntax for breaking up collections\r\n
+  \   into sub collections.  It also treats strings as a collection of characters
+  more\r\n    consistently.\r\n    \r\n4.  Truthiness\r\n\r\n    In Python, many things
+  are considered false.  I'm not sure what the entire list is,\r\n    but it seems
+  to include empty collections (and therefore empty strings) as empty.\r\n    Since
+  Ruby only treats `nil` and `false` as false, we have to return nil instead\r\n    of
+  an empty set from the `known` and `known_edits2` methods, so that the series\r\n
+  \   of statements in the first line of the `correct` method will work correctly.\r\n\r\nIn
+  summary, in this case, the Python code is shorter and clearer, but it's pretty close.\r\nI'm
+  sure there are other code examples where the Ruby code would be a little shorter,\r\nbut
+  I do think in general, Ruby and Python are going to be pretty close in terms of
+  \r\ncode clarity and number of lines of code.\r\n\r\n[norvig]: http://norvig.com/spell-correct.html\r\n[adkins]:
+  http://lojic.com/blog/2008/09/04/how-to-write-a-spelling-corrector-in-ruby/\r\n[big]:
+  http://norvig.com/big.txt\r\n[haml]: http://haml-lang.com/\r\n[erb]: http://ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html\r\n[jsp]:
+  http://java.sun.com/products/jsp/\r\n[php]: http://php.net\r\n[pyhaml]: http://github.com/braddunbar/pyhaml"
+format: Markdown
+guid: d6ea3476-d4f5-47b8-b6a6-84bf45ffa850
+comments_count: 0

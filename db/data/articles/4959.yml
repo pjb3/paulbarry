@@ -1,0 +1,16 @@
+---
+id: 4959
+slug: node-js-talk-at-baltimore-javascript-users-group
+created_at: 2010-02-01 23:14:40.000000000 Z
+published_at: 2010-02-01 23:16:11.000000000 Z
+title: Node.js talk at Baltimore/JavaScript Users Group
+body: "Just a quick heads up that I'll be talking about [Node.js][node] at [this Wednesday's
+  Baltimore/JavaScript Users Group][talk] meeting.  This will be an introductory talk
+  but will quickly dive into some code examples with Q & A.  The talk, just as node.js
+  itself, centers around using Evented, Asynchronous I/O to get better scalability
+  out of network servers, so it should be of interest to anyone doing server-side
+  programming in any language, Java, Perl, Ruby, Python, etc.  See you there!\r\n\r\n[node]:
+  http://www.nodejs.org\r\n[talk]: http://www.meetup.com/baltimore-dc-javascript-users/calendar/12299143/"
+format: Markdown
+guid: 87199966-0645-48a5-86a3-6f5802fd3368
+comments_count: 0

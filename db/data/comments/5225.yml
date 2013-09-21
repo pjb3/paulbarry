@@ -1,0 +1,17 @@
+---
+id: 5225
+article_id: 4910
+created_at: 2008-11-28 10:50:09.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.245.161.252
+body: |
+  Frederic,
+
+  You can use Java with Rails via JRuby.  Can you use Stripes with Groovy or JRuby?  IIRC, Stripes uses annotations to define a lot of the metadata needed by the framework (which when using Java the language is probably the best way to do, rather than XML in Spring), but I don't think you can define a class in Groovy or JRuby and hang annotations off the class or methods in the class.  If I'm wrong about that, let me know, it would be cool to see examples of Stripes Action Beans written in Groovy or Ruby.
+
+  As for Clojure, since it is a Functional language rather than an Object-Oriented language, it just won't be idiomatic to use a framework like Stripes due to the fact that Clojure focuses on using pre-defined immutable data structures rather user-defined mutable classes.  In other words, you represent all your data in Clojure Maps, Vectors, Sets and Lists, rather than defining new Classes.  You also have functions in namespaces, rather than methods on objects.
+
+  If you are using the Java the language to build web applications, I agree, Stripes is a great choice, better than the other frameworks I tried, like Struts/WebWork or Spring MVC.  But if you are using a dynamic language such as Ruby, I think using a framework designed for that dynamic language makes the most sense.
+guid: 9540c976-51da-4a32-bd28-2b176a7e9428

@@ -1,0 +1,17 @@
+---
+id: 5324
+article_id: 4948
+created_at: 2009-09-01 10:26:52.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 151.196.62.163
+body: |-
+  @Joe,
+
+  Truth be told I got this from Koz:
+
+  https://rails.lighthouseapp.com/projects/8994/tickets/1274-patch-add-support-for-order-random-in-queries
+
+  He claims doing rand() in the order by is slower.
+guid: 20e93f66-9eb2-47f3-bc76-b10343757f9c

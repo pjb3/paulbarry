@@ -1,0 +1,50 @@
+---
+id: 4804
+slug: improving-productivity-instead-of-outsourcing
+created_at: 2007-02-21 22:18:44.000000000 Z
+published_at: 2007-02-21 22:53:07.000000000 Z
+title: Improving productivity instead of outsourcing
+body: "I just got back from the [Northern Virgina Ruby Users Group meeting][novarug]
+  meeting.  It was the first meeting I have been to.  I was expecting a dozen or so
+  people to be there, I would say there was more like 60 people.  [Chad Fowler][fowler]
+  was the speaker and he gave an excellent talk about writing quick and clean code
+  with Rails.  Really, it was just a collection of examples of how to write clean
+  code with Rails.  The main point of the talk is that Rails is built on Ruby and
+  that with Ruby you can do a lot of powerful things.  You should master the Ruby
+  language and then use the power of Ruby to the fullest to help you write better
+  Rails code.\r\n\r\nAnother point he made is that \"Java is a language that was created
+  for idiots\".  That is a funny and inflammatory statement, but what he means is
+  that Java doesn't allow you to do stupid things like re-define what the + operator
+  (or in the case of Ruby, method) does, because things like that are dangerous.  For
+  example, say you create this Ruby code and put it somewhere in your app so that
+  it executes before the rest of your code (like at the point your whole app is initialized,
+  for example):\r\n\r\n    class Fixnum\r\n        def + arg\r\n            self*arg\r\n
+  \       end\r\n    end\r\n\r\nSo then what happens when you run `1+2`?  You get
+  2.  Why?  Because you have redefined the + method (that's right, the name of the
+  method is \"+\") to now multiply the argument by self, rather than add it.  So that
+  is stupid, and idiots do stupid things.  So Java doesn't let you do that, because
+  it thinks you are an idiot and it's job is to protect you from doing stupid things.
+  \ Ruby, on the other hand, assumes you are not an idiot and you will not do stupid
+  things.  It allows you to do pretty much anything you want, because you probably
+  have a good reason for doing so, because, after all, you're not an idiot.  He did
+  go on to clarify that if you program in Java, that doesn't make you an idiot, just
+  a programmer who uses a language built for idiots.\r\n\r\nThere were lots of other
+  Ruby/Rails specific things that he points out, hopefully he'll put the slides online.
+  \ But one last thing that I found interesting that came up in the discussion was
+  that he thought Paul Graham once said \"Why would I hire offshore developers to
+  write code when I could just hire someone to do it in Rails?\".  The point being
+  that you can get more for your development money one of two ways:  Pay less per
+  hour or pay someone to accomplish the task in less hours.  $100/hour x 10 hours
+  = $10/hour + 100 hours, what's the difference.\r\n\r\nIt's an interesting point,
+  and I really like Paul Graham's writing, so I did some googling to find the original
+  article, which I think I found and it is titled [The Venture Capital Squeeze][graham].
+  \ I think the actual quote that he is referring to is:\r\n\r\n> I think a better
+  model for the future is David Heinemeier Hansson, who outsourced his development
+  to a more powerful language instead. A lot of well-known applications are now, like
+  BaseCamp, written by just one programmer. And one guy is more than 10x cheaper than
+  ten, because (a) he won't waste any time in meetings, and (b) since he's probably
+  a founder, he can pay himself nothing.\r\n\r\n[novarug]: http://novarug.org/articles/2007/01/24/february-meeting\r\n[fowler]:
+  http://chadfowler.com/\r\n[graham]: http://www.paulgraham.com/vcsqueeze.html"
+format: Markdown
+guid: f4559973-3114-44f8-a5ac-e7b2c7545009
+comments_count: 1

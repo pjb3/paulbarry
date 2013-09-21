@@ -1,0 +1,13 @@
+---
+id: 5384
+article_id: 4960
+created_at: 2010-03-06 11:40:22.000000000 Z
+url: ''
+email: matt.pardee@gmail.com
+author: Matt
+ip: 71.159.229.9
+body: Whoops, what I originally thought was a problem with make turned out to be a
+  non-issue -- I had to do some modifications to get make install work, but now everything
+  is running perfectly and I've got node.js interacting with my MySQL DB via DBSlayer.
+  This is amazing! Cheers~
+guid: 9324c5a0-3e40-4ffb-ba4a-e2e5f9471b14

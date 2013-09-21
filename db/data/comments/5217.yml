@@ -1,0 +1,12 @@
+---
+id: 5217
+article_id: 4913
+created_at: 2008-10-13 12:07:03.000000000 Z
+url: http://www.tagcrumbs.com
+email: sk@funkfeuer.net
+author: Sascha Konietzke
+ip: 84.160.188.245
+body: "Would there be any reason to not use this pattern for controllers as well?
+  \n\nMy application controller grew bigger and bigger. Could I just open ActionController::Base
+  and add the concerned_with functionality?"
+guid: e6a3195d-26b0-4064-b4fd-16069180cfd6

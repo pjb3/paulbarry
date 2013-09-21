@@ -1,0 +1,72 @@
+---
+id: 4802
+slug: learning-from-rails
+created_at: 2007-02-14 11:48:00.000000000 Z
+published_at: 2007-02-14 20:37:34.000000000 Z
+title: Learning from Rails
+body: "[I've said before][paulbarry1] that learning different programming frameworks
+  and languages makes you a better programmer.  For example, learning about Ruby on
+  Rails will make you a better Java programmer even if you don't ever build any apps
+  in Ruby on Rails.  Here's an example of that.\r\n\r\nIn a recent [post][paulbarry2],
+  I pointed out how Rails make querying across relationships easy with the use of
+  `:includes`.  This adds outer joins to the SQL query.  In Hibernate, this is referred
+  to as eager fetching.  \r\n\r\nIn Hibernate 3, by default, any associated collections
+  of an object are loaded lazily.  What this means is that by default, you just get
+  a proxy to a collection that contains no data.  Upon first access of the collection,
+  hibernate goes and gets the data from the database when you need it.  Rails also
+  work like this.\r\n\r\nIn some cases, this is a good thing, because you are fetching
+  only the data you need from the database, which leads to better performance.  There
+  are 2 cases where this becomes a problem:\r\n\r\nFirst, you don't make your first
+  call to the collection until after the Hibernate Session is closed.  This will cause
+  the dreaded [LazyInitializationException][hib-lie].  There are two ways to handle
+  this problem:  \r\n\r\na.  You can open a session at the very beginning of request
+  and then close it at the very end.  This is most often done with a Filter, commonly
+  known as the [OpenSessionInView][hib-osiv] pattern.  Incidentally, Rails doesn't
+  require this, it \"Just Works\". \r\n\r\nb.  You can eagerly load all the data that
+  you want.\r\n\r\nThe second problem caused when using lazy loading is the dreaded
+  N+1 Select problem.  Let's say you select all the posts from your blog, and each
+  post has a collection of comments associated to it.  So now that you have all your
+  posts, you want to print out each post and each comment for each post.  You'll basically
+  end up doing some kind of nested for loop, but each time you do a loop on the comments
+  of a post, your lazy loaded comments collection will have to get loaded from the
+  database in a separate query.  So the SQL queries executed during your request will
+  be:\r\n\r\n    SELECT * FROM posts\r\n    SELECT * FROM comments WHERE post_id =
+  1\r\n    SELECT * FROM comments WHERE post_id = 2\r\n    SELECT * FROM comments
+  WHERE post_id = 3\r\n    ...\r\n\r\nThis is where the N+1 name comes from.  You
+  execute 1 query for the main object (posts, in this case), and then N queries, where
+  N is the number of main objects.  Now imagine if each comments had a collection
+  of some kind associated to it.  Then this becomes (N*M)+1, and this starts to become
+  a real strain on your database, not to mention making your pages slow.\r\n\r\nSo,
+  in either case 1b or 2, you want to use SQL joins to get all the data at once.  When
+  doing this in Java, you usually have a Data Access Object (DAO), that is where your
+  Hibernate code is.  So `PostDAO.get(Long id)` gets the post with the given id, but
+  all collections are loaded lazily.  To have them loaded eagerly, you create another
+  method like `PostDAO.getWithComments(Long id)`, which, if you are using Hibernate's
+  Criteria API, you will end up having a line of code like `setFetchMode(\"comments\",
+  FetchMode.JOIN)`.  This is roughly equivalent to Rails' `:include` option in the
+  find method.\r\n\r\nThe difference is that the Rails find method is so simple and
+  expressive, you could feel confident using the `:include` in the controller layer.
+  \ In Java, to accomplish the same thing, you need to set the fetch mode on the criteria,
+  which means you would need to have access to the Hibernate Criteria object outside
+  of the DAO.  This would be considering exposing the details of the persistence layer
+  to the business layer, and therefore a bad design.\r\n\r\nSo that's why you create
+  those findWithComments methods.  But the problem is that some times you have an
+  object with several associations and there are various cases where you need certain
+  associations and not others.  Now you will have to have a lot of methods on your
+  DAO like findWithCommentsAndSomethingAndSomethingElse.  So when I was thinking about
+  this the though occurred to me wouldn't it be great if there was something like
+  includes in Java/Hibernate?\r\n\r\nWell, you can easily mimic something similar.
+  \ If you write a DAO method like `PostDAO.find(Collection<String> includes)`, you
+  can pass a collection of the names of the associations you want, and then inside
+  the DAO method do something like this:\r\n\r\n    DetachedCriteria c = DetachedCriteria.forClass(Post.class)\r\n
+  \   for(String include: includes) {\r\n        c.setFetchMode(include, FetchMode.JOIN);\r\n
+  \   }\r\n\r\nYou will get back an object will all of the associations that you need
+  loaded.  This isn't rocket science, but I'm just not sure that I would have thought
+  about doing this had I not seen the way it is implemented in Rails. \r\n\r\n[paulbarry1]:
+  http://paulbarry.com/articles/2006/03/10/ruby-is-just-for-generating-web-pages\r\n[paulbarry2]:
+  http://paulbarry.com/articles/2007/02/13/navigating-object-graphs-in-rails\r\n[hib-lie]:
+  http://www.hibernate.org/hib_docs/v3/api/org/hibernate/LazyInitializationException.html\r\n[hib-osiv]:
+  http://www.hibernate.org/43.html"
+format: Markdown
+guid: 6a5690f8-82a8-47b8-9d98-98d1219aaf2e
+comments_count: 8

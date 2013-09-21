@@ -1,0 +1,18 @@
+---
+id: 5052
+article_id: 4802
+created_at: 2007-04-13 11:15:19.000000000 Z
+url: 
+email: lm@combase.de
+author: Lutz Müller
+ip: 84.179.49.211
+body: |-
+  seeing a dao class interface that has methods like this, eg:
+
+  findWithComments(long objectId)
+  findWithCommentsAndFoo(long objectId)
+  findWithCommentsAndBar(long objectId)
+  findWithCommentsAndBarAndFoo(long objectId)
+
+  every programmer who is worth their money, no matter if he/she has ever used ActiveRecord, should see that this should be handled by just one method and the part behind comments should be passed in as a parameter. The code in the Method should look alike except for the propertyname which is passed to hibernate for eager fetching. so its obvious to single that out as a method-parameter, or you violate DRY principles.
+guid: 59c29294-ab34-428d-ad29-6e9145b9bfe0

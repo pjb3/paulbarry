@@ -1,0 +1,32 @@
+---
+id: 4884
+slug: merb-intro
+created_at: 2008-04-17 07:10:13.000000000 Z
+published_at: 2008-04-17 07:40:37.000000000 Z
+title: merb.intro
+body: "I gave a talk last night at the [NoVaRUG][novarug] on [Merb][merb].  I also
+  gave the same talk at [B'More on Rails][bmore] last week.  Thank You to everyone
+  who helped organize these meetings and to everyone that attended.  Here are my slides
+  from the presentation:\r\n\r\n<div style=\"width:425px;text-align:left\" id=\"__ss_357773\"><object
+  style=\"margin:0px\" width=\"425\" height=\"355\"><param name=\"movie\" value=\"http://static.slideshare.net/swf/ssplayer2.swf?doc=merbpresentation-1208403595811156-9\"/><param
+  name=\"allowFullScreen\" value=\"true\"/><param name=\"allowScriptAccess\" value=\"always\"/><embed
+  src=\"http://static.slideshare.net/swf/ssplayer2.swf?doc=merbpresentation-1208403595811156-9\"
+  type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" allowfullscreen=\"true\"
+  width=\"425\" height=\"355\"></embed></object><div style=\"font-size:11px;font-family:tahoma,arial;height:26px;padding-top:2px;\"><a
+  href=\"http://www.slideshare.net/?src=embed\"><img src=\"http://static.slideshare.net/swf/logo_embd.png\"
+  style=\"border:0px none;margin-bottom:-5px\" alt=\"SlideShare\"/></a> | <a href=\"http://www.slideshare.net/pjb3/merbintro?src=embed\"
+  title=\"View 'merb.intro' on SlideShare\">View</a> | <a href=\"http://www.slideshare.net/upload?src=embed\">Upload
+  your own</a></div></div>\r\n\r\nThe 16th slide titled \"Demo\" has a video embed
+  in it that didn't translate over to SlideShare, so [here it is][demo].  [This video
+  demonstrates using the `render_deferred` method of Merb to return a Proc to mongrel][demo]
+  which releases the lock on the Merb app and allows other requests to be processed
+  by Merb.  I added this one in at the last minute, it wasn't included in the Baltimore
+  talk.  I have to give credit and save that this was inspired by [George Malamidis'
+  recent blog post][nutrun].\r\n\r\n**UPDATE:** The video of this presentation is
+  available [here][vid]\r\n\r\n[novarug]: http://novarug.org/articles/2008/04/10/april-meeting\r\n[merb]:
+  http://merbivore.com\r\n[bmore]: http://ruby.meetup.com/85/calendar/7514062/\r\n[demo]:
+  http://blip.tv/file/get/Pjb3-merbintroNonBlockingControllerDemo981.mov\r\n[nutrun]:
+  http://nutrun.com/weblog/non-blocking-merb-actions/\r\n[vid]: http://paulbarry.com/articles/2008/04/17/merb-intro-video"
+format: Markdown
+guid: 81f5cf3f-796e-44bb-8723-2c200d794117
+comments_count: 1

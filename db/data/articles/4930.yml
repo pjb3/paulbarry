@@ -1,0 +1,16 @@
+---
+id: 4930
+slug: talk-on-browsercms-from-acts-as-conference
+created_at: 2009-02-13 13:49:03.000000000 Z
+published_at: 2009-02-13 13:49:13.000000000 Z
+title: Talk on BrowserCMS from Acts As Conference
+body: "Last weekend, [Patrick Peak][pat] and I had the opportunity to speak at [Acts
+  As Conference][aac] on our experience moving [BrowserCMS][cms] from [Java][java]
+  to [Rails][rails].  The talk was recorded by [Confreaks][cf], check it out!\r\n\r\n<embed
+  src='http://aac2009.confreaks.com/player.swf' height='380' width='640' allowscriptaccess='always'
+  allowfullscreen='true' flashvars='image=images%2F07-feb-2009-10-00-browsercms-patrick-peak-and-paul-barry-preview.jpg&file=http%3A%2F%2Faac2009.confreaks.com%2Fvideos%2F07-feb-2009-10-00-browsercms-patrick-peak-and-paul-barry-small.mp4&plugins=viral-1'/>\r\n\r\n[aac]:
+  http://www.actsasconference.com\r\n[pat]: http://twitter.com/peakpg\r\n[cms]: http://browsercms.org\r\n[java]:
+  http://java.sun.com\r\n[rails]: http://rubyonrails.org\r\n[cf]: http://aac2009.confreaks.com"
+format: Markdown
+guid: 7b40e622-433c-4ce2-b428-8594e3618f6f
+comments_count: 1

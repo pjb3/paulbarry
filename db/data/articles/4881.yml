@@ -1,0 +1,24 @@
+---
+id: 4881
+slug: do-we-really-need-multi-threaded-web-applications
+created_at: 2008-04-16 23:32:15.000000000 Z
+published_at: 2008-04-17 21:14:20.000000000 Z
+title: Do we really need multi-threaded web applications?
+body: "I've given a few presentations on Merb now and had the chance to discuss Merb
+  with several different people.  One point people have mentioned is that Rails is
+  single threaded by design, not as a limitation as I've sort of implied in the talks
+  I've given.  Rails being single threaded relieves the developer from thinking about
+  threading issues, which can cause bugs that hard to track down and test for.  Sure,
+  this makes it theoretically less efficient than a multi-threaded app, but that may
+  be a small price to pay.\r\n\r\nOn the other hand, before doing Rails I was doing
+  multi-threaded web applications in Java/J2EE for years and I never ran into threading
+  issues.  Most MVC frameworks made it pretty easy to avoid those types of problems
+  and it was easy enough to just make sure that any servlets that I would write wouldn't
+  use any shared data.  Threading issues were something you had to kind in the back
+  of your mind, but I never really had any problems.\r\n\r\nSo do we need multi-threaded
+  web applications or do the potential complexities introduced by threading outweigh
+  that benefit?  And how much resource utilization/performance benefit is there to
+  be gained by making our Ruby web apps multi-threaded?"
+format: Markdown
+guid: 2f988dad-4245-4d8c-a071-6d11769e1570
+comments_count: 1

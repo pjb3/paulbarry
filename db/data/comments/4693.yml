@@ -1,0 +1,16 @@
+---
+id: 4693
+article_id: 4793
+created_at: 2007-01-30 15:37:31.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 68.167.146.250
+body: "I feel that there are advantages and disadvantages of Java, Ruby and Python.
+  \ Ruby and Python can allow you to build a site by writing less code, but as the
+  site gets more complex, it can be handled.  Take a screen like this for example:\r\n\r\nhttp://stripes.mc4j.org/confluence/download/attachments/525/bulkedit2.png\r\n\r\nHow
+  would you build the controller for that in Rails or Django?  I think it would be
+  harder to do than the example code given on this page:\r\n\r\nhttp://stripes.mc4j.org/confluence/display/stripes/Sample+Application\r\n\r\nBut,
+  you may not have to do complex form handling like that, so then Rails or Django
+  might be a good choice."
+guid: 299c5c72-1258-4cff-881a-f783e06ef2f5

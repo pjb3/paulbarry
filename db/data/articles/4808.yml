@@ -1,0 +1,56 @@
+---
+id: 4808
+slug: java-string-concatenation
+created_at: 2007-03-15 13:36:41.000000000 Z
+published_at: 2007-03-15 13:38:29.000000000 Z
+title: Java String Concatenation
+body: "I was having a discussion with a co-worker today regarding String concatenation
+  in Java.  Somewhere along the line, I was told that the Java `+` operator, when
+  applied to [String][string], was slow when compared to using the append method of
+  [StringBuffer][sbuf] or [StringBuilder][sbuild].  Tuns out this is a myth, sort
+  of.  I wrote a class to test it.  This will first concatenate a String 100 times
+  using the `+` operator, and then build the same string using StringBuilder's append
+  method:\r\n\r\n    public class StringTest {\r\n\r\n        private int iterations;\r\n\r\n
+  \       public static void main(String[] args) {\r\n            StringTest test
+  = new StringTest(100);\r\n            for(int i = 0; i < 10; i++) {\r\n                test.concat();\r\n
+  \               test.append();\r\n            }\r\n        }\r\n\r\n        public
+  StringTest(int iterations) {\r\n            this.iterations = iterations;\r\n        }\r\n\r\n
+  \       private void concat() {\r\n            String foo = \"\";\r\n            long
+  start = System.currentTimeMillis();\r\n            for(int i = 0; i < iterations;
+  i++) {\r\n                foo += \"foo\";\r\n            }\r\n            System.out.println(\"String
+  concat took \"+(System.currentTimeMillis()-start)+\" ms\");\r\n        }\r\n\r\n
+  \       private void append() {\r\n            StringBuilder sb = new StringBuilder();\r\n
+  \           long start = System.currentTimeMillis();\r\n            for(int i =
+  0; i < iterations; i++) {\r\n                sb.append(\"foo\");\r\n            }\r\n
+  \           System.out.println(\"String append took \"+(System.currentTimeMillis()-start)+\"
+  ms\");\r\n        }\r\n\r\n    }\r\n\r\nThe results of this test are:\r\n\r\n    String
+  concat took 0 ms\r\n    String append took 0 ms\r\n    String concat took 0 ms\r\n
+  \   String append took 0 ms\r\n    String concat took 0 ms\r\n    String append
+  took 0 ms\r\n    String concat took 0 ms\r\n    String append took 0 ms\r\n    String
+  concat took 0 ms\r\n    String append took 0 ms\r\n    String concat took 0 ms\r\n
+  \   String append took 0 ms\r\n    String concat took 0 ms\r\n    String append
+  took 0 ms\r\n    String concat took 0 ms\r\n    String append took 0 ms\r\n    String
+  concat took 0 ms\r\n    String append took 0 ms\r\n    String concat took 0 ms\r\n
+  \   String append took 0 ms\r\n\r\nSo, when concatenating 100 strings, using the
+  `+` incurs no significant overhead.  But, if we run the same test concatenating
+  10000 String instead, these are the results:\r\n\r\n    String concat took 1812
+  ms\r\n    String append took 0 ms\r\n    String concat took 1766 ms\r\n    String
+  append took 0 ms\r\n    String concat took 1766 ms\r\n    String append took 0 ms\r\n
+  \   String concat took 1812 ms\r\n    String append took 0 ms\r\n    String concat
+  took 1750 ms\r\n    String append took 0 ms\r\n    String concat took 1828 ms\r\n
+  \   String append took 0 ms\r\n    String concat took 1750 ms\r\n    String append
+  took 0 ms\r\n    String concat took 1750 ms\r\n    String append took 0 ms\r\n    String
+  concat took 1782 ms\r\n    String append took 0 ms\r\n    String concat took 1750
+  ms\r\n    String append took 0 ms\r\n \r\nSo the Java String concatenation myth
+  is rooted in fact, but as stated on this [article on Java Practices][jp], you should
+  use the `+` operator whenever you are manually concatenating a bunch of Strings,
+  like `String foo = \"foo\"+x+\"bar\"+y+\"baz\"+z;`, because for that few of a number
+  of Strings, the code is cleaner using the `+` operator and the overhead of the operator
+  is insignificant.  But, if you are pulling data from an external source and building
+  a large String by concatenating many smaller Strings, the StringBuilder would be
+  better to use.\r\n\r\n[string]: http://java.sun.com/javase/6/docs/api/java/lang/String.html\r\n[sbuf]:
+  http://java.sun.com/javase/6/docs/api/java/lang/StringBuffer.html\r\n[sbuild]: http://java.sun.com/javase/6/docs/api/java/lang/StringBuilder.html\r\n[jp]:
+  http://www.javapractices.com/Topic4.cjp "
+format: Markdown
+guid: ab5afc4a-ae37-4adf-9edd-62f05a4ae84a
+comments_count: 3

@@ -1,0 +1,13 @@
+---
+id: 5338
+article_id: 4838
+created_at: 2009-09-12 13:38:48.000000000 Z
+url: 
+email: patrickberkeley@gmail.com
+author: Patrick Berkeley
+ip: 75.182.125.163
+body: |
+  As of Rails 2.3 (?) you can just put this in your user model:
+
+    accepts_nested_attributes_for :groups, :reject_if => :all_blank, :allow_destroy => true
+guid: 126f9dae-7768-444c-980b-affd97121ba2

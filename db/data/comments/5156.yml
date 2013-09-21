@@ -1,0 +1,23 @@
+---
+id: 5156
+article_id: 4808
+created_at: 2008-07-07 10:20:17.000000000 Z
+url: 
+email: arjenhoogesteger@hotmail.com
+author: Arjen
+ip: 86.87.181.163
+body: "Hi,\r\n\r\nWhile I was working on a Base64 encode/decoding class I basically
+  came across a speed problem. I finally found out that the += operator on a String
+  object is very slow.\r\n\r\nI found myself a really fast work around though. Instead
+  of adding one character at a time, I made sure I had a empty char[] the size the
+  String had to be too. Instead of adding a character to the string each time I needed
+  to I added the character to the char[].\r\n\r\nFinally all you have to do is create
+  a new String object using the filled char[]. So new String(arrayOfCharacters[])
+  for example. I know this is a response too an old post, but came across it on the
+  internet and just really felt the urge to share my solution with you. \r\n\r\nThe
+  same operation with += operator on a String now takes me several ms, most of the
+  times somewhere between 0 and 300 ms depending on the size of the operation while
+  the += operator ranged from somewhere between the 0 ms and several minutes!\r\n\r\nHope
+  my response was usefull in a way. If any questions, or examples are wanted I'd be
+  happy to share them with you as well.\r\n\r\nGreetings,"
+guid: cb6e1c73-3339-4095-8e76-1d53159d3cac

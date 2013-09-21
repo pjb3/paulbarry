@@ -1,0 +1,15 @@
+---
+id: 5253
+article_id: 4925
+created_at: 2008-12-29 19:53:41.000000000 Z
+url: 
+email: kevin.marsh@gmail.com
+author: Kevin Marsh
+ip: 72.240.129.209
+body: |-
+  Gotta love git. Sometimes I even do those first steps as a oneliner from my local shell:
+
+    ssh remotehost.com "mkdir -p ~/git/project_name.git && cd ~/git/project_name.git && git --bare init"
+
+  git is so easy to start with, I almost always `git init` after I make a new folder for code, even if its for some quick experimentation. Helpful when those things grow.
+guid: 5fc5a84a-ffcf-4ed2-9bb2-7399a2626954

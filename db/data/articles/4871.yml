@@ -1,0 +1,13 @@
+---
+id: 4871
+slug: one-thing-about-lisp-that-is-better-than-other-languages
+created_at: 2008-03-18 15:50:09.000000000 Z
+published_at: 2008-03-18 15:50:20.000000000 Z
+title: One Thing About Lisp That Is Better Than Other Languages
+body: "Ruby:\r\n\r\n    >> 850/550\r\n    => 1\r\n\r\nPython:\r\n\r\n    >>> 850/550\r\n
+  \   1\r\n\r\nJavaScript:\r\n\r\n    >>> 850/550\r\n    1.5454545454545454\r\n\r\nPerl:\r\n\r\n
+  \   perl -e 'print 850/550'\r\n    1.54545454545455p\r\n\r\nLisp:\r\n\r\n    [1]>
+  (/ 850 550)\r\n    17/11"
+format: Markdown
+guid: 021ffa4a-c497-4673-aa63-67bda1f72998
+comments_count: 0

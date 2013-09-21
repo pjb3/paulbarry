@@ -1,0 +1,16 @@
+---
+id: 5240
+article_id: 4922
+created_at: 2008-12-20 10:37:39.000000000 Z
+url: 
+email: 
+author: Mark P
+ip: 173.2.38.216
+body: The point of that excerpt from the book is not that all testing goes away.  Sure,
+  refactoring may introduce tons of logic bugs, but in a statically typed language,
+  most, if not all, type bugs will not exist at runtime.  And refactoring many times
+  includes changing the type of an interface parameter.  I think dynamically typed
+  lanugages have there place, I'm a big fan of clojure.   I just don't see how large  projects
+  with lots of collaborators, could be practical without static typing. I think smaller
+  projects with small teams are where dynamic languages make sense.
+guid: 7e9ea77b-3f48-45c9-a075-8f12c74edbf2

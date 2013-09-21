@@ -1,0 +1,17 @@
+---
+id: 5177
+article_id: 4913
+created_at: 2008-08-31 13:13:17.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 141.157.119.50
+body: |-
+  @bryanl
+
+  It's a little cleaner than a module because by opening up the actual user class, you can use exact same syntax.  If you use a module, you have to sort of re-organize things a bit:
+
+  http://gist.github.com/8199
+
+  Since there's no reason to re-use this code, there no need for it to be a module.  If there are methods you plan to share across models, then making it a module makes more sense.
+guid: c8c3ca79-4ab1-4927-a6d1-18e91213d182

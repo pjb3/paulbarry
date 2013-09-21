@@ -1,0 +1,47 @@
+---
+id: 4861
+slug: cheaters-always-win
+created_at: 2008-02-08 15:57:41.000000000 Z
+published_at: 2008-02-08 16:30:17.000000000 Z
+title: Cheaters always win
+body: "I heard about it a while ago, but for some reason I never bothered to install
+  it, until today.  [cheat][cheat] is a cool little command-line utility for printing
+  out specific cheat sheets.  For example, `cheat strftime` gives you:\r\n\r\n    %a
+  - The abbreviated weekday name (``Sun'')\r\n    %A - The  full  weekday  name (``Sunday'')\r\n
+  \   %b - The abbreviated month name (``Jan'')\r\n    %B - The  full  month  name
+  (``January'')\r\n    %c - The preferred local date and time representation\r\n    %d
+  - Day of the month (01..31)\r\n    %e - Day of the month without leading zeroes
+  (1..31)\r\n    %H - Hour of the day, 24-hour clock (00..23)\r\n    %I - Hour of
+  the day, 12-hour clock (01..12)\r\n    %j - Day of the year (001..366)\r\n    %k
+  - Hour of the day, 24-hour clock w/o leading zeroes ( 0..23)\r\n    %l - Hour of
+  the day, 12-hour clock w/o leading zeroes ( 1..12)\r\n    %m - Month of the year
+  (01..12)\r\n    %M - Minute of the hour (00..59)\r\n    %p - Meridian indicator
+  (``AM''  or  ``PM'')\r\n    %P - Meridian indicator (``am''  or  ``pm'')\r\n    %S
+  - Second of the minute (00..60)\r\n    %U - Week  number  of the current year,\r\n
+  \           starting with the first Sunday as the first\r\n            day of the
+  first week (00..53)\r\n    %W - Week  number  of the current year,\r\n            starting
+  with the first Monday as the first\r\n            day of the first week (00..53)\r\n
+  \   %w - Day of the week (Sunday is 0, 0..6)\r\n    %x - Preferred representation
+  for the date alone, no time\r\n    %X - Preferred representation for the time alone,
+  no date\r\n    %y - Year without a century (00..99)\r\n    %Y - Year with century\r\n
+  \   %Z - Time zone name\r\n    %% - Literal ``%'' character\r\n  \r\n     t = Time.now\r\n
+  \    t.strftime(\"Printed on %m/%d/%Y\")   #=> \"Printed on 04/09/2003\"\r\n     t.strftime(\"at
+  %I:%M%p\")            #=> \"at 08:56AM\"\r\n\r\nOne thing I noticed the `%k` and
+  `%l` options which do work with ruby 1.8.6, but they aren't included in the [RDoc
+  for Time][time], so I didn't know about them until I saw this.  It does work:\r\n\r\n
+  \   >> Time.now.strftime \"The time is %l:%M %p\"\r\n    => \"The time is  4:04
+  PM\"\r\n\r\nUnfortunately as you can see, it does add in the extra space.  Also,
+  `%P` as mentioned in the cheat sheet above doesn't work:\r\n\r\n    >> Time.now.strftime
+  \"The time is %l:%M %P\"  \r\n    => \"The time is  4:05 P\"\r\n\r\nThis is closer
+  to [Java's time formatting][jtime], which I still think it better than Ruby's.  Here's
+  an example using Groovy:\r\n\r\n    import java.text.SimpleDateFormat\r\n    println
+  \"The current time is ${new SimpleDateFormat(\"h:mm\").format(new Date(System.currentTimeMillis()))}\"\r\n
+  \   println \"The current time is ${new SimpleDateFormat(\"hh:mm\").format(new Date(System.currentTimeMillis()))}\"\r\n\r\nThe
+  point being that you control how many characters you want to print out by repeating
+  the characters.  I think SimpleDateFormat is better than strftime, it would be nice
+  to see that ported to Ruby:\r\n\r\n    >> Time.now.format \"EEEE, MMMM d yyyy, h:mm
+  aa zzz\"\r\n    => \"Friday, February 8 2008, 4:27 PM EST\"\r\n\r\n[cheat]: http://cheat.errtheblog.com/\r\n[time]:
+  http://ruby-doc.org/core/classes/Time.html#M000297\r\n[jtime]: http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html"
+format: Markdown
+guid: 832d810f-6d56-42dc-a2f8-fa6dee19da4d
+comments_count: 0

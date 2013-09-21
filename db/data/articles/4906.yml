@@ -1,0 +1,27 @@
+---
+id: 4906
+slug: getting-started-with-clojure-and-aquamacs
+created_at: 2008-07-02 17:00:47.000000000 Z
+published_at: 2008-07-02 18:34:17.000000000 Z
+title: Getting Started with Clojure and Aquamacs
+body: "I just posted a short screencast on how to get started with [Clojure][clj]
+  and [Aquamacs][am]:\r\n\r\n<object type=\"application/x-shockwave-flash\" data=\"http://blip.tv/scripts/flash/showplayer.swf?enablejs=true&feedurl=http%3A%2F%2Fpaulbarry%2Eblip%2Etv%2Frss&file=http%3A%2F%2Fblip%2Etv%2Frss%2Fflash%2F1051238%3Freferrer%3Dblip%2Etv%26source%3D1&showplayerpath=http%3A%2F%2Fblip%2Etv%2Fscripts%2Fflash%2Fshowplayer%2Eswf\"
+  width=\"640\" height=\"510\" allowfullscreen=\"true\" id=\"showplayer\"><param name=\"movie\"
+  value=\"http://blip.tv/scripts/flash/showplayer.swf?enablejs=true&feedurl=http%3A%2F%2Fpaulbarry%2Eblip%2Etv%2Frss&file=http%3A%2F%2Fblip%2Etv%2Frss%2Fflash%2F1051238%3Freferrer%3Dblip%2Etv%26source%3D1&showplayerpath=http%3A%2F%2Fblip%2Etv%2Fscripts%2Fflash%2Fshowplayer%2Eswf\"
+  /><param name=\"quality\" value=\"best\" /><embed src=\"http://blip.tv/scripts/flash/showplayer.swf?enablejs=true&feedurl=http%3A%2F%2Fpaulbarry%2Eblip%2Etv%2Frss&file=http%3A%2F%2Fblip%2Etv%2Frss%2Fflash%2F1051238%3Freferrer%3Dblip%2Etv%26source%3D1&showplayerpath=http%3A%2F%2Fblip%2Etv%2Fscripts%2Fflash%2Fshowplayer%2Eswf\"
+  quality=\"best\" width=\"640\" height=\"510\" name=\"showplayer\" type=\"application/x-shockwave-flash\"></embed></object>\r\n\r\nOne
+  of the fun features of Clojure, or any Lisp I suppose, is the interactive development
+  workflow.  As you can see in the video, you write code by creating expressions that
+  define functions and then you evaluate those functions in the REPL (Read-Eval-Print-Loop).
+  \ You can redefine a function at any time.  You can imagine that if you had a production
+  system running, you could connect to it via a REPL or something like that, evaluate
+  some expressions that redefine functions that contain bugs, and the system would
+  be fixed with no downtime.\r\n\r\nHere's the contents of the `~/bin/clj` script:\r\n\r\n
+  \   #!/bin/bash \r\n\r\n    SRC_DIR=/Users/pbarry/src\r\n\r\n    CLOJURE_JAR=$SRC_DIR/clojure/clojure.jar\r\n
+  \   JLINE_JAR=$SRC_DIR/jline/jline-0.9.94.jar\r\n\r\n    if [ -z \"$1\" ]; then
+  \r\n    \tjava -cp $JLINE_JAR:$CLOJURE_JAR jline.ConsoleRunner clojure.lang.Repl
+  \   \r\n    else\r\n    \tjava -cp $CLOJURE_JAR clojure.lang.Script $1\r\n    fi\r\n\r\n[clj]:
+  \ http://clojure.org\r\n[am]:  http://aquamacs.org "
+format: Markdown
+guid: 2f0f9a76-da0c-4f00-8590-cf53113ae747
+comments_count: 7

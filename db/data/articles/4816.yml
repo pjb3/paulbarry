@@ -1,0 +1,41 @@
+---
+id: 4816
+slug: habtm-checkboxes
+created_at: 2007-08-03 10:14:28.000000000 Z
+published_at: 2007-08-03 10:39:02.000000000 Z
+title: HABTM Checkboxes
+body: "When working with Rails, one of the [2 methods for dealing with many-to-many
+  relationships][rc47] is \"Has and Belongs to Many\" ([HABTM]).  Despite it's declining
+  popularity, I'm still under the belief that HABTM is still a viable choice if you
+  just have a simple assocation between 2 models.  Of course, that opinion is subject
+  to change.\r\n\r\nSo until we've figured out how to full get rid of HABTM with \"Has
+  Many Through\", we'll need to be creating interfaces to allow users to choose a
+  set of models to associate to another model.  One common way of doing this is using
+  checkboxes, as is so eloquently explained in [Railscast 17: HABTM Checkboxes][rc17].\r\n\r\nOne
+  gotcha that pops up when dealing with a HABTM, as is pointed out in the Railscast,
+  occurs when you are editing a model, and you want to remove all of the associations,
+  in other words, remove a certain product from all categories.  Because of the way
+  HTML and HTTP works, if you uncheck all of the check boxes, no parameters get sent
+  in the HTTP request at all.  The Rails model and controller interpret the lack of
+  parameters to mean \"you don't want to change that value at all\", so instead of
+  removing all the categories for the product, the set of categories a product is
+  in doesn't change at all.\r\n\r\nThe suggested work around for this in the Railscast
+  is to add this following code to you controller:\r\n\r\n    params[:product][:category_ids]
+  ||= []\r\n\r\nThis will initialize the category_ids array to an empty array if it
+  doesn't exist.  This works, but modifying the params in the controller could be
+  considered dubious.  A [co-worker of mine][kyle] pointed out an alternative to me
+  today that I think is cleaner.  Instead of putting the above code in your controller,
+  you could put this code in the view:\r\n \r\n    <!-- products/_form.rhtml -->\r\n
+  \   <%= hidden_field_tag \"product[category_ids][]\", \"\" %>\r\n    <% for category
+  in Category.find(:all) %>\r\n    <div>\r\n        <%= check_box_tag \"product[category_ids][]\",
+  \r\n            category.id, @product.categories.include?(category) %>\r\n        <%=
+  category.name %>\r\n    </div>\r\n    <% end %>\r\n\r\nThe 2nd line, the first one
+  after the comment, is the only one added.  That will send an empty string, which
+  Rails will add to the array in the params, but then will be happily ignored by the
+  model.  The result is that the category_ids array in the params will never be nil,
+  so no additional code is needed in the controller.\r\n\r\n[rc47]: http://railscasts.com/episodes/47\r\n[HABTM]:
+  http://api.rubyonrails.com/classes/ActiveRecord/Associations/ClassMethods.html#M000645\r\n[rc17]:
+  http://railscasts.com/episodes/17\r\n[kyle]: http://clocksarestupid.net/"
+format: Markdown
+guid: f70a8b24-8c00-4683-88cf-c1171c63ad0e
+comments_count: 3

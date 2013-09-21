@@ -1,0 +1,13 @@
+---
+id: 5284
+article_id: 2625
+created_at: 2009-05-04 09:19:54.000000000 Z
+url: 
+email: 
+author: DJ
+ip: 72.42.84.158
+body: |-
+  I still don't see the use for always using getters/setters.
+
+  In this instance you could have still had a public string range originally.  And only when you needed to change it's storage methodology would you need to remove the public var and implement getters/setters for the range parameter.  Would look identical to client code
+guid: d477e3ed-2656-4d37-bc2d-f4eddd231521

@@ -1,0 +1,19 @@
+---
+id: 5379
+article_id: 4947
+created_at: 2010-02-12 23:49:24.000000000 Z
+url: http://fullof.bs/
+email: stonecypher@gmail.com
+author: John Haugeland
+ip: 96.18.224.47
+body: |-
+  > So it turns out that you have to work really hard to get the Erlang VM to blow the stack on a non-tail-recursive call,
+
+  Not really.  Call this with a few hundred thousand as an argument.
+
+  -module(ram_killer).
+  -export([die_now/1]).
+
+  die_now(0) -> 1;
+  die_now(X) -> 2 * die_now(X-1).
+guid: 026d85c5-d32b-4bfd-8e1f-cd672f6aacef

@@ -1,0 +1,24 @@
+---
+id: 5276
+article_id: 4933
+created_at: 2009-04-01 09:09:11.000000000 Z
+url: 
+email: james.novak@gmail.com
+author: jim
+ip: 97.65.64.178
+body: "nice post... \r\n\r\ni would propose extending the BWIINIL mindset: assume
+  that all code you write will be used by someone else, as if all the stuff you write
+  is for a third party, or you are writing an SDK for someone else to use.\r\n\r\nit
+  will help you question the overall design, think in terms of reusability, and ensuring
+  that the public (and even private) interface for your methods is intuitive and well
+  thought out.  personally, it has really made me think in terms of smaller units
+  of work, making methods more generic (within reason), and avoiding dduplication/copy-paste
+  of code.\r\n\r\nif you assume that someone else will be using the code, it strokes
+  the ego a bit, too .... who wants to have someone look at their code and say, \"wtf
+  is this?!\"\r\n\r\ncoming from a product background, this added time to my initial
+  coding, but subsequent releases were easier as i had built up a \"toolbox\" of reusable
+  code/components.  my team was able to share a ton, saving a lot work between our
+  individual projects.  this applied many platforms, from javascript, to COM components,
+  to XSLTs. In the long run, it allowed us to focus on the new business logic, rather
+  than reworking the plumbing."
+guid: 73db4d70-6bf3-4cb1-9b5f-039515743186

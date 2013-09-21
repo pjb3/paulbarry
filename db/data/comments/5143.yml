@@ -1,0 +1,22 @@
+---
+id: 5143
+article_id: 4888
+created_at: 2008-05-25 23:52:42.000000000 Z
+url: http://aldoblog.com/
+email: blog-2008@aldoblog.com
+author: Alderete
+ip: 66.92.189.5
+body: "@James: For some import routines, a CSV import is going to be fine. But there
+  are lots of cases where a simple CSV import isn't going to work, and in those cases,
+  having a more controllable method for doing imports, like this one, will be quite
+  useful.\n\nFor example, I am importing a data file provided by a vendor. One line
+  per record is what they provide, but I need to break out the data into multiple
+  associated records. E.g., each line in the vendor-provided file is a catalog item,
+  but I need item, manufacturer, and individual sku (think variation or edition) records.
+  Worse, sometimes there is more than one manufacturer, all in the same field, separated
+  by \" and \" when there are two, and separated by \", \" when there are more than
+  two. \n\nIn other words, sometimes you get clean data that can cleanly import. Other
+  times, you gotta massage the data before you can create records for it. In that
+  case, this method is going to work, and the CSV libraries are going to cry like
+  babies."
+guid: 4b597c2d-531c-41d6-bcd8-1fdce145a230

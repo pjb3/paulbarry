@@ -1,0 +1,44 @@
+---
+id: 4846
+slug: lisp-my-personal-nbl
+created_at: 2007-11-23 18:36:55.000000000 Z
+published_at: 2007-11-23 18:39:21.000000000 Z
+title: LISP - My Personal NBL
+body: "Practical Common Ruby\r\n\r\nIn the not to distant past I considered myself
+  a \"Java\" programmer.  For my job, I programmed in Java, although I knew and used
+  some other languages to varying degrees, including Perl, PHP, Python and JavaScript.
+  \ I started to learn Ruby due to all the hype Rails was getting.  I really liked
+  Ruby and now program in Ruby almost exclusively, so I suppose I can drop the \"Java\"
+  from my informal title.  I don't think I'll ever call myself a \"Ruby\" programmer
+  because one of the many things I have learned while learning Ruby is that learning
+  different languages makes you a better programmer in general.  You learn new techniques
+  that you can apply to programming in almost any language.\r\n\r\nSo throughout my
+  career I expect to continue learn other languages.  A few that are on my horizon
+  for now are Smalltalk, C/C++, Haskell, Erlang and maybe dive a bit deeper into Python,
+  but for now those are all on the back burner.  A few years ago I was programming
+  in Java in my day job and learning Ruby in my spare time.  Now I'm programming in
+  Ruby in my day job and learning Lisp in my spare time.\r\n\r\nThere are several
+  reason for wanting to learn Lisp, but I would say Paul Graham is definitely at the
+  top of that list.  I read his book [Hackers and Painters][hp] and I suggest you
+  do as well.  The book is actually a collection of essays, most of which you can
+  read online:\r\n\r\n1. [Why Nerds Are Unpopular][hp1]\r\n2. [Hackers and Painter][hp2]\r\n3.
+  [What You Can't Say][hp3]\r\n4. Good Bad Attitude\r\n5. [The Other Road Ahead][hp5]\r\n6.
+  [How to Make Wealth][hp6]\r\n7. [Mind the Gap][hp7]\r\n8. [A Plan for Spam][hp8]\r\n9.
+  [Taste for Makers][hp9]\r\n10. Programming Languages Explained\r\n11. [The Hundred-Year
+  Language][hp11]\r\n12. [Beating the Averages][hp12]\r\n13. [Revenge of the Nerds][hp13]\r\n14.
+  The Dream Language\r\n15. [Design and Research][hp15]\r\n\r\nIt looks like there
+  are some good free online resources for learning Lisp.  I'm gonna start with [Practical
+  Common Lisp][pcl], and I've also been going through Structure and Interpretation
+  of Computer Programs.  It is a computer programming course that is available online.
+  \ The [book is here][sicpbook] and [videos of the lectures are here][sicpvid].\r\n\r\n[hp]:
+  http://www.amazon.com/gp/product/0596006624\r\n[hp1]: http://paulgraham.com/nerds.html\r\n[hp2]:
+  http://paulgraham.com/hp.html\r\n[hp3]: http://paulgraham.com/say.html\r\n[hp5]:
+  http://paulgraham.com/road.html\r\n[hp6]: http://paulgraham.com/wealth.html\r\n[hp7]:
+  http://paulgraham.com/gap.html\r\n[hp8]: http://paulgraham.com/spam.html\r\n[hp9]:
+  http://paulgraham.com/taste.html\r\n[hp11]: http://paulgraham.com/hundred.html\r\n[hp12]:
+  http://paulgraham.com/avg.html\r\n[hp13]: http://paulgraham.com/icad.html\r\n[hp15]:
+  http://paulgraham.com/desres.html\r\n[pcl]: http://www.gigamonkeys.com/book\r\n[sicpbook]:
+  http://mitpress.mit.edu/sicp/\r\n[sicpvid]: http://www.archive.org/details/mit_ocw_sicp"
+format: Markdown
+guid: 07a43bf7-e49b-4e53-a6ef-9f7232d3ad31
+comments_count: 0

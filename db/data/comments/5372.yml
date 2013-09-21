@@ -1,0 +1,15 @@
+---
+id: 5372
+article_id: 4906
+created_at: 2010-02-01 05:51:07.000000000 Z
+url: ''
+email: ''
+author: Adrien
+ip: 71.194.24.154
+body: "hi, so am trying to learn clojure and i've never used emacs before. \nI followed
+  the steps but i can get the REPL start in aquamacs.\n\nWhen i open the helloworld.clj
+  file i do see that aquamacs identifies the file as clojure file but C-c C-z does
+  not launch the REPL.\nIs there a step that i missed?\n\nthanks a lot for the help\n\n\nPS:\njust
+  to be sure i chmod clj to 777\nclojure clojure-mode and jlime where installed in
+  ~/src\n"
+guid: 4337fe5a-e5a7-4af6-a7ee-36d461bd4c15

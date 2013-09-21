@@ -1,0 +1,38 @@
+---
+id: 5153
+article_id: 4838
+created_at: 2008-07-01 12:32:50.000000000 Z
+url: 
+email: birgit@westhawk.co.uk
+author: Birgit Arkesteijn
+ip: 192.67.4.56
+body: |
+  Hi,
+
+  Great tutorial, thanks!
+
+  Is there anything in particular I need to do to make:
+  @user.groups.include?(group)
+  work?
+
+  My tables are calls
+  - area_codes
+  - markets
+  - area_codes_markets
+
+  Adding a new market with a few area_codes works.
+
+  Editing a market fails however. I get the error:
+
+  NameError in Markets#edit
+  Showing markets/_form.html.erb where line # raised:
+  uninitialized constant Market::AreaCodes
+
+  I traced it down to:
+  @market.area_codes.include?(area_code)
+  because if I replace that snippet by either 'true' or 'false' the edit page works.
+
+  Might there be a problem with the usage of an underscore ('_') in the table name (i.e. area_codes)?
+
+  Thanks for any help you can give me!
+guid: d7b56b97-18b7-4528-9316-efbb8e02e2e4

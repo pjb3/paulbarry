@@ -1,0 +1,27 @@
+---
+id: 6177
+article_id: 4966
+created_at: 2010-08-23 22:09:56.000000000 Z
+url: http://billmill.org
+email: bill.mill@gmail.com
+author: Bill Mill
+ip: 71.206.26.196
+body: |-
+  A super neat and useful bit of python is that you can use zip and the explode operator * to transpose a matrix:
+
+  >>> x = [[1,1],
+  ...      [0,1]]
+  >>> x
+  [[1, 1], [0, 1]]
+  >>> zip(*x)
+  [(1, 0), (1, 1)]
+
+  Though it's not useful in ruby, because [] has a transpose method, you can do the same thing:
+
+  >> x = [[1,1],[0,1]]
+  => [[1, 1], [0, 1]]
+  >> x[0].zip *x[1..-1]
+  => [[1, 0], [1, 1]]
+
+  I add it just to note an important use of zip()s in general.
+guid: 6f0bb497-e103-4706-86f8-12d84ed7696f

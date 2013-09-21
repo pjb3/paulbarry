@@ -1,0 +1,50 @@
+---
+id: 2731
+slug: httping-in-90-seconds
+created_at: 2006-11-11 12:43:38.000000000 Z
+published_at: 2006-11-11 12:43:38.000000000 Z
+title: HTTPing in 90 seconds
+body: "Yesterday while I was at work, eating my lunch, I wanted to read [Bill Simmons's][simmons]
+  latest article.  He posts an article every Friday with his NFL picks.  He's an absolutely
+  horrible prognosticator, but his commentary is interesting.\r\n\r\nFor whatever
+  reason, I find [ESPN's web site][espn] confusing to navigate.  I can never find
+  Simmons' latest articles.  I did notice that the format of his articles are always
+  `http://sports.espn.go.com/espn/page2/story?page=simmons/yymmdd`, with the last
+  yymmdd part replaced with the day of the article.  I guess he doesn't post more
+  than one article on the same day.  I guess ESPN doesn't know about [search engine
+  friendly URLs][evolt] yet either.  \r\n\r\nAnyway, the point was that I could tell
+  that the article I was looking for would be at [http://sports.espn.go.com/espn/page2/story?page=simmons/061110](http://sports.espn.go.com/espn/page2/story?page=simmons/061110)
+  as soon as it was ready.  But that URL was going to a 404 page because it wasn't
+  there yet.\r\n\r\nSo I thought, it would be nice if there was an HTTP ping program,
+  meaning a program that would act like regular ping, but do an HTTP get to a URL
+  and say what the HTTP status code is.  That way, I could just ping the site, and
+  as soon as it returns a 200 instead of 404, I would know the page was there.\r\n\r\nI
+  didn't find a program like that after 10 seconds of googling, so I thought this
+  wouldn't be too hard to write as a Ruby program.  I haven't programmed much at all
+  in Ruby and haven't programmed in Ruby recently at all, but  I love the concise
+  syntax of the language, because it is as close to pseudo-code as I imagine could
+  be possible.\r\n\r\nSo I googled for the Ruby API for handling HTTP requests, found
+  [net/http][] and I was ready to go.  I wrote this program in 90 seconds:\r\n\r\n
+  \   require 'net/http'\r\n\r\n    while true\r\n        startTime = Time.new\r\n
+  \       print startTime.strftime(\"%H:%M:%S\"), \" Checking... \"\r\n        res
+  = Net::HTTP.get_response(URI.parse(ARGV[0]))\r\n        print res.class, \" in \",
+  Time.new-startTime, \" sec\n\"\r\n        sleep 30\r\n    end\r\n\r\nIt worked on
+  the first try, besides a couple of formatting tweaks.  I ran it and here was the
+  output:\r\n\r\n    C:homepbarryprojectshttping>ruby httping.rb\r\n    http://sports.espn.go.com/espn/page2/story?page=simmons/061110\r\n
+  \   12:13:28 Checking... Net::HTTPFound in 1.406 sec\r\n    12:13:59 Checking...
+  Net::HTTPFound in 0.204 sec\r\n    12:14:29 Checking... Net::HTTPFound in 0.187
+  sec\r\n    12:14:59 Checking... Net::HTTPFound in 0.203 sec\r\n    12:15:30 Checking...
+  Net::HTTPGatewayTimeOut in 1.672 sec\r\n    12:16:01 Checking... Net::HTTPOK in
+  1.031 sec\r\n    12:16:32 Checking... Net::HTTPFound in 0.532 sec\r\n    12:17:03
+  Checking... Net::HTTPOK in 1.109 sec\r\n    12:17:34 Checking... Net::HTTPOK in
+  1.125 sec\r\n    12:18:05 Checking... Net::HTTPOK in 1.141 sec\r\n    httping.rb:8:in
+  `sleep': Interrupt\r\n            from httping.rb:8\r\n\r\nAs you can see, the article
+  was born at 12:16:01 (that's eastern time).  It probably wouldn't have taken me
+  much longer to write this in Java or Python, but Ruby's syntax just seems the most
+  elegant to me.  Now if someone would just port Stripes and Hibernate 3 to ruby,
+  we'd be all set. :)\r\n\r\n[simmons]: http://sports.espn.go.com/espn/page2/simmons/index\r\n\r\n[espn]:
+  http://www.espn.com\r\n\r\n[evolt]: http://www.evolt.org/article/Search_Engine_Friendly_URLs_with_PHP_and_Apache/17/15049/\r\n\r\n[net/http]:
+  http://www.ruby-doc.org/stdlib/libdoc/net/http/rdoc/index.html"
+format: Markdown
+guid: b45ec871-266b-41e0-b411-c3916621115d
+comments_count: 1

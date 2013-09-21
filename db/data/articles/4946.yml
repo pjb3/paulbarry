@@ -1,0 +1,122 @@
+---
+id: 4946
+slug: currying-and-partial-function-application
+created_at: 2009-08-21 09:20:05.000000000 Z
+published_at: 2009-08-21 09:26:36.000000000 Z
+title: Currying and Partial Function Application
+body: "Two related but different concepts that you will run into when doing functional
+  programming are [currying][currying] and partial function application.  People often
+  don't understand the different between the two, I didn't myself until recently,
+  but I think I've got a handle on in now.  Currying and partial function application
+  are two different things, but they go together like peanut butter and jelly. \r\n\r\nFirst,
+  let's start with currying.  Currying is the process of transforming a function that
+  takes n arguments into a function that takes n-1 arguments and returns a function.
+  \ What the hell does that mean?  Let's look at an example in everyone's favorite
+  functional programming language, JavaScript.\r\n\r\nHere's a simple function that
+  returns true if the first argument is greater than the second argument:\r\n\r\n
+  \   function gt(x,y) {\r\n      return x > y\r\n    }\r\n    \r\nPretty basic.  If
+  we call `gt(3,2)`, that will obviously return true.  If we call `gt(2)` though,
+  we get false, because it ends up evaluating the expression `2 > undefined`, which
+  is false.  So our gt function is pretty useless unless you pass it two arguments.\r\n\r\nNow
+  what if we write it like this:\r\n\r\n    function gt(x,y) {\r\n      if(arguments.length
+  > 1) {\r\n        return x > y\r\n      } else {\r\n        return function(z) {\r\n
+  \         return z > x\r\n        }\r\n      }\r\n    }\r\n    \r\nNow there is
+  a lot of crazy lambda calculus going on here.  If you pass two arguments to gt,
+  it works as before, returns true if x is greater than y.  But if you pass just one
+  argument, this function creates a function that takes one argument and returns true
+  if the argument is greater than x.\r\n\r\nThis is an example of a closure.  We say
+  the function that is returned \"closes over\" x, which just means that the function
+  remembers what the value of x was at the time it was created, so when you call it
+  later, it still uses that value.\r\n\r\nSo if we call `gt(2)`, the result we get
+  back is a function that returns true if the argument to it is greater than 2.  This
+  is called partial function application.  \r\n\r\nIn functional programming, the
+  correct term is actually not \"call a function\", but \"apply a function to a set
+  arguments\".  That's why in JavaScript when you want call a function with arguments
+  that you have in an array, you use the apply function, like this:\r\n\r\n    gt.apply(null,[3,2]))\r\n
+  \     \r\nThe first argument to apply is the object that the reference `this` should
+  point to during the function call, and in this case we just pass null because we
+  don't care about the `this` reference.  The next argument is the set of arguments,
+  3 and 2, which become the first and second arguments to the call to gt.\r\n\r\nSo
+  now the term partial function application makes sense, because we are applying a
+  partial list of arguments to the function.  Now it should be clear why currying
+  and partial function application go together hand-in-hand.  When you partially apply
+  a function that is curried, you get something useful back.  Partially applying a
+  function that is not curried isn't usually useful, as we saw in the first example,
+  where calling `gt(2)` resulted in evaluating the expression `2 > undefined`, which
+  is just silly.\r\n\r\nSo in the case of our curried version of gt, is the result
+  of partially applying actually useful?  Sure it is, when we combined it with other
+  functional concepts.  All good functional programming language have some kind of
+  `filter` function, and JavaScript (well, [JavaScript 1.6][js16-filter].  Better
+  late than never) is no exception.\r\n\r\nFilter is a higher-order function (whew,
+  we are busting out all the fancy functional programming words today, aren't we!).
+  \ It is a higher-order function because it takes another function as it's argument.
+  \ What filter does is allow you to take an array of elements and produce another
+  array with only the elements than match some condition.  The function that defines
+  what the condition is is typically a predicate function.\r\n\r\nSo let's filter
+  an array of number an only get the ones greater than 2.  First we'll do it with
+  an anonymous function as the predicate function:\r\n\r\n    [0,1,2,3,4,5].filter(function(e){\r\n
+  \     return e > 2\r\n    })\r\n\r\nThat will result in an array with 3, 4 and 5
+  in it.  That's a little wordy though.  Let's use our curried gt as the predicate
+  instead:\r\n\r\n    [0,1,2,3,4,5].filter(gt(2))\r\n\r\nAh, there we go, that's nicer.
+  \ That's gives us 3, 4 and 5 as well.  Of course you can just change the value of
+  the argument to gt to filter for values greater than that number.\r\n\r\nNow I should
+  point that technically, our gt function is not in fact partially applied when we
+  pass in less than two arguments, it just makes a new function.  If we define gt
+  like this:\r\n\r\n    function gt(x) {\r\n      return function(y) {\r\n        return
+  y > x\r\n      }\r\n    }\r\n\r\nThis means that gt always takes two arguments and
+  returns a function that takes one argument.  This still works the same in our filter
+  example, `[0,1,2,3,4,5].filter(gt(2))` does the same thing.  But when you want to
+  just call gt directly with two arguments, that doesn't fly.  `gt(3,2)` now just
+  ignores the second argument and returns a function the same way `gt(3)` would.  If
+  we want to simulate our two argument call, we have to make two function calls, like
+  `gt(2)(3)`, which looks hideous.  Not only do we have two sets of parentheses, it
+  is also has to be backwards.  To ask is `3 > 2`, we has to pass in 2 first in order
+  to the \"greater than 2\" function, and then pass 3 to that.\r\n\r\n[Haskell][haskell]
+  has built-in syntactic sugar to make this look not hideous.  Haskell is a statically-typed
+  functional programming language.  Being statically-typed means that variables are
+  of a specifc type.  JavaScript is the opposite, dynamically-typed.  In JavaScript,
+  when you have a variable or a function argument that is named `x`, `x` can hold
+  any type of Object, a String, Number, Function, etc.  In Haskell, when you define
+  a variable or function argument, that must always be the same type.  Haskell is
+  actually pretty clever about it though.  If you just say `x = 42`, it knows, ok,
+  x is an Int.  In other, [less sophisticated statically-typed languages][java], you
+  would have to say something like `int x = 42`.\r\n\r\nWhen you look at the type
+  signature of a function in Haskell, at first, it looks odd.  For example, the type
+  signature for our gt function might look like:\r\n\r\n    gt :: Int -> Int -> Bool\r\n\r\nAt
+  first you think, what's with the arrows?  Wouldn't something like this make more
+  sense:\r\n\r\n    gt :: (Int, Int) -> Bool\r\n\r\nYeah, that matches what we are
+  thinking.  gt is a function that takes two Int values and returns a Bool.  Well,
+  even though you might think of it that way, that's not what it does in Haskell.
+  \ In Haskell, all functions are curried.  So our gt function is actually much closer
+  to our last definition of gt in JavaScript, which looks like this:\r\n\r\n    function
+  gt(x) {\r\n      return function(y) {\r\n        return y > x\r\n      }\r\n    }\r\n\r\nIf
+  you look at that for a minute, you'll agree that a type signature like this makes
+  sense.\r\n\r\n    gt :: Int -> Int -> Bool\r\n    \r\ngt takes one argument and
+  returns a function that takes one argument that returns a Bool.  Unlike JavaScript,
+  Haskell's syntax makes calling curried functions clean.  So again, in JavaScript,
+  we would have to do this to call our function:\r\n\r\n    gt(2)(3)\r\n    \r\nWhich
+  is the same as `3 > 2`, but in Haskell if we want that, we simply just say `3 >
+  2`.  In Haskell, infix operators are actually function calls.  `3 > 2` is syntactic
+  sugar for `(>) 3 2`.  Also in Haskell, you don't have to wrap the function call
+  in parentheses to call it.  The parentheses in this snippet are just the way of
+  getting a reference to the infix function without calling it.  If you could name
+  a function `>` in JavaScript, the Haskell snippet `(>) 3 2`, or even `3 > 2`, would
+  be the equivalent of `>(3, 2)` in JavaScript.\r\n\r\nSo when we want to partially
+  apply this function to get a function that returns true if the value is greater
+  than 2, we just write `(> 2)`.  Haskell knows how to \"do the right thing\" with
+  infix functions like greater than, so we don't have to deal with the problem of
+  the arguments being backwards.  So here's how we do the filter, and we can do it
+  by partially applying the built-in greater than function (this is the advantage
+  of `>` being a function, not an operator) to get the \"greater than 2 function\"
+  to pass to filter:\r\n\r\n    filter (> 2) [0..5]\r\n\r\nThis, of course, results
+  in the list `[3,4,5]`.  So that's a whirlwind tour of a lot of functional programming
+  concepts, but we can sum it all up with this:  \r\n\r\nA curried function is a function
+  that will return a new function when it is applied to less arguments than it expects
+  and applying a function to less arguments than it expects is called partial function
+  application.  So, stated even more succinctly, a curried function is a function
+  that will return a new function when it is partially applied.\r\n\r\n\r\n[currying]:
+  http://en.wikipedia.org/wiki/Currying\r\n[js16-filter]: https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter\r\n[haskell]:
+  http://haskell.org\r\n[java]: http://www.java.com"
+format: Markdown
+guid: 5a4195af-d967-4c3b-ab83-abfe89aadc5e
+comments_count: 2

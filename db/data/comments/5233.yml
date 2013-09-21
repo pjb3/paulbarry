@@ -1,0 +1,15 @@
+---
+id: 5233
+article_id: 4921
+created_at: 2008-12-19 14:52:23.000000000 Z
+url: http://henrik.nyh.se
+email: henrik@nyh.se
+author: Henrik N
+ip: 83.250.124.96
+body: |-
+  Commented before I read the full post. Just wanted to add that I think this post doesn't really make explicit why the lambda is necessary in this case.
+
+  You could do
+  named_scope :published_before, :conditions => ["published_at < ?", Time.now.beginning_of_year]
+  but the time would be set at define-time, and not be calculated on each run; with a lambda, on the other hand, it's calculated each time it's run.
+guid: 01d36dd8-6807-419a-afd1-4329767679b3

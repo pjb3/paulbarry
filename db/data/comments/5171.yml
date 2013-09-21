@@ -1,0 +1,22 @@
+---
+id: 5171
+article_id: 4912
+created_at: 2008-08-15 14:55:29.000000000 Z
+url: http://smartic.us
+email: iam@smartic.us
+author: bryanl
+ip: 64.214.53.2
+body: "TATFT  \n\nThis is a hard thing to do.  I'll be the first person to admit it.
+  \ Another thing that I admit, is that I do *test* all the time.  \n\nSpikin' is
+  natural, and a good thing, but after you are done, get rid of all that spikey code
+  and TDD the new feature in.  This is hard thing for *all* of us to grasp, because
+  it never makes sense at the time.\n\nOne thing of note that I would like to share
+  is that sometimes you'll come to a point where you can't TDD.  At that point, I'll
+  offer some advice... you most likely don't understand the problem as well as you
+  think you do.  What you may need to do is try it again from a different angle or
+  maybe you need to think larger and stop scoping so small.\n\nWhatever you do, make
+  sure you are testing, because if you aren't, all you are doing is making it harder
+  for yourself when you revisit the code, and making it even harder for the next developer
+  who will inevitably have to maintain what you just wrote.  \n\nPeace, Hair Grease
+  and TATFT"
+guid: 9cb1aebd-56e7-443f-ace7-5308ad395307

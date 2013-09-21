@@ -1,0 +1,156 @@
+---
+id: 4947
+slug: tail-call-optimization
+created_at: 2009-08-30 16:20:00.000000000 Z
+published_at: 2009-08-30 16:20:06.000000000 Z
+title: Tail Call Optimization
+body: "Tail-Call Optimization (a.k.a Tail Recursion) is a technique often used in
+  functional programming languages that promotes the use of recursion rather than
+  imperative loops to perform iterative calculations.  When I say imperative loops,
+  I mean using a local variable that you change the value of as you calculate each
+  step of the iteration.  A generic term for this kind of variable is an accumulator,
+  because it accumulates the new value at each step of the iteration.\r\n\r\nLet's
+  say you are hoping to become the [next mega millionare][mega] and you want to know
+  your odds of winning.  Most lotteries consist of something like pick 5 numbers between
+  1 and 50.  Each number can only come up once in the drawing and if you get all 5
+  numbers right, you win.  The order isn't significant, you just need to get the 5
+  numbers.\r\n\r\nHere's a JavaScript function written in an imperative style to get
+  your odds:\r\n\r\n    function odds(n, p) {\r\n      var acc = 1\r\n      for(var
+  i = 0; i < n; i++) {\r\n        acc *= (n - i) / (p - i)\r\n      }\r\n      return
+  acc\r\n    }\r\n\r\nThe parameters are n, the number of numbers you have to pick
+  and p is the upper limit of all possible numbers to choose from.  So the odds for
+  the \"pick 5 of 50\" are `4.71974173573222e-7`.  That's expressed in decimal in
+  scientific notation.  To get the more traditional looking \"1 in whatever\" number,
+  you simply take the inverse, `1/4.71974173573222e-7`, which is 1 in 2,118,760.\r\n\r\nThe
+  mega millions actually has a twist to it with the powerball.  You pick 5 numbers
+  of of 56 and then 1 number out of 46.  A number that comes up in the first 5 can
+  come up as the powerball.  So that means the mega millions odds are `1/(odds(5,56)
+  * odds(1,46))`, which is 1 in 175,711,536.\r\n\r\nOne problem with our function
+  is that it uses a mutable local variable and [mutable local variables are evil][yegge].
+  \ Some functional languages, such as [Clojure][clojure], [Haskell][haskell] and
+  [Erlang][erlang], don't even allow you to use mutable local variables.  So how can
+  we do it without the accumulator?  The answer is recursion:\r\n\r\n    function
+  odds(n, p) {\r\n      if(n == 0) {\r\n        return 1\r\n      } else {\r\n        return
+  (n / p) * odds(n - 1, p - 1)\r\n      }\r\n    }\r\n\r\nThis is a pretty elegant
+  implementation of the function because it mirrors how you might think of the problem.
+  \ This still works great but it breaks down if we try to calculate the odds of much
+  larger numbers.  For example, if you try to calculate the odds of picking 10,000
+  numbers out of 100,000 numbers with `odds(10000, 100000)`, you will some kind of
+  stack overflow / too much recursion error, depending on your interpreter.\r\n\r\nThe
+  reason for this becomes clear when you walk through how the interpreter calculates
+  the value.  When you say `odds(5, 56)`, the return value is `(5/56) * odds(4, 55)`.
+  \ The interpreter cannot evaluate this expression until `odds(4, 55)` is calculated.
+  \ So the series of expressions that get evaluated are:\r\n\r\n    odds(5, 56)\r\n
+  \   (5/56) * odds(4, 55)\r\n    (5/56) * (4/55) * odds(3, 54)\r\n    (5/56) * (4/55)
+  * (3/54) * odds(2, 53)\r\n    (5/56) * (4/55) * (3/54) * (2/53) * odds(1, 52)\r\n
+  \   (5/56) * (4/55) * (3/54) * (2/53) * (1/52) * odds(0, 51)\r\n    (5/56) * (4/55)
+  * (3/54) * (2/53) * (1/52) * 1\r\n    \r\nAs you can see, the lines get wider as
+  the recursive calls build up.  This is representative of how the interpreter works.
+  \ As each recursive call is added, memory is temporarily used up.  Once there are
+  no more recursive calls, it can start evaluating the expressions and freeing up
+  the memory.  This works fine, but if you are performing the calculation on a large
+  number that generates more recursive calls than the interpreter can hold in memory,
+  then [boom goes the dynamite][boom].  Most interpreters push each recursive call
+  onto a stack, so when the stack runs out of memory, you get a [Stack Overflow][so]
+  error.\r\n\r\nSo how can we possibly do calculations like this recursively?  The
+  answer to that is tail-call optimization.  In order to do this, we are going to
+  have to bring back the accumulator, but in this case, it's not going to be a mutable
+  local variable, instead it will be a parameter to the function.  Since we don't
+  want callers of our function to have to pass in the initial value of the accumulator,
+  we will define two functions, one \"public\" and the other \"private\":\r\n\r\n
+  \   (function(){\r\n      var odds1 = function(n, p, acc) {\r\n        if(n == 0)
+  {\r\n          return acc\r\n        } else {\r\n          return odds1(n - 1, p
+  - 1, (n / p) * acc)\r\n        }\r\n      }\r\n  \r\n      odds = function(n, p)
+  {\r\n        return odds1(n, p, 1)\r\n      }  \r\n    })()\r\n\r\nJavaScript doesn't
+  really have a public/private mechanism, but we can use closures to accomplish the
+  same thing.  First this is an anonymous function that we create and then call immediately
+  after we create it.  This just gives us a local scope.  If we didn't have this outer
+  wrapping function, all variables would be global.  Then we define a function and
+  assign it to a local variable called `odds1`.  Next we define a function and assign
+  it to a global variable `odds`.  The function `odds` is \"closed over\" the variable
+  `odds1`, which means that it can reference that variable, even when the odds function
+  is called outside the context it is defined in, even though the `odds1` variable
+  will not be directly available from that context.  To test this out, simply try
+  to print the value of `odds` and then `odds1` from outside of this outer function.
+  \ The interpreter will say `odds` is a function but it will say `odds1` is undefined,
+  which means `odds1` is effectively private.\r\n\r\nSo when someone calls our function
+  `odds`, it calls `odds1` with an initial value of 1 for the accumulator and then
+  returns that value.  Since JavaScript does not have tail-call optimization, that
+  is what actually happens.  `odds` waits for the value of `odds1` to be calculated
+  and then returns that value once it gets one.  If you look at `odds1`, it does the
+  same thing, returning the value from a recursive call to itself.  And since JavaScript
+  does not have tail-call optimization, this still results in some sort of stack overflow
+  with large enough values for `n`.\r\n\r\nWhat a tail-call optimized language does
+  is realize that the statement `return odds1(n, p, 1)` is saying call the function
+  `odds1` with the arguments `n`, `p` and 1 and then return value.  What the language
+  can do is have the `odds` function return immediately and tell the caller to call
+  `odds1` with the arguments `n`, `p` and 1 in order to get the value.  The important
+  distinction between these two is that the call to `odds` is eliminated from the
+  call stack before `odds1` is called.  \r\n\r\nThe way I think of it is tail-call
+  optimization almost like an HTTP redirect.  The call to `odds` is simply redirected
+  to `odds1`.  Once `odds` has issued a redirect, it's out of the equation.  Without
+  tail-call optimization, the call to `odds` has to make a call to `odds1`.  While
+  the call it `odds1` is being processed, both `odds` and the original caller are
+  waiting for the response.  If the chain of calls becomes to long, the call stack
+  overflows.\r\n\r\nThis same idea can be applied to the recursive calls within `odds1`
+  itself.  When `odds(5, 56)` is called, it will in turn call `odds1(5, 56, 1)`.  In
+  `odds1`, the last thing it will do is call itself recursively, but this time the
+  parameters will be `odds1(4, 55, (5/56))`.  A function that returns a recursive
+  call to itself as the last thing it does is said to be [tail-recursive][tail-recur].
+  \ Our original recursive `odds` function was not tail-recursive, because it needed
+  to multiple the value of the recursive call by a value after the recursive call
+  returned.  \r\n\r\nSince `odds1` is tail-recursive, the call to `odds1(5, 56, 1)`
+  can just say call `odds1(4, 55, (5/56))` instead and take itself off the call stack.
+  \ The series of calls looks like this:\r\n\r\n    odds(5, 56))\r\n    odds1(5, 56,
+  1)\r\n    odds1(4, 55, 5/56)\r\n    odds1(3, 54, 1/154)\r\n    odds1(2, 53, 1/2772)\r\n
+  \   odds1(1, 52, 1/73458)\r\n    odds1(0, 51, 1/3819816)\r\n\r\nThe value of the
+  accumulator in each of these calls is the result of the multiplication of the previous
+  value and the current n divided by the current p.  As you can see here, the width
+  of the expression doesn't increase for each iteration (well, except a little bit
+  for the width of the accumulator value).  If the interpreter actually evaluates
+  the expressions this way there is no way to cause a stack overflow error.  You can
+  evaluate any of these expressions independently from the others, assuming you make
+  `odds1` public.\r\n\r\nTo see this in action, you will have to use a language with
+  an interpreter that does tail-call optimization.  Erlang is one such language.  First
+  let's write a non-tail-recursive implementation of the odds function:\r\n\r\n    -module(lotto).\r\n\r\n
+  \   -compile(export_all).\r\n\r\n    odds(0, _) -> 1;\r\n    odds(N, P) -> (N /
+  P) * odds(N - 1, P - 1).\r\n\r\nNow we can see that our function works using the
+  Erlang interactive shell:\r\n\r\n    $ erlc lotto.erl\r\n    $ erl\r\n    Erlang
+  R13B01 (erts-5.7.2) [source] [smp:2:2] [rq:2] [async-threads:0] [hipe] [kernel-poll:false]\r\n\r\n
+  \   Eshell V5.7.2  (abort with ^G)\r\n    1> lotto:odds(5,56).\r\n    2.6179271462290333e-7\r\n
+  \   2> 1/(lotto:odds(5,56) * lotto:odds(1,46)).\r\n    175711536.0\r\n\r\nSo it
+  turns out that [you have to work really hard to get the Erlang VM to blow the stack
+  on a non-tail-recursive call][erl-so], but I managed to get an error `eheap_alloc:
+  Cannot allocate 1140328500 bytes of memory (of type \"old_heap\").` by trying to
+  evaluate `lotto:odds(100000000, 1000000000).`.  Let's re-write the function to be
+  tail-recursive:\r\n\r\n    -module(lotto).\r\n\r\n    -export([odds/2]).\r\n\r\n
+  \   odds(N, P) -> odds(N, P, 1).\r\n\r\n    odds(0, _, Acc) -> Acc;\r\n    odds(N,
+  P, Acc) -> odds(N - 1, P - 1, (N / P) * Acc).\r\n\r\nYou can see that Erlang gives
+  us a couple of language features to make this a little cleaner than the JavaScript
+  function.  First, functions with different arities are completely different functions.
+  \ Arity is the number of arguments to a function.  So here we have two functions,
+  `odds/2` and `odds/3`.\r\n\r\nAlso, pattern matching is used to distinguish the
+  two cases.  The `odds/3` function has two cases, one where N is 0 and the other
+  to handle all other cases.\r\n\r\nLastly, the export directive at the top says that
+  we only want the `odds/2` function to be public, so the `odds/3` function is private
+  to this module.\r\n\r\nWith this definition of the odds function, if we try to evaluate
+  `lotto:odds(100000000, 1000000000).`, it will complete, although it will take some
+  time.  The original recursive odds function takes _O(n)_ time and _O(n)_ space,
+  which means the amount of time and the amount of space it takes to evaluate the
+  function increases linearly for larger values of n.  Due to tail-call optimization,
+  the function still takes _O(n)_ time, but takes _O(1)_ space, which means the amount
+  of time it takes to evaluate the function still increases linearly with larger values
+  for n increases, but the function always operates in a constant amount of space,
+  regardless of the size of n.\r\n\r\nSo to summarize, tail-call optimization is a
+  technique that is performed by the compiler/interpreter, usually transparently,
+  to make tail-recursive functions operate in constant space.  This is a necessary
+  optimization in order to be able to use recursive functions to perform iterative
+  calculations as opposed to imperative functions that use mutable local variables.\r\n\r\n[boom]:
+  http://www.youtube.com/watch?v=W45DRy7M1no\r\n[so]: http://en.wikipedia.org/wiki/Stack_overflow\r\n[mega]:
+  http://megamillions.com/mcenter/pressrelease.asp?newsID=58753620-0362-4344-9E63-8FEA4449CFD6\r\n[erl-so]:
+  http://erl.nfshost.com/2009/02/18/erlang-surprises-me/\r\n[yegge]: http://www.oreillynet.com/ruby/blog/2006/03/transformation.html\r\n[clojure]:
+  http://clojure.org\r\n[haskell]: http://haskell.org\r\n[erlang]: http://erlang.org\r\n[tail-recur]:
+  http://en.wikipedia.org/wiki/Tail_recursion"
+format: Markdown
+guid: de4af569-9dde-4539-b612-393b1f593cab
+comments_count: 7

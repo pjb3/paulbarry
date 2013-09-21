@@ -1,0 +1,14 @@
+---
+id: 5241
+article_id: 4922
+created_at: 2008-12-20 13:58:53.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 76.100.88.51
+body: |+
+  Hey Guys,
+
+  Thanks for the feedback.  I'm definitely interested in learning more about what the Haskell type system has to offer, so I'll try to avoid saying anything disparaging about static typing until I've have a better understanding of how it works in Haskell.  I'm definitely willing to admit the type system in Haskell is probably more powerful that the type system in Java, which I believe is the only other statically typed language I've had any significant experience with.
+
+guid: 9c50344e-df93-4d7c-8070-eb831d7f2cd8

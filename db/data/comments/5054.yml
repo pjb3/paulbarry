@@ -1,0 +1,12 @@
+---
+id: 5054
+article_id: 4802
+created_at: 2007-04-14 03:47:46.000000000 Z
+url: 
+email: renat.zubairov@gmail.com
+author: Renat Zubairov
+ip: 80.133.145.44
+body: |-
+  Sorry, but all your discussion is incorrect. I guess you would need to study Hibernate or any other JPA framework a bit more, because then you will discover that "Lazy loading" is a feature that is very very nice and advanced and brings allot for majority of the cases (in my experience it's usable in 80% of the cases). But in 20% of the cases you don't need it you can centralized disable it. No problems absolutely, no code required, nothing.
+  Please consider study Hibernate, it will worth it!
+guid: 11fdf166-902c-4074-b924-12ac50e2c4fe

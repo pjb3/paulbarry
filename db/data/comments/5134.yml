@@ -1,0 +1,14 @@
+---
+id: 5134
+article_id: 4808
+created_at: 2008-05-06 00:47:16.000000000 Z
+url: 
+email: 
+author: Leo Przybylski
+ip: 68.110.12.249
+body: |-
+  According to the Java Language Specification on String concatenation:
+  http://java.sun.com/docs/books/jls/third_edition/html/expressions.html#15.18.1.2, it's possible the compiler will throw out toString() calls if it can.
+
+  It's not in this case because '+=' has no choice but to force toString() to be called on each iteration. In a more likely use case, '+' would be used for string concatenation, and it would be a lot more efficient. I think you would find that StringBuilder and '+' are actually about the same since the toString() calls get thrown out by the compiler.
+guid: 4ae6cc90-f34f-4a27-8192-1109f828c816

@@ -1,0 +1,38 @@
+---
+id: 4893
+slug: adding-columns-to-tables-with-the-migration-generator
+created_at: 2008-04-21 12:07:30.000000000 Z
+published_at: 2008-04-21 12:11:46.000000000 Z
+title: Adding Columns to Tables with the Migration Generator
+body: "I just stumbled upon a neat little Rails feature and figured I'd share with
+  the world.  I'm working on a Facebook application and I'm going through some of
+  the examples in [Developing Facebook Platform Applications with Rails][mmfacer].
+  \ In chapter 4, one of the tasks is:\r\n\r\n> Let's add a boolean hit column to
+  our attack model. I'll wait while you create that migration.   \r\n\r\nIt doesn't
+  tell you how to do that, which I like.  This is a simple enough task the reader
+  should be able to do in their own, no need to clutter up the book with the code.\r\n\r\nSo
+  I set out to do that, but for whatever reason my mind is in a bit of a fog today.
+  \ I don't what it is, I've been making an inordinate number of typos.  So when my
+  fingers went to type the command to generate the migration, I just instinctively
+  did this:\r\n\r\n    script/generate migration add_hit_to_attack hit:boolean\r\n\r\nI
+  accidentally added the `hit:boolean` column specification as if this were a `script/generate
+  model Whatever` command.  But it turns out Rails is able to read my mind.  I opened
+  up the migration file that was generated and there was this:\r\n\r\n\r\n    class
+  AddHitToAttack < ActiveRecord::Migration\r\n      def self.up\r\n        add_column
+  :attacks, :hit, :boolean\r\n      end\r\n\r\n      def self.down\r\n        remove_column
+  :attacks, :hit\r\n      end\r\n    end\r\n\r\nThe code to add the column was already
+  there.  I checked the docs and sure enough there is support for this naming convention:\r\n\r\n
+  \   You can name your migration in either of these formats to generate add/remove\r\n
+  \   column lines from supplied attributes: AddColumnsToTable or RemoveColumnsFromTable\r\n\r\n
+  \   Example:\r\n    `./script/generate migration AddSslFlag`\r\n\r\n    With 4 existing
+  migrations, this creates the AddSslFlag migration in\r\n    db/migrate/005_add_ssl_flag.rb\r\n\r\n
+  \   `./script/generate migration AddTitleBodyToPost title:string body:text published:boolean`\r\n\r\n
+  \   This will create the AddTitleBodyToPost in db/migrate/005_add_title_body_to_post.rb
+  with\r\n    this in the Up migration:\r\n\r\n      add_column :posts, :title, :string
+  \ \r\n      add_column :posts, :body, :text  \r\n      add_column :posts, :published,
+  :boolean\r\n\r\n    And this in the Down migration:\r\n\r\n      remove_column :posts,
+  :published  \r\n      remove_column :posts, :body  \r\n      remove_column :posts,
+  :title\r\n\r\n[mmfacer]: http://pragprog.com/titles/mmfacer"
+format: Markdown
+guid: f834468e-1ae3-46de-9f26-ba5542983d71
+comments_count: 0

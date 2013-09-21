@@ -1,0 +1,29 @@
+---
+id: 4910
+slug: stripes-book-from-the-pragmatic-programmers
+created_at: 2008-07-23 12:07:42.000000000 Z
+published_at: 2008-07-23 12:17:58.000000000 Z
+title: Stripes Book from the Pragmatic Programmers
+body: "It's really good to see a [book][book] being published by the [Pragmatic Programmers][prag]
+  on the [Stripes][stripes], even if it is too little, too late.  I wrote [an article
+  on Stripes][pb] a few years ago, and actually, I still like how Stripes handles
+  mapping request parameters to an object graph, but since then I have discovered
+  the benefits of dynamic languages like Ruby, so I would never consider using a framework
+  like Stripes, just because it means programming in Java.  When I was doing Java,
+  I felt that Stripes was a much better framework than WebWork/Struts, but for some
+  reason flew under the radar.  In fact, this blog is built using Stripes.  Stripes'
+  creator Tim Fennell always did an excellent job answering questions on the mailing
+  list and deserved more recognition from the Java community as a whole.\r\n\r\nIt's
+  surprising to see this book coming out now.  Frankly, straight Java as a web development
+  language is yesterday's technology, the Cobol of our generation.  The JVM is still
+  alive an well, with many great options, such as JRuby, Groovy, Scala and the best
+  of them all, [Clojure][clojure].  I would love to see a Pragmatic Programmer book
+  on Clojure, just to give some more attention to Clojure, because it is such a great
+  language.  Anyway, congrats to Tim Fennell, Frederic Daoud and the Stripes team
+  on finally getting some acknowledgment for building a great framework and a great
+  community. \r\n\r\n[book]: http://www.pragprog.com/titles/fdstr/stripes\r\n[prag]:
+  http://www.pragprog.com\r\n[stripes]: http://stripesframework.org\r\n[pb]: http://paulbarry.com/articles/2006/07/11/stripes-is-the-new-rails\r\n[clojure]:
+  http://clojure.org"
+format: Markdown
+guid: e32e1076-5b48-45ed-b2ea-f884472d44f6
+comments_count: 4

@@ -1,0 +1,52 @@
+---
+id: 4857
+slug: lift-on-leopard
+created_at: 2008-01-25 10:13:29.000000000 Z
+published_at: 2008-01-25 12:28:56.000000000 Z
+title: Lift on Leopard
+body: "Until [Steve Yegge's Code's Worst Enemy rant][yegge], I hadn't even heard of
+  the language [Scala][scala].  Although Steve made no mention of Scala in his article,
+  there were plenty of people in the comments suggesting he check out Scala.  Not
+  surprisingly, it's [getting][neward] a [lot][bini] of [love][werner] in the [blogosphere][werner]
+  now.  I've read through some of the online documentation and next I wanted to see
+  some code and the web framework for Scala seems to be [Lift][lift].  I tried get
+  the [examples][lift-ex] running on my Macbook Pro, which is running Leopard, and
+  I ran into this error:\r\n\r\n    java.lang.IllegalStateException: The PluginDescriptor
+  for the plugin \r\n    Plugin [org.scala-tools:maven-scala-plugin] was not found.\r\n\r\nLuckily
+  I found [this thread][thread] on the lift google group, which states that the problem
+  is that the maven that comes installed on Leopard is 2.0.6, which doesn't work with
+  Left.  I installed 2.0.8 by putting maven at `/usr/local/maven` and adding `/usr/local/maven/bin`
+  to my PATH.  That got it working and after what seemed like a hour of downloading
+  maven packages, Lift was up an running.  \r\n\r\nAt first glance, I say the Lift
+  Scala code looks just as verbose as Java code.  Take this for example:\r\n\r\n    package
+  com.hellolift.model\r\n\r\n    import net.liftweb.mapper._\r\n    import net.liftweb.util._\r\n
+  \   import net.liftweb.sitemap._\r\n    import net.liftweb.sitemap.Loc._\r\n\r\n
+  \   import com.hellolift.controller.BlogCache\r\n    import com.hellolift.controller.BlogCache._\r\n
+  \   import com.hellolift.controller.AddEntry\r\n\r\n    object Entry extends Entry
+  with KeyedMetaMapper[Long, Entry] {\r\n      override def dbTableName = \"entries\"\r\n
+  \     // sitemap entry\r\n      val sitemap = List(Menu(Loc(\"CreateEntry\", \"/entry\",
+  \"Create An Entry\", \r\n                         If(User.loggedIn_? _, \"Please
+  login\"))), \r\n    \t\t     Menu(Loc(\"ViewEntry\", \"/view\", \"View An Entry\",
+  Hidden)), \r\n    \t\t     Menu(Loc(\"ViewBlog\", \"/blog\", \"View Blog\")))\r\n\r\n
+  \     // Once the transaction is committed, fill in the blog cache with this entry.\r\n
+  \     override def afterCommit = \r\n        ((entry: Entry) => {BlogCache.cache
+  ! AddEntry(entry, entry.author.is)}) :: Nil\r\n    }\r\n\r\n    class Entry extends
+  KeyedMapper[Long, Entry] {\r\n      def getSingleton = Entry // what's the \"meta\"
+  server\r\n      def primaryKeyField = id\r\n\r\n      // Fields\r\n      object
+  id extends MappedLongIndex(this)\r\n      object author extends MappedLongForeignKey(this,
+  User) {\r\n        override def dbDisplay_? = false\r\n      }\r\n      object title
+  extends MappedString(this, 128)\r\n      object body extends MappedTextarea(this,
+  20000) { // Lift Note: 7\r\n        override def setFilter = notNull _  :: trim
+  _ :: crop _ :: super.setFilter\r\n      }\r\n    }\r\n\r\nMaybe I'm just spoiled
+  by the succinctness of Ruby, but that code doesn't strike me as immediately readable.
+  \ There's what looks to be routing (URL Mapping) code in here, which strikes me
+  as odd. The model doesn't seem like a very good place for routing code.\r\n\r\n[scala]:
+  http://www.scala-lang.org\r\n[yegge]: http://steve-yegge.blogspot.com/2007/12/codes-worst-enemy.html\r\n[neward]:
+  http://www.ibm.com/developerworks/java/library/j-scala01228.html\r\n[bini]: http://ola-bini.blogspot.com/2008/01/language-explorations.html\r\n[werner]:
+  http://www.brandonwerner.com/2008/01/13/the-rise-of-functional-programming-fscalahaskell-and-the-failing-of-lisp/\r\n[villane]:
+  http://villane.wordpress.com/2008/01/11/learning-scala-compiler-surprises/\r\n[lift]:
+  http://liftweb.net\r\n[lift-ex]: http://liftweb.net/index.php/HowTo_run_examples\r\n[thread]:
+  http://groups.google.com/group/liftweb/browse_thread/thread/a8992d146919bd5d"
+format: Markdown
+guid: 1e4e539a-a6ce-4caa-a37b-586f4cbffbbc
+comments_count: 0

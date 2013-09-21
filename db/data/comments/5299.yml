@@ -1,0 +1,13 @@
+---
+id: 5299
+article_id: 4942
+created_at: 2009-07-08 02:02:59.000000000 Z
+url: http://www.supaspoida.com
+email: supaspoida@gmail.com
+author: Lar Van Der Jagt
+ip: 24.42.82.156
+body: |-
+  I know this isn't the greatest way to work, but I sometimes find myself with a backlog of changes waiting to be committed, and will stage several logical chunks into multiple commits within a span of a few minutes. I've thought about automating time tracking with something like this, but in the end while I'm in flow I just don't want to be bothered worrying about time.
+
+  I do think that storing your time tracking data within the git repo is a great idea, I just haven't thought of the perfect solution for my workflow yet.
+guid: 228467f0-7a7c-43ff-bfdc-2e98ac3382fc

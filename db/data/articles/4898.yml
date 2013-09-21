@@ -1,0 +1,62 @@
+---
+id: 4898
+slug: web-programming-languages-and-frameworks-are-like-operating-systems-and-editors
+created_at: 2008-04-30 17:19:20.000000000 Z
+published_at: 2008-04-30 18:07:56.000000000 Z
+title: Web Programming Languages and Frameworks are like Operating Systems and Editors
+body: "I've been doing some work recently with Facebook, building a Facebook app,
+  and I have to admit that Facebook is a pretty well developed site.  There is a lot
+  of functionality.  Things work pretty well, I've never gotten any errors while using
+  the site.  They've built a decent framework that allows people to develop their
+  own apps for Facebook that work and feel like part of the rest of Facebook.  It's
+  fast enough, although not blazingly fast.  And it's written in PHP.\r\n\r\nI know
+  PHP and know Ruby on Rails even better.  If before Facebook came into existence,
+  if someone approached me and explained what the idea for Facebook was, all the features
+  they were planning on building, and they said they wanted to build it in PHP, I'd
+  say you are nuts, building a site that complicated in PHP would be a nightmare.
+  \ But obviously that wasn't a problem for the developers who built Facebook.\r\n\r\nPeople
+  talk about the question \"Do languages matter?\".  You have [some people expounding
+  on the virtues of Lisp macros][defmacro] who will say absolutely and then you have
+  others saying all languages are turing complete and there is basically no difference.
+  \ Some people believe the [Sapir-Whorf][sapir-whorf] is true and applies to computer
+  programming, others don't.  But at the end of the day, there are good web applications
+  built in PHP, Ruby, Java, .Net, Python, Smalltalk, Cold Fusion, etc. and there are
+  bad web applications built in all of those languages, including Ruby on Rails.\r\n\r\nSo
+  what can be taken away from that observation is that languages matter to programmers,
+  in the same way that operating systems and editors matter to programmers.  You can
+  be productive developing web applications with Java and IntelliJ on Windows, Ruby
+  on Rails on Mac OS X or Common Lisp and Emacs on Linux.  The important thing is
+  to find which combination makes you the most productive and then be part of a team
+  that shares that mindset.  That's not to say that all members of a team must use
+  the same language, framework, OS and editor, but it is important for a team to share
+  a common philosophy of software development.  The language and framework that appeals
+  to you individually is a strong indication of what your philosophy of software development
+  is.\r\n\r\nThe fact is that I've found Ruby on Rails to be the best language and
+  framework combination for me.  If I am building a web application any level of complexity,
+  I will be able to build it better and faster in Ruby on Rails than with PHP, Java
+  or any other language and framework.  But that applies to me and many other developers
+  who have embraced Ruby on Rails, but not everyone and not for every web application.
+  \ If you asked me to develop a web application in PHP instead of Ruby on Rails,
+  that would be like asking Paul Graham to build a web application in Java using IntelliJ
+  instead of Lisp and Emacs, or just as bad as the inverse, asking a Java developer
+  to build a web application using Lisp and Emacs.  I think in any of those cases,
+  you'd end up with an inferior product than you would if you let each of those people
+  use what they know and love best.\r\n\r\nSo based on that, from the perspective
+  of a CTO trying to make a decision on which technology stack to adopt, you would
+  say it doesn't matter.  What matters is that you attract good developers.  The key
+  is being able to put together a team of good developers, regardless of the language.
+  \ But the choice of language does matter because of the community surrounding a
+  language.  For example, I would imagine that putting together a team of good Cold
+  Fusion developers would be difficult.  For Java or .Net, there is an abundance of
+  developers, but the challenge will be sifting through that abundance to find the
+  truly good ones.  This is one area where I believe Ruby on Rails has an advantage.
+  \ If you could somehow determine the number of total developers for each language
+  and the number good developers for each language, I think you would see that although
+  there are less Ruby on Rails developers, a much higher percentage of them are good
+  developers.  I believe Ruby on Rails has a higher Good-Developer-to-Developer ratio
+  than Java, .Net or PHP, and if finding good developers is your goal, that is the
+  number you should care about.\r\n\r\n[defmacro]: http://www.defmacro.org/ramblings/lisp.html\r\n[sapir-whorf]:
+  http://en.wikipedia.org/wiki/Sapir-Whorf_hypothesis#Computer_coding_language_conceptual_correlate"
+format: Markdown
+guid: b3dce817-7cd1-4260-9754-2ccf9456a539
+comments_count: 0

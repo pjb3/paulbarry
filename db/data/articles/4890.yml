@@ -1,0 +1,65 @@
+---
+id: 4890
+slug: using-activerecord-composed-of
+created_at: 2008-04-19 12:47:02.000000000 Z
+published_at: 2008-04-19 13:02:13.000000000 Z
+title: Using ActiveRecord Composed Of
+body: "ActiveRecord has a feature called `composed_of` that allows you to take multiple
+  fields of a model and treat them as one object.  Let's say you have a requirement
+  for your application to track the phone number of each user.  Also, you need to
+  be able to query for users by parts of the phone number like area code, prefix,
+  line number and extenstion.  So the phone number (212) 123-4567 x55 needs to be
+  stored in separate fields as `:area_code => 212`, `:prefix => 123`, `:line_number
+  => 4567` and `:extenstion => 55`.  So first we create a rails app with a user record
+  with those fields:\r\n\r\n    $ rails myapp\r\n    $ cd myapp\r\n    $ script/generate
+  model user name:string \\\r\n      phone_number_area_code:integer \\\r\n      phone_number_prefix:integer
+  \\\r\n      phone_number_line_number:integer \\\r\n      phone_number_extension:integer\r\n
+  \   $ rake db:migrate\r\n \r\nWhat we would like to do is treat all of those `phone_number_*`
+  columns as one object.  So first let's create a base object that has some of the
+  plumbing functionality.  Put this in `app/models/value_object.rb`:\r\n\r\n    class
+  ValueObject\r\n  \r\n      class << self\r\n        def has_fields(*args)\r\n          (class
+  << self; self; end).send(:define_method, :fields) do\r\n            args.map(&:to_s)\r\n
+  \         end\r\n          fields.each{|f| attr_reader f}\r\n        end\r\n        def
+  mapping\r\n          fields.map{|e| [\"#{name.underscore}_#{e}\", e]}      \r\n
+  \       end\r\n        def mapper\r\n          lambda do |params|\r\n            PhoneNumber.new
+  *PhoneNumber.fields.map{|e| params[e].to_i}\r\n          end\r\n        end\r\n
+  \     end\r\n\r\n      def initialize(*args)\r\n        args.each_with_index do
+  |a, i|\r\n          instance_variable_set \"@#{self.class.fields[i]}\", args[i]\r\n
+  \       end\r\n      end\r\n\r\n      def to_s\r\n        \"(#{area_code}) #{prefix}-#{line_number}
+  x#{extension}\"\r\n      end\r\n\r\n      def ==(o)\r\n        o && self.class.fields.all?{|f|
+  self.send(f) == o.send(f)}\r\n      end\r\n\r\n    end\r\n\r\nAnd here's our subclass
+  of that specific for the phone number.  Add the PhoneNumber class at `app/models/phone_number.rb`:\r\n\r\n\r\n
+  \   class PhoneNumber < ValueObject\r\n  \r\n      has_fields :area_code, :prefix,
+  :line_number, :extension\r\n  \r\n      def to_s\r\n        \"(#{area_code}) #{prefix}-#{line_number}
+  x#{extension}\"\r\n      end\r\n\r\n    end\r\n\r\nRather than explain what this
+  does, I'll just give you the specs:\r\n\r\n    require File.dirname(__FILE__) +
+  '/../spec_helper'\r\n\r\n    describe PhoneNumber do\r\n\r\n      before(:each)
+  do\r\n        @phone_number = PhoneNumber.new(212, 123, 4567, 55)\r\n      end  \r\n\r\n
+  \     it \"should have an area_code getter\" do\r\n        @phone_number.area_code.should
+  == 212\r\n      end\r\n\r\n      it \"should have an area_code getter\" do\r\n        @phone_number.prefix.should
+  == 123\r\n      end\r\n\r\n      it \"should have an area_code getter\" do\r\n        @phone_number.line_number.should
+  == 4567\r\n      end\r\n\r\n      it \"should have an area_code getter\" do\r\n
+  \       @phone_number.extension.should == 55\r\n      end\r\n\r\n      describe
+  \"#==\" do\r\n        it \"should be equal if both number match\" do\r\n          @phone_number.==(PhoneNumber.new(212,
+  123, 4567, 55)).should be_true\r\n        end\r\n        it \"should not be equal
+  if both numbers do not match\" do\r\n          @phone_number.==(PhoneNumber.new(212,
+  123, 4567, 54)).should be_false\r\n        end\r\n      end\r\n\r\n      describe
+  \"#to_s\" do\r\n        it \"should format the phone number as (212) 123-4567 x55\"
+  do\r\n          @phone_number.to_s.should == \"(212) 123-4567 x55\"\r\n        end\r\n
+  \     end\r\n\r\n    end\r\n\r\nAfter you've had a chance to read through that,
+  it should be pretty clear what the `PhoneNumber` class does.  Next we modify the
+  User model to use this class:\r\n\r\n    class User < ActiveRecord::Base\r\n      composed_of
+  :phone_number, :mapping => PhoneNumber.mapping, &PhoneNumber.mapper\r\n    end\r\n\r\nThe
+  `ValueObject` base class provides us with the methods `mapping` and `mapper`, which
+  are needed to get our User model's phone_number method to do what we want.  Here's
+  what we want it to do:\r\n\r\n    it \"should be able to set phone number from hash\"
+  do\r\n      @user.phone_number = {\"area_code\" => \"212\", \"prefix\" => \"123\",
+  \r\n        \"line_number\" => \"4567\", \"extension\" => \"55\"}\r\n      @user.phone_number.should
+  == PhoneNumber.new(212, 123, 4567, 55)\r\n    end\r\n\r\n    it \"should be able
+  to find a user by area code\" do\r\n      @user.phone_number = PhoneNumber.new(212,
+  123, 4567, 55)\r\n      @user.save\r\n      @user.should == User.find_by_phone_number_area_code(212)\r\n
+  \   end\r\n\r\nNow we can treat our phone number as a single object, but collect
+  and store the values as separate fields.\r\n    "
+format: Markdown
+guid: acc0d44e-580d-4fb4-819c-341e2b02064a
+comments_count: 0

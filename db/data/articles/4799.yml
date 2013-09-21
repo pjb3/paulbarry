@@ -1,0 +1,30 @@
+---
+id: 4799
+slug: bonnaroo-2007
+created_at: 2007-02-13 18:17:12.000000000 Z
+published_at: 2007-02-13 18:18:23.000000000 Z
+title: Bonnaroo 2007
+body: "The artist lineup for Bonnaroo 2007 was [leaked][proboards21].  As I said [last
+  year][paulbarry], Bonnaroo is a completely different festival then what it started
+  out as.  Tool?  Are you serious.  I won't even get started on that, but the funny
+  thing is how this guy got access to the information early.  Apparently he was doing
+  some sniffing around on different urls and whammy:\r\n\r\n>Last night when the bonnaroo
+  website started acting up I knew they must be in the process of updating the website
+  for the artist announcement, so I tried a few different URLs to see if anything
+  worked . . . when I typed in www.bonnaroo.com/artists, a clearly unfinished website
+  came up. I've been checking it every hour waiting for an update and about twenty
+  minutes ago it came . . .\r\n\r\n>http://www.bonnaroo.com/festivals/2007;lineup
+  \ \r\n\r\nThe funny thing is that you can right away that it's a rails site, because
+  that semi-colon in the URL is a dead give away of a RESTful URL.  For further evidence,
+  the page the above URL redirects to is:\r\n\r\n    http://www.bonnaroo.com/sessions/new\r\n\r\nAgain,
+  a very rails looking URL.  If you look at the source of that page, you see the `?1171436393`
+  appended to the JS and CSS files, another railism.  So I guess the moral of the
+  story is that you can use the best framework in the world, but if you don't know
+  how to deploy it right, you can have \"security\" issues.  I use that term lightly
+  because it's not like they put people DOBs and SSNs online, but it's still clearly
+  information that they didn't want to have publicly available yet.\r\n\r\n[proboards21]:
+  http://bonnaroo.proboards21.com/index.cgi?board=music&action=display&thread=1171390468&page=1#1171390776\r\n[paulbarry]:
+  http://paulbarry.com/articles/2006/03/30/why-i-hate-bonnaroo"
+format: Markdown
+guid: 7d95c77c-c9aa-4ed2-bd70-e72748c8c1fb
+comments_count: 0

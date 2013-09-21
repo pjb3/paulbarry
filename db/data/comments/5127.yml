@@ -1,0 +1,15 @@
+---
+id: 5127
+article_id: 4897
+created_at: 2008-04-29 15:29:56.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 70.16.4.230
+body: "Ahh....so that's what you meant by arbitrarily-keyed hashes.  You mean hashes
+  that can have an object of any type as the key.  I agree, that is a nice feature.
+  \ Even Java has that, so I guess I've been sort of taking that for granted.\n\nBut
+  you are right, the hash rocket will still be needed for hashes with non-symbol keys,
+  but also as you said, that won't be nearly as common.  So it will still be supported,
+  but won't be idiomatic for symbol-keyed hashes. "
+guid: f6a0275f-6ca8-4a56-830e-b7336749fc6a

@@ -1,0 +1,15 @@
+---
+id: 5096
+article_id: 4860
+created_at: 2008-02-14 15:29:31.000000000 Z
+url: http://paulbarry.com
+email: mail@paulbarry.com
+author: Paul Barry
+ip: 66.92.166.158
+body: My take on Git is that the distributed version control is great for open source
+  projects, where you have a bunch of people spread out and you want to be able to
+  clone a repo, make some kind of experimental change, and then ask the project maintainers
+  to take a look.  If you are in a situation where you work in a company that uses
+  an internal SVN repository, branches work fine, there is less need for the distributed
+  model.
+guid: b82c3f45-f427-4764-9664-d50313adc9b4

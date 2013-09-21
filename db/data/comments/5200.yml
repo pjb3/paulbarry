@@ -1,0 +1,23 @@
+---
+id: 5200
+article_id: 4913
+created_at: 2008-09-17 11:27:56.000000000 Z
+url: 
+email: 
+author: rick
+ip: 67.170.154.71
+body: |-
+  In my pastie, I extend the user model with authentication validations.  How exactly would you do that with a module?
+
+  module UserStuffs
+    def self.included(base)
+      base.validates_presence_of :foo
+    end
+  end
+
+  Yuck.
+
+  But if you're relying on this too much, you may be in danger of bloating your models too much (and neither 'concerns' nor modules will help you out here)
+
+  See trevor's comments on http://giantrobots.thoughtbot.com/2008/5/1/skinny-controllers-skinny-models
+guid: ba06a14d-d3f7-4e78-ab28-50aad5bfdacc

@@ -1,0 +1,14 @@
+---
+id: 5187
+article_id: 4913
+created_at: 2008-09-06 11:51:55.000000000 Z
+url: http://codeclimber.blogspot.com
+email: ethan.vizitei@gmail.com
+author: Ethan Vizitei
+ip: 69.29.74.159
+body: I'm with Paul here.  Modules seem to fit more as a way of encapsulating behavior
+  for the purpose of reusing it amongst many classes.  Maybe it's a matter of taste,
+  but I like the "concerned_with" syntax because it's still connected directly to
+  the class that it's part of, so the functionality can remain specific to that class
+  rather than being abstracted for inclusion by any class.
+guid: 1b70fc9a-4531-4a56-a9e0-a0024798c98c

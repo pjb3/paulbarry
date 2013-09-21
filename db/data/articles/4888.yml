@@ -1,0 +1,121 @@
+---
+id: 4888
+slug: importing-data-with-rails
+created_at: 2008-04-19 08:44:52.000000000 Z
+published_at: 2008-04-19 08:54:22.000000000 Z
+title: Importing Data with Rails
+body: "Often when working with Rails applications, you need to import data from other
+  sources.  A common source is an excel spreadsheet.  A simple import consists of
+  reading each line in the spreadsheet and creating a record in the database for each
+  line.  You could do this is a small Ruby script with SQL, you wouldn't need Rails.
+  \ But sometimes the import is more complicated.  For example, you may want to run
+  your application validation logic on each record.  Also, maybe you need to create
+  associated record for each row.\r\n\r\nTo handle this kind of thing, it can be helpful
+  to use your ActiveRecord data model.  To do that, you can simply create a Ruby script
+  and add these few lines at the top:\r\n\r\n    require File.join(File.dirname(__FILE__),
+  \"..\", \"..\", \"config\", \"boot\")\r\n    require File.join(File.dirname(__FILE__),
+  \"..\", \"..\", \"config\", \"environment\")\r\n    \r\nThis will boot up the Rails
+  environment when your script starts, and then you have full access to your Rails
+  models.  You could write a procedural script to handle that, but I've found that
+  creating an object-oriented class gives you a little bit cleaner, more re-usable
+  framework.  So let's just get right to the code.  Here is the code for a base class
+  for your data import:\r\n\r\n    class DataImport\r\n\r\n      attr_reader :file,
+  :fields, :row_map, :default_e\r\n\r\n      #Create DSL methods for subclasses\r\n
+  \     class << self\r\n        def default_environment(env)\r\n          self.send(:define_method,
+  :default_environment) do\r\n            env\r\n          end\r\n        end\r\n
+  \       def default_file(file_name)\r\n          self.send(:define_method, :default_file)
+  do\r\n            file_name\r\n          end\r\n        end\r\n      end\r\n\r\n
+  \     def initialize(env, file)\r\n        load_rails(env || respond_to?(:default_environment)
+  ? \r\n          default_environment : \"development\")\r\n        @file = file ||
+  default_file\r\n        raise \"You must specify a file\" unless @file\r\n      end\r\n\r\n
+  \     def self.run(env, file)\r\n        new(file, env).run\r\n      end\r\n\r\n
+  \     def run\r\n        open(file).each_with_index do |line, i|\r\n          initialize_row!(line,
+  i)\r\n        end\r\n      end\r\n\r\n      def initialize_row!(line, i)\r\n        tokenize_row!(line)\r\n
+  \       if i < 1\r\n          initialize_fields!\r\n        else\r\n          initialize_row_map!\r\n
+  \         process_row\r\n        end\r\n      end\r\n\r\n      def process_row\r\n
+  \       puts row_map.inspect\r\n      end\r\n\r\n      private\r\n\r\n        def
+  tokenize_row!(line)\r\n          @row = line.split('|')\r\n        end\r\n\r\n        def
+  initialize_fields!\r\n          @fields = @row.map{|e| e.chomp.to_sym}\r\n        end\r\n\r\n
+  \       def initialize_row_map!\r\n          @row_map = {}\r\n          @row.each_with_index
+  do |c, i|\r\n            @row_map[fields[i]] = c.blank? ? nil : c.strip\r\n          end\r\n
+  \       end\r\n\r\n        def load_rails(env)\r\n          ENV['RAILS_ENV'] = env\r\n
+  \         require File.join(File.dirname(__FILE__), \"..\", \"..\", \"config\",
+  \"boot\")\r\n          require File.join(File.dirname(__FILE__), \"..\", \"..\",
+  \"config\", \"environment\")        \r\n        end\r\n\r\n    end\r\n\r\nAlright,
+  that's a pretty big chunk of code, but this is the implementation of a base class
+  that you will reuse.  Don't worry, your actual import class will be much shorter.
+  \ In other words, you can copy and paste this right into your app and use it as
+  is, but if you are interested to find out how it works, read the next few paragraphs.\r\n\r\nSo
+  the first interesting thing you'll encounter in this code is the DSL-ish methods.
+  \ To understand how this works, you really need to read Why The Lucky Stiff's [Seeing
+  Metaclasses Clearly][why].  The [talk Dave Thomas gave just the other day at the
+  NovaRUG][dave] would help too.  But basically what it does is define 2 class methods
+  that are intended to be used by subclasses during class definition.  When called,
+  they will define methods that the base class can then use.  This the [concept I
+  blogged about the other day in action][paul].  They are conceptually the same thing
+  as the definition of the `belongs_to` and `has_many` methods in ActiveRecord.  It
+  will make more sense when you see an implementation.\r\n\r\nNext up is the constructor
+  which handles setting the file instance variable for our data import class, as well
+  as loading up rails with the right environment specified.  After that are class
+  and instance methods both called `run`.  The idea here is that we want to work with
+  an instance of the data import class, but it will be convenient to just call `OurDataImport.run`.\r\n\r\nThe
+  work happens in the `run` instance method.  This opens up the file and starts processing
+  it line by line.  In this method I'm trying to employ a technique, or more of a
+  style I guess, that Marcel Molina spoke about at the [DC Ruby Users Group][dcrug].
+  \ The idea is that you should strive to as much as possible have all of the code
+  within a method be at the same level of abstraction.  If you look at this whole
+  method:\r\n\r\n    def initialize_row!(line, i)\r\n      tokenize_row!(line)\r\n
+  \     if i < 1\r\n        initialize_fields!\r\n      else\r\n        initialize_row_map!\r\n
+  \       process_row\r\n      end\r\n    end\r\n\r\nIt's easy to read it and understand
+  what it is going to do.  First we are going to tokenize the row, then if it is the
+  first row, we will initialize the fields, otherwise, we will initialize the row
+  map and process the row.  For example, this method could be written like this:\r\n\r\n
+  \   def initialize_row!(line, i)\r\n      tokenize_row!(line)\r\n      if i < 1\r\n
+  \       initialize_fields!\r\n      else\r\n        @row_map = {}\r\n        @row.each_with_index
+  do |c, i|\r\n          @row_map[fields[i]] = c.blank? ? nil : c.strip\r\n        end\r\n
+  \       process_row\r\n      end\r\n    end\r\n\r\nBut there is an abstraction-level
+  switching that you have to go through mentally once you get to the first line after
+  the else.  The rest of the method is composed of intent-revealing methods, but then
+  we just have this lower-level chunk of code that deals with setting instance variables.
+  \ So don't do that, the other implementation is cleaner, leads to code that is composed
+  well and is easier to test and extend.\r\n\r\nSo the meat of what happens here is
+  that the run method reads in the file row by row.  It assumes the data will be pipe-separated
+  (that is, records separated with the \"|\" character), because I find that to be
+  easiest to parse.  It's trival to convert an excel spreadsheet to a pipe-separated
+  text file using OpenOffice.  If your data is not pipe-separated, you could override
+  `tokenize_row` to split up the row some other way.  It assumes the first row contains
+  the field names that each column will map to, so if we are on the first row, it
+  just stores away the field names.  Then, on each subsequent row it constructs a
+  map (a.k.a hash) containing the column name and values.  Then it calls the `process_row`
+  method.  The implementation of the `process_row` doesn't do anything interesting
+  in this base class because the intent is for you to override that in your subclass.\r\n\r\nOk,
+  so now let's put this to use.  Create a rails app with a simple user model:\r\n\r\n
+  \   $ rails myapp\r\n    $ cd myapp\r\n    $ script/generate model user name:string
+  email:string\r\n    $ rake db:migrate\r\n    \r\nNow copy the whole base DataImport
+  class from above into `db/data/data_import.rb`.  Then create a data file at `db/data/users.txt`
+  with something like this:\r\n\r\n    name|email\r\n    Paul Barry|mail@paulbarry.com\r\n
+  \   Someone Else|someone_else@example.com\r\n\r\nAnd then finally we'll create an
+  implementation of our data import at `db/data/user_data_import.rb`\r\n\r\n    require
+  'data_import'\r\n    class UserDataImport < DataImport\r\n\r\n      default_file
+  \"users.txt\"\r\n\r\n      def process_row\r\n        user = User.create!(row_map)\r\n
+  \       puts \"Created => #{user.inspect}\"\r\n      end\r\n      \r\n    end\r\n\r\n
+  \   UserDataImport.run(ARGV[0], ARGV[1])\r\n\r\nSo now we have a pretty clear, concise
+  file that explains what we are doing.  You can see the call to `default_file` that
+  allows us to set our default file name using a clean, DSL-ish syntax.  We could
+  also call `default_environment` there as well if we wanted to, but we don't have
+  to.  This is a very simple import where we just create a user for each row.  The
+  last line of the script runs the import, passing in the command line arguments.
+  \ If you pass no arguments, it will work, using \"development\" for the environment
+  and \"users.txt\" for the file name.  A real data import is likely to do some more
+  interesting work with the data, but at least this gets all the plumbing of processing
+  the data file out of the way for you and allows you to focus on the logic of what
+  you need to do with the data.  All that's left to do is simply run the `db/data/user_data_import.rb`
+  script.\r\n\r\nSidenote: I've found that if your want to run the script from textmate,
+  you need to add this line top of your script, due to a conflict in the ruby libraries
+  provides with TextMate.\r\n\r\n    $:.reject! { |e| e.include? 'TextMate' }\r\n\r\n[why]:
+  http://whytheluckystiff.net/articles/seeingMetaclassesClearly.html\r\n[dave]: http://paulbarry.com/articles/2008/04/17/the-rules-of-ruby-self\r\n[paul]:
+  http://paulbarry.com/articles/2008/04/17/calling-methods-during-class-definition\r\n[dcrug]:
+  http://www.dcrug.org/2008/3/20/march-26-2008-meeting\r\n"
+format: Markdown
+guid: d75d6d6a-f6e2-4cea-b5e4-714499506770
+comments_count: 8

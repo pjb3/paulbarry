@@ -1,0 +1,50 @@
+---
+id: 14
+slug: hibernate-annotations
+created_at: 2006-02-27 13:11:00.000000000 Z
+published_at: 2006-02-27 13:11:00.000000000 Z
+title: Hibernate Annotations
+body: "So I've been looking into Hibernate Annotations.  At first I thought annotations
+  might be a bad idea, because now we are putting the configuration back into the
+  code.  Wasn't the idea of XML that we were separating the Code from the Configuration?
+  \ Then I realized that that was not in fact what we were doing.  The hbm.xml files
+  get checked in just like code.  They are not something you modify based on the environment
+  you are deploying the code into.  The widespread use of XDoclet in conjunction with
+  Hibernate over the past few year proof that in reality, it make sense to put the
+  configuration close to the code.  Annotations are an improvment over XDoclet, because
+  you don't have to do anything extra to generate the configuration.  With no extra
+  plug-ins or configuration, I can get Auto-Completion of Annotations in Eclipse,
+  neither XDoclet or hbm.xml could offer that.<br/>\r\n<br/>\r\nSo I think Hibernate
+  Annotations are a good idea, but it is new.  I have noticed that you can't necessary
+  do everything in Annotations that you can do in hbm.xml.  For example, you can't
+  specify the name of a foreign key constraint on a ManyToOne JoinColumn.  This may
+  not seem important to most java developers, but when working with DBAs, this can
+  be important.  Most DBAs like constraint names to be something like FK_TABLE_NAME_COLUMN_NAME,
+  not FK20708CF6792111.  DBAs are already not trusting of frameworks that generate
+  SQL for you, the last thing you want them to see is ugly constraint names like that,
+  for the same reason that you wouldn't want to see an auto-generated java object
+  property with a name like that.  What ends up happening is this:<br/>\r\n<br/>\r\n<strong>DBA</strong>:
+  \ Why did you name the constraint FK20708CF6792111?<br/>\r\n<strong>Developer</strong>:
+  \ I'm using a framework called Hibernate to generate the database model, that's
+  the naming convention it uses.<br/>\r\n<strong>DBA</strong>:  Doesn't look like
+  much of a convention to me.  Can you change it to FK_TABLE_NAME_COLUMN_NAME?<br/>\r\n<strong>Developer</strong>:
+  \ No.<br/>\r\n<strong>DBA</strong>:  That's lame, Hibernate sucks.<br/>\r\n<br/>\r\nAlthough
+  it's ridiculous, these kinds of things happen.  DBAs don't usually have the Java
+  skills needed to really evaluate the quality of a Java framework, so the develop
+  opinions based on the things they can see, like this.  I'm not trying to make a
+  generalization, I'm sure there are many DBAs who wouldn't do that.  But the problem
+  could simply be solved by 1) modifying Hibernate to have it come up with better
+  FK names 2) Adding a constraintName property to the JoinColumn annotation.  The
+  latter solution raises a problem.<br/>\r\n<br/>\r\nHibernate is no longer just Hibernate,
+  an open source Java ORM framework, it is now an open source implementation of the
+  EJB3 persistence framework.  As such, the definition for the JoinColumn annotation
+  is not part of Hibernate code, it is in the javax.persistence package, which is
+  controller by the <a href=\"http://www.jcp.org/aboutJava/communityprocess/edr/jsr220/\">JCP
+  JSR-220 community.</a>  How long is it going to take to get changes pushed through
+  that?  If there was no commitee, then I could just submit a patch to the Hibernate
+  Dev team, and if approved the code could be added an be part of the next release.
+  \ That's the benefit of Open Source.  Doesn't the JCP negate that benefit?  I guess
+  we'll just have to wait an see.\r\n"
+format: Markdown
+guid: d980e608-866e-46ff-bbe6-941f6efa5ee4
+comments_count: 2

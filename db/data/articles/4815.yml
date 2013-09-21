@@ -1,0 +1,26 @@
+---
+id: 4815
+slug: is-your-language-beautiful
+created_at: 2007-07-09 15:19:37.000000000 Z
+published_at: 2007-07-09 15:20:30.000000000 Z
+title: Is your language beautiful?
+body: "There is a good presentation posted over on infoq.com by Glenn Vanderburg called
+  [The Beauty of Ruby][vanderburg].  First of all, I like the format of the presentation
+  on that site.  You get the video of the speaker, but you can still see the slides
+  below it.\r\n\r\nI agree with all of his points about Ruby, which are all reasons
+  why I've been doing all of my programming lately in Ruby.  There's a point he makes
+  early on in the presentation that I think is probably very accurate.  Most people
+  who really give Ruby a try on a real project with an open mind will find that they
+  love it.  The key is that you must unlearn what you have learned.  Some things that
+  would be considered a bad idea in other languages turn out to be not a problem in
+  Ruby, for one reason or another.\r\n\r\nIn this presentation, Glenn is careful to
+  focus more on what he likes about Ruby, and less what he doesn't like about other
+  languages.  But as is inevitable when discussing a language, there are comparisons
+  to other languages.  Perl gets the most criticisms, and Java some as well, but very
+  little criticism of Python.  Lisp and Smalltalk, as usual, get some love but some
+  criticisms as well.  So I'm wondering, is your language beautiful?  What parts of
+  your language do you consider to be beautiful, specifically when compared to Ruby?
+  \    \r\n\r\n[vanderburg]: http://www.infoq.com/presentations/beauty-of-ruby-vanderburg"
+format: Markdown
+guid: 06729a63-9910-4803-b8ac-6011f4dc77a0
+comments_count: 0

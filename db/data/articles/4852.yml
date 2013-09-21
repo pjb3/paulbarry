@@ -1,0 +1,49 @@
+---
+id: 4852
+slug: scala-clojure-and-lisplets
+created_at: 2007-12-22 11:16:21.000000000 Z
+published_at: 2007-12-22 11:47:14.000000000 Z
+title: Scala, Clojure and Lisplets
+body: "As a result of reading [Steve Yegge's latest blog rant][yegge], I have discovered
+  a few new interesting things.   Steve's rant is very anti-Java for all the right
+  reasons, but falls apart when it gets to the \"So here's what I'm going to do about
+  it\" part.  He's switching to another language, one that runs on the JVM, but not
+  Lisp, Jython, JRuby or Groovy, but for apparently no good reason, JavaScript.  Not
+  that JavaScript is a bad language, but I see reason why you would choose that over
+  Lisp, Python or Ruby, and he fails to offer one.\r\n\r\nThe good thing is that through
+  the comments of this post I learned about a few things, either directly or indirectly.
+  \ Some of these thing have been around for a long time, but hey, I'm just learning
+  about them.\r\n\r\nFirst, there is a ground swell of support for [Scala][scala].
+  \ I checked out the docs on their site and does look like a very powerful, expressive
+  language.  It seems to have many of the features of Lisp without being a Lisp dialect.
+  \ It is syntactically Java-ish, but unlike Groovy, which really for some reason
+  just seems like much-needed syntactic sugar for Java, Scala feels lieke a completely
+  different language.  In other words, and not that this is saying Groovy is a bad
+  thing, but Groovy really isn't conceptually different than Java, where as Scala
+  is, with things like case classes, for example.  This is a language I'll have to
+  look into some more.  \r\n\r\nThere is also a mention of a new List-dialect for
+  the JVM called [Clojure][clojure].  Clojure creator Rich Hickey (you need a blog
+  Rich) recently gave a [presentation on Clojure at LispNYC][lispnyc] and the audio
+  and slides are there.  Clojure has a bunch of interesting ideas in it which he explains
+  in the presentation.  Clojure has a literal syntax for vectors (a.k.a arrays, lists)
+  and maps (a.k.a Hashtables, Dicts) in addition to the traditional lisp lists.  It
+  is not quite a purely functional language, but strongly encourages it, making it
+  the default programming paradigm over object-orientation.  I've been wanting to
+  check out Haskell and Erlang to get familiar with the functional programming paradigm,
+  but Clojure might be a good way to get some exposure to that as well.\r\n\r\nAnother
+  thing I found is [Lisplets][lisplets], which was created by Rich Hickey as well
+  a few years ago.  It is a Java Servlet that packages up the entire environment of
+  an HTTP request, request parameters, cookies, session, etc, into an S-expression
+  that is then handed off to a Lisp interpreter that listens on a socket.  Lisp then
+  reads the s-expression, does whatever it does, and then returns data to the Servlet
+  which gets sent to the client.  [Mod_lisp][modlisp] is based on a similar concept.
+  \ I think it's kind of interesting to think of web development in this manner, with
+  a definitive layer of abstraction between the processing of request into a data
+  structure, and then processing the request based on that data structure.\r\n\r\n[scala]:
+  http://www.scala-lang.org/\r\n[clojure]: http://clojure.sourceforge.net/\r\n[lispnyc]:
+  http://lispnyc.org/wiki.clp?page=past-meetings\r\n[lisplets]: http://lisplets.sourceforge.net\r\n[modlisp]:
+  http://www.fractalconcept.com/asp/sdataQ18hOH9s8rSpDM==/sdataQuvY9x3g$ecX\r\n[yegge]:
+  http://steve-yegge.blogspot.com/2007/12/codes-worst-enemy.html"
+format: Markdown
+guid: 83b09dd9-42d1-4311-a72a-e137a172e840
+comments_count: 0

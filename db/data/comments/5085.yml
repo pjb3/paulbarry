@@ -1,0 +1,16 @@
+---
+id: 5085
+article_id: 4838
+created_at: 2008-01-15 09:28:21.000000000 Z
+url: 
+email: 
+author: Peter
+ip: 38.99.162.187
+body: "I appreciate the feedback Paul.  For newbies like myself, the previous post
+  contains an error.  Please use the following:\r\n\r\n<!-- users/_form.rhtml -->
+  \r\n<% form_for(@user) do |f| %> \r\n\r\n<!-- ... --> \r\n\r\n<%= hidden_field_tag
+  \"user[group_ids][]\", \"\" %> \r\n<!-- Use Group.find(:all) instead of group.find(:all)
+  -->\r\n<% for group in Group.find(:all) %> \r\n<div> \r\n<%= check_box_tag \"user[group_ids][]\",
+  \r\ngroup.id, @user.groups.include?(group) %> \r\n<%= group.name %> \r\n</div> \r\n<%
+  end %> \r\n\r\n<!-- ... --> \r\n\r\n<% end %> "
+guid: 8ef0bf26-8453-47aa-8c2a-8cea73cad974

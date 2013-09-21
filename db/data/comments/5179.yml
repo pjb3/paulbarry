@@ -1,0 +1,13 @@
+---
+id: 5179
+article_id: 4915
+created_at: 2008-09-06 03:12:47.000000000 Z
+url: 
+email: guillaumegentil@gmail.com
+author: Thibaud Guillaume-Gentil
+ip: 83.68.212.103
+body: |-
+  Hi,
+
+  for me admin_path("/comments/new", :article_id => @article) isn't DRY, if someday you want modify the url 'comments/new' you're screwed (it's not the case with named routes, where you can just redefine map.new_admin_article_comment). And I really care if the urls are /comments/new?article_id=1 or /articles/1/comments, it's  very very important :-)
+guid: d41adc1e-b56f-4c6a-bb5e-f117920a5c5b
