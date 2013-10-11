@@ -1,5 +1,5 @@
 h3 Tags
 ul.tag_cloud
   - Tag.cloud(categories: (@category || @categories)).sort_by(&:name).each do |t|
-    li= link_to h(t.name), "/tags/#{t.name}/articles", style: "font-size: #{t.font_size}%"
+    li=> link_to h(t.name), "/tags/#{t.name}/articles", style: "font-size: #{t.font_size}%"
 
