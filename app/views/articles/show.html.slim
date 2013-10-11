@@ -1,0 +1,39 @@
+.post
+  h2= link_to @article.title, article_path(@article.permalink_params)
+  p.auth= @article.published_date
+  p= @article.formatted_body
+  p.meta
+    - unless @article.categories.empty?
+      ' Posted in
+      => @article.categories.map{|c| link_to(h(c.name), category_articles_path(category: c.name)) }.join(', ').html_safe
+      strong=> "|"
+    - unless @article.tags.empty?
+      ' Tags
+      => @article.tags.map{|t| link_to(h(t.name), tag_articles_path(tag: t.name)) }.join(', ').html_safe
+
+a name="comments"
+
+- unless @article.comments.blank?
+  h4.blueblk Comments
+
+  table id="comments" width="100%" border="0" cellspacing="0" cellpadding="5"
+    - @article.comments.all(order: "created_at").each_with_index do |comment, i|
+      tr
+        td width="1%" valign="top" align="right" class="comment #{i.even? ? "even" : "odd"}"
+          a name="comment-#{comment.id}"
+          b= "#{i + 1}."
+        td width="99%" valign="top" align="left" class="comment #{i.even? ? "even" : "odd"}"
+          = simple_format comment.body
+          p
+            => link_to "#", "#{article_path(@article.permalink_params)}#comment-#{comment.id}"
+            ' Posted By
+            - if comment.url.present?
+              => link_to comment.author, comment.url, class: "comment-author"
+            - else
+              span.comment-author=> comment.author
+            ' on
+            span.comment-date=> comment.created_at.strftime("%A, %B %e %Y")
+            ' at
+            span.comment-time=> comment.created_at.strftime("%l:%M %p")
+
+h4.blueblk Comments Disabled

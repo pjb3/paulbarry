@@ -1,0 +1,15 @@
+/! SiteSearch Google
+= form_tag "http://www.google.com/custom", method: "get", target: "_top" do
+  = hidden_field_tag "domains", "PaulBarry.com"
+  = text_field_tag "q", "", size: "20", maxlength: "255", id: "sbi"
+  = hidden_field_tag "sitesearch", "PaulBarry.com", id: "ss1"
+  = hidden_field_tag "client", "pub-2045321345886266"
+  = hidden_field_tag "forid", "1"
+  = hidden_field_tag "ie", "UTF-8"
+  = hidden_field_tag "oe", "UTF-8"
+  = hidden_field_tag "safe", "active"
+  = hidden_field_tag "flav", "0000"
+  = hidden_field_tag "sig", "kLHUmU-lNGp_2Ck4"
+  = hidden_field_tag "cof", "GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1"
+  = hidden_field_tag "hl", "en"
+  input type="submit" name="sa" value="Search" id="sbb"
