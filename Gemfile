@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.0'
 
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -9,7 +9,7 @@ gem 'kaminari'
 gem 'newrelic_rpm'
 gem 'pg'
 gem 'puma'
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.4'
 gem 'redcarpet'
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim'
