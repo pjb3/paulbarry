@@ -17,7 +17,7 @@ a name="comments"
   h4.blueblk Comments
 
   table id="comments" width="100%" border="0" cellspacing="0" cellpadding="5"
-    - @article.comments.all(order: "created_at").each_with_index do |comment, i|
+    - @article.comments.order(:created_at).each_with_index do |comment, i|
       tr
         td width="1%" valign="top" align="right" class="comment #{i.even? ? "even" : "odd"}"
           a name="comment-#{comment.id}"

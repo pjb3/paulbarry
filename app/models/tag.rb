@@ -1,4 +1,4 @@
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   has_many :taggings
   has_many :articles, :through => :taggings
 
@@ -9,8 +9,8 @@ class Tag < ActiveRecord::Base
     id_or_name.match(/^\d+$/) ? find_by_id(id_or_name) : find_by_name(id_or_name)
   end
 
-  def self.counts(options={})
-    category_ids = Array(options[:categories]).map{|c| c.id }
+  def self.counts(options = {})
+    category_ids = Array(options[:categories]).map { |c| c.id }
 
     limit = options[:limit].blank? ? 25 : options[:limit].to_i
 
@@ -21,9 +21,9 @@ class Tag < ActiveRecord::Base
     }
 
     if !category_ids.blank?
-      query_name = "Tag counts for Category #{category_ids.join(', ')}"
+      query_name = "Tag counts for Category #{category_ids.join(", ")}"
       sql << %{join categorizations cg on a.id = cg.article_id
-        and cg.category_id in (#{category_ids.join(', ')})
+        and cg.category_id in (#{category_ids.join(", ")})
       }
     else
       query_name = "Tag counts"
@@ -34,8 +34,7 @@ class Tag < ActiveRecord::Base
     connection.select_all sql, query_name
   end
 
-
-  def self.cloud(options={})
+  def self.cloud(options = {})
     min_font_size = 75
     max_font_size = 200
     tags = counts(options)
@@ -43,8 +42,8 @@ class Tag < ActiveRecord::Base
     min_count = tags.last["count"].to_i
 
     tags.map do |tag|
-      weight = (Math.log(tag["count"].to_i)-Math.log(min_count))/(Math.log(max_count)-Math.log(min_count))
-      font_size = min_font_size + ((max_font_size-min_font_size)*weight).round
+      weight = (Math.log(tag["count"].to_i) - Math.log(min_count)) / (Math.log(max_count) - Math.log(min_count))
+      font_size = min_font_size + ((max_font_size - min_font_size) * weight).round
       OpenStruct.new(tag.merge(:font_size => font_size))
     end
   end

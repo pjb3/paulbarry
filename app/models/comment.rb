@@ -1,4 +1,4 @@
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   belongs_to :article, counter_cache: true
   validates_presence_of :article_id, :author, :body, :guid
 
