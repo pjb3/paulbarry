@@ -8,12 +8,8 @@ class Article < ApplicationRecord
 
   before_validation :set_slug, :set_guid, :set_format
 
-  def self.markdown
-    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
-  end
-
   def formatted_body
-    self.class.markdown.render(body).html_safe
+    Kramdown::Document.new(body).to_html.html_safe
   end
 
   def self.published
