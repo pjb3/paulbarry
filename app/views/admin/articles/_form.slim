@@ -1,0 +1,28 @@
+= form_for [:admin, @article] do |f|
+  - if @error
+    .notification class="is-danger is-light"= @error
+
+  .field
+    = f.label :title, class: "label"
+    .control
+      = f.text_field :title, class: "input"
+
+  .field
+    = f.label :body, class: "label"
+    .control
+      = f.text_area :body, class: "textarea", rows: 30
+
+  .field
+    = f.label :category_id, class: "label"
+    .control
+      .select
+        = f.collection_select :category_id, categories, :id, :name, include_blank: true
+
+  .field
+    = f.label :tag_list, "Tags", class: "label"
+    .control
+      = f.text_field :tag_list, class: "input"
+
+  .field.is-grouped
+    .control
+      = f.submit "Save", class: "button is-success"

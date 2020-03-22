@@ -1,0 +1,8 @@
+nav.breadcrumb aria-label="breadcrumbs"
+  ul
+    li= link_to "Articles", admin_articles_path
+    li= link_to @article.category.name, admin_articles_path
+    li= link_to "Article", [:admin, @article]
+    li.is-active= link_to "Edit Article", [:edit, :admin, @article], aria: { current: "page" }
+
+= render "form"

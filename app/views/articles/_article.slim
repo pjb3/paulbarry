@@ -1,0 +1,16 @@
+article
+  h2= link_to article.title, article_path(article.permalink_params)
+  h5= article.published_date
+
+  .body
+    = article.formatted_body
+
+  .meta
+    ' Posted in
+    => link_to article.category.name, category_articles_path(article.category.name)
+    strong=> "|"
+    - unless article.tags.empty?
+      ' Topics
+      => article.tags.map{|t| link_to(h(t.name), topic_articles_path(tag: t.name)) }.join(', ').html_safe
+      strong=> "|"
+    = link_to pluralize(article.comments_count, "Comment"), "#{article_path(article.permalink_params)}#comments"

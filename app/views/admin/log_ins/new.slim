@@ -1,0 +1,21 @@
+h1.title Log In
+
+- if @error.present?
+  .notification.is-danger.is-light= @error
+
+= form_tag
+  .field
+    .control.has-icons-left
+      = text_field_tag :username, params[:username], placeholder: "Username", class: "input"
+      span.icon.is-small.is-left
+        i.fas.fa-user
+
+  .field
+    .control.has-icons-left
+      = password_field_tag :password, "", placeholder: "Password", class: "input"
+      span.icon.is-small.is-left
+        i.fas.fa-lock
+
+  .field
+    p.control
+      button.button.is-success Log In

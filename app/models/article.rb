@@ -1,6 +1,5 @@
 class Article < ApplicationRecord
-  has_many :categorizations
-  has_many :categories, :through => :categorizations
+  belongs_to :category
   has_many :comments
   has_many :taggings
   has_many :tags, :through => :taggings
@@ -41,7 +40,7 @@ class Article < ApplicationRecord
         year: ("%04d" % published_at.year),
         month: ("%02d" % published_at.month),
         day: ("%02d" % published_at.day),
-        slug: slug
+        slug: slug,
       }
     else
       {}
@@ -49,15 +48,15 @@ class Article < ApplicationRecord
   end
 
   def publish
-    update_attributes published_at: Time.now
+    update(published_at: Time.current)
   end
 
   def published?
-    !!published_at
+    published_at.present?
   end
 
   def published_date
-    published_at && published_at.strftime('%B %e, %Y')
+    published_at && published_at.strftime("%B %e, %Y")
   end
 
   def self.find_by_params(params)
@@ -87,6 +86,6 @@ class Article < ApplicationRecord
 
   def tag_list=(tag_list)
     @tag_list = tag_list
-    self.tag_ids = @tag_list.to_s.split(" ").map{|t| Tag.find_or_create_by(name: t).id }
+    self.tag_ids = Tag.where(name: @tag_list.to_s.split(" ")).pluck(:id)
   end
 end

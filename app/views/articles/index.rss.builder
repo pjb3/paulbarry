@@ -7,7 +7,7 @@ xml.rss version: "2.0", "xmlns:atom" => "http://www.w3.org/2005/Atom" do
     xml.description "My thoughts, ideas, questions and concerns on technology"
     for article in @articles
       xml.item do
-        xml.author "mail@paulbarry.com (Paul Barry)"
+        xml.author "pauljbarry3@gmail.com (Paul Barry)"
         xml.title article.title
         xml.description article.formatted_body
         xml.pubDate article.created_at.to_s(:rfc822)

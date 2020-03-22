@@ -1,0 +1,20 @@
+.level
+  .level-left
+    .level-item
+      h1.title Articles
+  .level-right
+    .level-item
+      = link_to "New Article", new_admin_article_path, class: "button is-link"
+
+table.table
+  thead
+    tr
+      th Title
+      th Published
+  tbody
+    - for article in @articles
+      tr
+        td= link_to article.title, [:admin, article]
+        td= formatted_timestamp article.published_at
+
+= paginate @articles

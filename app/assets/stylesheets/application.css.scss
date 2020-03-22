@@ -1,0 +1,68 @@
+//= require "base"
+//= require_self
+
+main:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+section {
+  float: left;
+  width: 75%;
+}
+
+aside {
+  float: left;
+  width: 25%;
+  padding-left: 20px;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  p {
+    text-align: center;
+  }
+}
+
+article, .card, #comments {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.meta, .comment-meta {
+  margin-top: 20px;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+
+}
+
+#pagination {
+  padding: 20px 0;
+}
+
+.tag_cloud {
+  padding-left: 0;
+
+  li {
+    display: inline;
+  }
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  section {
+    width: 100%;
+  }
+
+  aside {
+    width: 100%;
+    padding-left: 0;
+  }
+}

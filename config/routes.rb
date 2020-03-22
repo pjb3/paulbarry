@@ -32,14 +32,25 @@ Rails.application.routes.draw do
 
   get "/categories/:category/articles/pages/:page" => "articles#index", constraints: { page: /\d+/ }
 
-  get "/tags/:tag/articles" => "articles#index", as: "tag_articles"
+  get "/topics/:tag/articles" => "articles#index", as: "topic_articles"
 
-  get "/tags/:tag/articles/pages/:page" => "articles#index", constraints: { page: /\d+/ }
+  get "/topics/:tag/articles/pages/:page" => "articles#index", constraints: { page: /\d+/ }
+
+  get "/tags/:tag/articles" => redirect("/topics/%{tag}/articles")
+  get "/tags/:tag/articles/pages/:page" => redirect("/topics/%{tag}/articles/pages/%{page}")
 
   root :to => "articles#index"
 
   namespace :admin do
-    resources :articles, member: { publish: :post }
+    get "/log_in" => "log_ins#new", as: "log_in"
+    post "/log_in" => "log_ins#create"
+    post "/log_out" => "log_ins#delete", as: "log_out"
+
+    resources :articles do
+      member do
+        post "publish", as: "publish"
+      end
+    end
     resources :comments
     delete "comments" => "comments#batch_delete"
     root :to => "articles#index"

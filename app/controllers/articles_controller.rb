@@ -1,18 +1,19 @@
 class ArticlesController < ApplicationController
-
   def index
     scope = if params[:category].present?
-      @category = Category.find_by_id_or_name(params[:category])
-      @page_title = "PaulBarry.com - #{@category.name}"
-      @category.articles
-    elsif params[:tag].present?
-      @tag = Tag.find_by_id_or_name(params[:tag])
-      @page_title = "PaulBarry.com - #{@tag.name}"
-      @tag.articles
-    else
-      @page_title = "PaulBarry.com"
-      Article
-    end
+              @category = Category.find_by_id_or_name(params[:category])
+              @page_title = "PaulBarry.com - #{@category.name}"
+              @category.articles
+            elsif params[:tag].present?
+              @tag = Tag.find_by_id_or_name(params[:tag])
+              @page_title = "PaulBarry.com - #{@tag.name}"
+              @tag.articles
+            else
+              @page_title = "PaulBarry.com"
+              Article
+            end
+
+    scope = scope.includes(:category)
 
     if params[:format].blank? || params[:format] == "html"
       @articles = scope.published.
@@ -28,10 +29,8 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find_by_params(params)
-    @categories = @article.categories
+    @category = @article.category
     @robots_should_index = true
     @page_title = "PaulBarry.com - #{@article.title}"
   end
-
 end
-

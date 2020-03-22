@@ -1,0 +1,32 @@
+nav.breadcrumb aria-label="breadcrumbs"
+  ul
+    li= link_to "Articles", admin_articles_path
+    li= link_to @article.category.name, admin_articles_path
+    li.is-active= link_to "Article", [:admin, @article], aria: { current: "page" }
+
+h1.title= @article.title
+
+div style="margin-bottom: 20px"
+  = @article.formatted_body
+
+.level
+  .level-left
+    .level-item: strong Category
+    .level-item= @article.category.name
+
+.level
+  .level-left
+    .level-item: strong Tags
+    .level-item= @article.tags.map(&:name).join(", ")
+
+hr
+
+p.buttons
+  = link_to [:edit, :admin, @article], class: "button is-link"
+    span.icon.is-small
+      i.fas.fa-external-link-alt
+    span Edit
+  - unless @article.published?
+    = link_to "Publish", [:publish, :admin, @article], class: "button is-success", method: "post", data: { confirm: "Are you sure you are ready to publish this article?" }
+  = link_to "Delete", [:admin, @article], class: "button is-danger", method: "delete", data: { confirm: "Are you sure you want to delete this article?" }
+

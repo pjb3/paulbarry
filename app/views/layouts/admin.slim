@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    meta http-equiv="content-type" content="text/html; charset=utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta name="robots" content="noindex"
+    = csrf_meta_tags
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    script defer=true src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Source+Sans+Pro:400|Source+Serif+Pro:600&display=swap" rel="stylesheet"
+    = stylesheet_link_tag "admin"
+    = javascript_include_tag "admin"
+    title= @page_title
+    = yield :html_head
+  body
+    nav.navbar role="navigation" aria-label="main navigation"
+      .navbar-brand
+        .title
+          = link_to "Paul Barry", admin_root_path, class: "navbar-item"
+
+        a.navbar-burger role="button" aria-label="menu" aria-expanded="false"
+          span aria-hidden="true"
+          span aria-hidden="true"
+          span aria-hidden="true"
+
+    section.section
+      .container
+        - flash.each do |type, message|
+          .notification class="is-#{flash_notification_class(type)} is-light"= message
+        = yield
+
+    footer
+      | Copyright &copy; #{Time.current.year} Paul Barry

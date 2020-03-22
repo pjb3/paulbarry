@@ -2,6 +2,7 @@ doctype html
 html
   head
     meta http-equiv="content-type" content="text/html; charset=utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
     meta name="google-site-verification" content="pNqE5vuAoHO9opfamy7thd1b0aSzck5U08_DUDlm5h4"
     link rel="openid.server" href="http://www.myopenid.com/server"
     link rel="openid.delegate" href="http://paulbarry.myopenid.com/"
@@ -10,23 +11,38 @@ html
     meta http-equiv="X-XRDS-Location" content="http://www.myopenid.com/xrds?username=paulbarry.myopenid.com"
     meta name="robots" content="#{@robots_should_index ? "index" : "noindex"},follow"
     link rel="alternate" type="application/rss+xml" title="Recent Articles" href="http://feeds.feedburner.com/paulbarry"
+    link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Source+Sans+Pro:400|Source+Serif+Pro:600&display=swap" rel="stylesheet"
     = stylesheet_link_tag "application"
     title= @page_title
     = yield :html_head
   body
-    #container
-      #header
-        h1#sitename= link_to "PaulBarry.com", "/"
-      #content= yield
-      #sidebar
-        .sidebar-node= render "layouts/google_site_search"
-        .sidebar-node= render "layouts/about_me"
-        .sidebar-node= render "layouts/tag_cloud"
-      #footer
-        ' Powered by
-        => link_to "Ruby", "http://www.ruby-lang.org/en/", target: "_blank"
-        ' on
-        => link_to "Rails", "http://rubyonrails.org/", target: "_blank"
-        ' and Hosted by
-        => link_to "Heroku", "http://www.heroku.com", target: "_blank"
+    header
+      h1= link_to "Paul Barry", "/"
+
+    main
+      section
+        = yield
+
+      aside
+        .card
+          h2 About Me
+          = image_tag "me_tall.jpg"
+          p Find out more about me in #{link_to("this GeekWire article", "https://www.geekwire.com/2019/leafly-cto-paul-barry-fast-growing-cannabis-industry-talk-kids-pot/", target: "_blank")}.
+
+        .card
+          h3 Follow Me
+          ul
+            li= link_to "LinkedIn", "https://www.linkedin.com/in/paulbarry/", target: "_blank"
+            li= link_to "Github", "https://github.com/pjb3", target: "_blank"
+            li= link_to "Facebook", "https://www.facebook.com/paulbarry", target: "_blank"
+            li= link_to "Twitter", "https://twitter.com/pjb3", target: "_blank"
+            li= link_to "Instagram", "https://www.instagram.com/pauljbarry3/", target: "_blank"
+
+        .card
+          = render "layouts/tag_cloud"
+
+
+    footer
+      | Copyright &copy; #{Time.current.year} Paul Barry
+
     = render "layouts/google_analytics"

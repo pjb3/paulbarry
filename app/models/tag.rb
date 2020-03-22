@@ -22,8 +22,7 @@ class Tag < ApplicationRecord
 
     if !category_ids.blank?
       query_name = "Tag counts for Category #{category_ids.join(", ")}"
-      sql << %{join categorizations cg on a.id = cg.article_id
-        and cg.category_id in (#{category_ids.join(", ")})
+      sql << %{a.category_id in (#{category_ids.join(", ")})
       }
     else
       query_name = "Tag counts"

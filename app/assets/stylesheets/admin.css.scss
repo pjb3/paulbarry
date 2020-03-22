@@ -1,0 +1,21 @@
+//= require "base"
+//= require_self
+
+nav, .navbar {
+  background: #d5e4ed;
+}
+
+section {
+  background-color: white;
+}
+
+.breadcrumb, .notification, .pagination {
+  background: white;
+}
+
+.textarea {
+  font-family: 'Source Code Pro', monospace;
+  -webkit-font-smoothing: auto;
+  font-weight: 400;
+  font-size: 14px;
+}

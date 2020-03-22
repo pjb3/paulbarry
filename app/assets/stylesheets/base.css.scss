@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  font-size: 16px;
+}
+
+/* Add a gray background color with some padding */
+body {
+  color: #4a4a4a;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: 'Source Sans Pro', sans-serif;
+  padding: 20px;
+  background: #d5e4ed;
+}
+
+a {
+  text-decoration: none;
+  color: #06c;
+}
+
+header {
+  a {
+    text-decoration: none;
+    color: #4a4a4a;
+  }
+}
+
+.title, h1, h2, h3 {
+  font-family: 'Source Serif Pro', serif;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+pre {
+  background-color: #eee;
+  padding: 20px;
+  margin: 10px 0;
+  overflow: auto;
+}
+
+code {
+  font-family: 'Source Code Pro', monospace;
+  -webkit-font-smoothing: auto;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  background: #d5e4ed;
+  color: #999;
+  margin-top: 20px;
+}
+
