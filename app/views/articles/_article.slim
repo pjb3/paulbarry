@@ -8,9 +8,12 @@ article
   .meta
     ' Posted in
     => link_to article.category.name, category_articles_path(article.category.name)
-    strong=> "|"
+
     - unless article.tags.empty?
+      strong=> "|"
       ' Topics
       => article.tags.map{|t| link_to(h(t.name), topic_articles_path(tag: t.name)) }.join(', ').html_safe
+
+    - if article.comments_count.to_i > 0
       strong=> "|"
-    = link_to pluralize(article.comments_count, "Comment"), "#{article_path(article.permalink_params)}#comments"
+      = link_to pluralize(article.comments_count, "Comment"), "#{article_path(article.permalink_params)}#comments"
