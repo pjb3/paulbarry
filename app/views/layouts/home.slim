@@ -8,24 +8,16 @@ html
 
     main
       section
-        = yield
+        article
+          = image_tag "me_tall.jpg", style: "max-width: 100%; max-height: 100%; display: inline-block"
 
-      aside
-        .card
-          = image_tag "me_tall.jpg"
-
-        .card
-          h3 Follow Me
-          ul
+          ul style="display: inline-block; vertical-align: top"
+            li= link_to "Blog", articles_path
             li= link_to "LinkedIn", "https://www.linkedin.com/in/paulbarry/", target: "_blank"
             li= link_to "Github", "https://github.com/pjb3", target: "_blank"
             li= link_to "Facebook", "https://www.facebook.com/paulbarry", target: "_blank"
             li= link_to "Twitter", "https://twitter.com/pjb3", target: "_blank"
             li= link_to "Instagram", "https://www.instagram.com/pauljbarry3/", target: "_blank"
-
-        .card
-          = render "layouts/tag_cloud"
-
 
     footer
       | Copyright &copy; #{Time.current.year} Paul Barry

@@ -30,17 +30,19 @@ aside {
   }
 }
 
-article, .card, #comments {
+article,
+.card,
+#comments {
   background-color: white;
   padding: 20px;
   margin-top: 20px;
 }
 
-.meta, .comment-meta {
+.meta,
+.comment-meta {
   margin-top: 20px;
   padding: 10px 0;
   border-top: 1px solid #eee;
-
 }
 
 #pagination {

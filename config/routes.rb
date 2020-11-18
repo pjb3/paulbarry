@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   get "/tags/:tag/articles" => redirect("/topics/%{tag}/articles")
   get "/tags/:tag/articles/pages/:page" => redirect("/topics/%{tag}/articles/pages/%{page}")
 
-  root :to => "articles#index"
+  root :to => "home#show"
 
   namespace :admin do
     get "/log_in" => "log_ins#new", as: "log_in"
